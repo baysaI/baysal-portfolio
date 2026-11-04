@@ -1,4 +1,5 @@
 import { gsap, ScrollTrigger, scrollState } from '../core/scroll';
+import { onLangChange, t } from './i18n';
 
 /**
  * Header behaviour:
@@ -61,9 +62,7 @@ function initMenu(header: HTMLElement) {
     open = next;
     toggle.setAttribute('aria-expanded', String(open));
     label.dataset.i18n = open ? 'nav.close' : 'nav.menu';
-    label.textContent = open
-      ? document.documentElement.lang === 'tr' ? 'Kapat' : 'Close'
-      : document.documentElement.lang === 'tr' ? 'Menü' : 'Menu';
+    label.textContent = t(open ? 'nav.close' : 'nav.menu');
 
     if (open) {
       menu.hidden = false;
@@ -84,6 +83,7 @@ function initMenu(header: HTMLElement) {
   };
 
   toggle.addEventListener('click', () => set(!open));
+  onLangChange(() => (label.textContent = t(open ? 'nav.close' : 'nav.menu')));
   menu.addEventListener('click', (e) => {
     if ((e.target as Element).closest('a')) set(false);
   });
