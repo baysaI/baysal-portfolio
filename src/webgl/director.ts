@@ -95,7 +95,8 @@ export class Director {
     private readonly anchors: DirectorAnchors,
   ) {
     this.build();
-    ScrollTrigger.addEventListener('refreshInit', () => this.build());
+    // Rebuild after every refresh: anchors and DOM measurements are final by then.
+    ScrollTrigger.addEventListener('refresh', () => this.build());
     world.stage.onUpdate((frame) => this.update(frame));
   }
 
@@ -110,7 +111,7 @@ export class Director {
     const hero: Partial<SceneState> = {
       sx: 0,
       sy: mobile ? 0.55 : 0.15,
-      sScale: 1.3 * m,
+      sScale: 1.42 * m,
       sAmp: 0.16,
       sFreq: 0.95,
       sTwist: 0,
@@ -158,12 +159,12 @@ export class Director {
         sTwist: 2,
         pMorph: 2 + i,
         px: right,
-        py: lift,
-        pScale: (i === 3 ? 0.9 : 1.05) * m,
+        py: lift + (i === 3 ? 0.35 : 0),
+        pScale: (i === 3 ? 1.05 : 1.05) * m,
         pSpin: 1.6 + i * 0.9,
-        pTilt: i === 3 ? 0.15 : 0,
+        pTilt: i === 3 ? 0.3 : 0,
         pOpacity: 1,
-        pSize: 2.4,
+        pSize: 2.9,
       });
       for (let i = 0; i < count; i++) {
         keys.push({ at: seg(i), state: projectState(i) });
@@ -198,10 +199,26 @@ export class Director {
       state: { ...knot, py: 1.2, pSpin: 9.4, pOpacity: 0.3 },
     });
 
+    // Finale: the sculpture re-forms in the free space above the contact copy
+    // as the page reaches its end. Size and height are measured from the DOM so
+    // it never sits behind text, whatever the viewport.
+    const endCamZ = 8.6;
+    const pxPerUnit = window.innerHeight / (2 * Math.tan((35 / 2) * (Math.PI / 180)) * endCamZ);
+    const contactInner = document.querySelector('.contact__inner');
+    const maxScroll = ScrollTrigger.maxScroll(window);
+    const innerTopAtEnd = contactInner
+      ? contactInner.getBoundingClientRect().top + window.scrollY - maxScroll
+      : window.innerHeight * 0.4;
+    const free = Math.min(Math.max(innerTopAtEnd, 0), window.innerHeight);
+    const radiusPx = Math.min(Math.max(free * 0.34, 46), 150);
+    const centerPx = Math.max(free / 2, radiusPx + 16);
+    const finaleY = (window.innerHeight / 2 - centerPx) / pxPerUnit;
+    const finaleR = radiusPx / pxPerUnit;
+
     const finale: Partial<SceneState> = {
       sx: 0,
-      sy: mobile ? 0.4 : 0.55,
-      sScale: 0.82 * m,
+      sy: finaleY,
+      sScale: finaleR / 1.12,
       sSpin: 3,
       sAmp: 0.14,
       sFreq: 0.9,
@@ -211,17 +228,20 @@ export class Director {
       sRim: 0.12,
       pMorph: 7,
       px: 0,
-      py: mobile ? 0.4 : 0.55,
+      py: finaleY,
       pz: 0,
-      pScale: 0.95 * m,
+      pScale: (finaleR * 1.55) / 1.75,
       pTilt: 0,
       pSpin: 10.5,
-      pOpacity: 0.75,
+      pOpacity: 0.8,
       pSize: 2.2,
+      camZ: endCamZ,
     };
-    keys.push({ at: mark('.contact', 'top 70%'), state: { ...finale, sScale: 0.2, pOpacity: 0.4 } });
-    keys.push({ at: mark('.contact', 'top top'), state: finale });
-    keys.push({ at: () => ScrollTrigger.maxScroll(window), state: { ...finale, pSpin: 11.2, camZ: 8.6 } });
+    keys.push({
+      at: mark('.contact', 'top 70%'),
+      state: { ...finale, sScale: 0, pOpacity: 0.35, camZ: 9 },
+    });
+    keys.push({ at: () => ScrollTrigger.maxScroll(window), state: { ...finale, pSpin: 11.4 } });
 
     // Resolve partial states into full ones (each key inherits from the previous).
     let carry: SceneState = { ...BASE };
