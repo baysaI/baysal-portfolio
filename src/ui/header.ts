@@ -11,12 +11,14 @@ export function initHeader(cursor?: HTMLElement | null) {
   const header = document.querySelector<HTMLElement>('[data-header]');
   if (!header) return;
 
+  const progress = document.querySelector<HTMLElement>('[data-progress]');
   ScrollTrigger.create({
     start: 0,
     end: 'max',
     onUpdate: (self) => {
       const y = self.scroll();
       header.classList.toggle('is-hidden', self.direction === 1 && y > window.innerHeight * 0.5);
+      if (progress) progress.style.transform = `scaleY(${self.progress})`;
     },
   });
 

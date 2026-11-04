@@ -117,3 +117,39 @@ html.lenis body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   Scroll progress — hairline on the right edge
+   ========================================================================== */
+
+.progress {
+  position: fixed;
+  top: 50%;
+  right: clamp(0.5rem, 1vw, 1rem);
+  z-index: var(--z-header);
+  width: 1px;
+  height: clamp(6rem, 22vh, 12rem);
+  transform: translateY(-50%);
+  background: var(--line);
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.is-ready .progress {
+  opacity: 1;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: var(--bone);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+@media (max-width: 700px) {
+  .progress {
+    display: none;
+  }
+}
