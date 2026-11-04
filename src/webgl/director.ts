@@ -196,7 +196,9 @@ export class Director {
       pSize: 2.2,
     };
 
-    keys.push({ at: mark('.services', 'top 35%'), state: { pMorph: 5, pOpacity: 0.6 } });
+    keys.push({ at: mark('.archive', 'top 85%'), state: { pMorph: 5 } });
+    keys.push({ at: mark('.archive', 'top 30%'), state: { pMorph: 5, pOpacity: 0.28, pz: -1.2 } });
+    keys.push({ at: mark('.services', 'top 35%'), state: { pMorph: 5, pOpacity: 0.28 } });
     keys.push({ at: mark('.services', 'bottom 65%'), state: { ...knot, pSpin: 5.5 } });
 
     const process = this.anchors.process;
