@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Process — pinned horizontal track of glass cards over the particle knot
+   ========================================================================== */
+
+.process__pin {
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(2rem, 5vh, 4rem);
+  padding-top: var(--header-h);
+  overflow: hidden;
+}
+
+.process__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: end;
+}
+
+.process__head .label {
+  grid-column: 1 / span 3;
+}
+
+.process__title {
+  grid-column: 4 / -1;
+  font-size: var(--fs-h2);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.process__track {
+  display: flex;
+  gap: clamp(0.75rem, 1.2vw, 1.5rem);
+  width: max-content;
+  padding-inline: var(--gutter);
+  will-change: transform;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(17rem, 30vw, 29rem);
+  height: clamp(19rem, 48vh, 32rem);
+  padding: clamp(1.5rem, 2.4vw, 2.5rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: rgb(18 18 19 / 0.45);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(14px) saturate(120%);
+  overflow: hidden;
+  transition: border-color 0.5s ease;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.step:hover {
+  border-color: var(--line-strong);
+}
+
+.step:hover::after,
+.step.is-active::after {
+  transform: scaleX(1);
+}
+
+.step__num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(4rem, 2rem + 6vw, 9rem);
+  line-height: 0.8;
+  color: var(--stone-2);
+  transition: color 0.5s ease;
+}
+
+.step:hover .step__num,
+.step.is-active .step__num {
+  color: var(--ember);
+}
+
+.step__title {
+  font-size: var(--fs-h3);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.step__desc {
+  color: var(--fg-muted);
+  max-width: 34ch;
+}
+
+@media (max-width: 900px) {
+  .process__head .label,
+  .process__title {
+    grid-column: 1 / -1;
+  }
+
+  .process__head {
+    row-gap: 1rem;
+  }
+
+  .step {
+    width: 78vw;
+    height: clamp(18rem, 52vh, 26rem);
+  }
+}
