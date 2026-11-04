@@ -2,7 +2,7 @@
   "name": "baysal-portfolio",
   "private": true,
   "version": "0.1.0",
-  "description": "Baysal — immersive 3D portfolio built with Three.js, GSAP and Lenis.",
+  "description": "Mehmet Baysal — web design & coding student portfolio built with Three.js, GSAP and Lenis.",
   "type": "module",
   "scripts": {
     "dev": "vite",
