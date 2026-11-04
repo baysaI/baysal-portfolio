@@ -7,6 +7,37 @@
     <meta name="description" content="" data-i18n-attr="content:meta.description" />
     <meta name="theme-color" content="#0b0b0c" />
     <meta name="color-scheme" content="dark" />
+    <meta name="author" content="{{site.name}}" />
+    <link rel="canonical" href="{{site.url}}" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+    <link rel="manifest" href="./site.webmanifest" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{{site.name}}" />
+    <meta property="og:url" content="{{site.url}}" />
+    <meta property="og:title" content="" data-i18n-attr="content:meta.title" />
+    <meta property="og:description" content="" data-i18n-attr="content:meta.description" />
+    <meta property="og:image" content="{{site.url}}og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="" data-i18n-attr="content:meta.title" />
+    <meta name="twitter:description" content="" data-i18n-attr="content:meta.description" />
+    <meta name="twitter:image" content="{{site.url}}og.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "{{site.name}}",
+        "jobTitle": "{{site.role}}",
+        "url": "{{site.url}}",
+        "email": "mailto:{{site.email}}",
+        "address": { "@type": "PostalAddress", "addressLocality": "{{site.location}}" }
+      }
+    </script>
     <script>
       document.documentElement.classList.replace('no-js', 'js');
     </script>
