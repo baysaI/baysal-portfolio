@@ -1,0 +1,50 @@
+/* ==========================================================================
+   Buttons — pill with a liquid fill that rises from the cursor side
+   ========================================================================== */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.05rem 1.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  isolation: isolate;
+  transition:
+    color 0.5s var(--ease-out),
+    border-color 0.5s var(--ease-out);
+}
+
+.btn__fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--bone);
+  transform: translateY(101%);
+  transition: transform 0.65s var(--ease-out);
+}
+
+.btn__text {
+  display: inline-block;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--ink);
+  border-color: var(--bone);
+}
+
+.btn:hover .btn__fill,
+.btn:focus-visible .btn__fill {
+  transform: translateY(0);
+}
+
+[data-magnetic] {
+  will-change: transform;
+}
