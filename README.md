@@ -1,14 +1,30 @@
-# Baysal — Immersive 3D Portfolio
+# Mehmet Baysal — Portfolyo
 
-Kaydırdıkça şekil değiştiren gerçek zamanlı 3D sahneye sahip, iki dilli (TR / EN) kişisel portfolyo.
-A bilingual personal portfolio built around a real-time 3D scene that transforms as you scroll.
+Web tasarımı ve kodlama öğrencisi Mehmet Baysal'ın kişisel portfolyosu. Kaydırdıkça şekil değiştiren gerçek zamanlı bir 3D sahne üzerine kurulu, iki dilli (TR / EN).
+Personal portfolio of Mehmet Baysal, a web design and coding student, built around a real-time 3D scene that transforms as you scroll.
+
+**Canlı site:** https://baysai.github.io/baysal-portfolio/
+
+## Sitedeki projeler
+
+| Proje                                                                          | Ne                                                   | Teknolojiler                         |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------- | ------------------------------------ |
+| [Almost There](https://github.com/baysaI/almost-there)                         | PS1 tarzı psikolojik korku oyunu, tarayıcıda oynanır | Three.js, GLSL, Electron             |
+| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri                 | Node.js, Express, EJS, SQLite        |
+| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                             | Node.js, Express, SQLite, Gemini API |
+| [Altuncu Premium](https://github.com/baysaI/altuncu-premium)                   | Termal otel kurumsal web sitesi                      | HTML, CSS, JavaScript                |
+| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | Sensör izleme paneli                                 | Bootstrap, jQuery, Chart.js          |
+| [Sigara Takip Sistemi](https://github.com/baysaI/sigara-takip-sistemi)         | Rol yapma sunucusu için dağıtım takip paneli         | Node.js, Express, SQLite             |
+| [Oiia Cat](https://github.com/baysaI/oiia-cat)                                 | 3D sanal evcil hayvan                                | Three.js                             |
+| [Munch](https://github.com/baysaI/vanilla-js-shopping-cart)                    | Atıştırmalık mağazası vitrini ve sepet               | Vanilla JavaScript                   |
+| [PHP Login Template](https://github.com/baysaI/simple-php-auth)                | Modernleştirilmiş PHP giriş şablonu                  | PHP, MySQL                           |
 
 ![Preview](public/og.jpg)
 
 ## Öne çıkanlar · Highlights
 
 - **Sıvı chrome heykel:** GPU'da simplex noise ile deforme edilen icosphere. Normaller her vertex'te yeniden hesaplanır, prosedürel stüdyo ışıklarını (PMREM) yansıtır. Fare yüzeye değdiğinde halka dalgalar oluşur.
-- **Parçacık morph sistemi:** 26.000'e kadar parçacık 8 formasyon arasında (toz, kabuk, monolit, DNA sarmalı, yörünge, dalga alanı, düğüm, halka) kaydırmayla birebir senkron dönüşür.
+- **Parçacık morph sistemi:** 26.000'e kadar parçacık 8 formasyon arasında (toz, kabuk, monolit, yörünge, açık kitap, dalga alanı, düğüm, halka) kaydırmayla birebir senkron dönüşür. Her öne çıkan projenin kendi formu var.
 - **Scroll director:** Her bölüm canlı ScrollTrigger konumlarına bağlı keyframe'lerle 3D sahne durumuna eşlenir; easing ve sönümleme ile sinematik bir his verir.
 - **Post-processing:** Bloom, kaydırma hızına duyarlı kromatik sapma, vinyet, film greni.
 - **Etkileşim:** Lenis smooth scroll, pinlenmiş proje sahnesi, yatay süreç akışı, hıza duyarlı marquee, manyetik butonlar, özel imleç, kelime kelime metin animasyonları.
@@ -37,15 +53,15 @@ Node.js 20+ önerilir.
 
 Tüm içerik tek yerde toplanmıştır — HTML'e dokunmanız gerekmez:
 
-| Dosya                   | Ne içerir                                                                  |
-| ----------------------- | -------------------------------------------------------------------------- |
-| `src/content/site.ts`   | İsim, e-posta, konum, saat dilimi, sosyal linkler, projeler, istatistikler |
-| `src/content/i18n.ts`   | Tüm metinler (EN + TR). `<em>` ile vurgulu italik kelimeler eklenebilir    |
-| `src/styles/tokens.css` | Renkler, tipografi ölçeği, boşluklar, animasyon eğrileri                   |
-| `src/webgl/shapes.ts`   | Parçacık formasyonları (her proje bir formasyonla eşleşir)                 |
-| `src/webgl/director.ts` | Hangi bölümde 3D sahnenin nasıl görüneceği                                 |
+| Dosya                   | Ne içerir                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `src/content/site.ts`   | İsim, e-posta, konum, sosyal linkler, projeler, diğer projeler, istatistikler |
+| `src/content/i18n.ts`   | Tüm metinler (EN + TR). `<em>` ile vurgulu italik kelimeler eklenebilir       |
+| `src/styles/tokens.css` | Renkler, tipografi ölçeği, boşluklar, animasyon eğrileri                      |
+| `src/webgl/shapes.ts`   | Parçacık formasyonları (her proje bir formasyonla eşleşir)                    |
+| `src/webgl/director.ts` | Hangi bölümde 3D sahnenin nasıl görüneceği                                    |
 
-> **Not:** Projeler, istatistikler, e-posta adresi ve sosyal linkler yer tutucudur — yayına almadan önce kendi bilgilerinizle değiştirin.
+Yeni bir proje eklemek için `site.ts` içindeki `archive` listesine bir satır, `i18n.ts` içine de TR ve EN açıklamasını eklemek yeterli.
 
 Dil seçimi sırasıyla `?lang=tr` parametresi → kayıtlı tercih → tarayıcı dili ile belirlenir.
 
