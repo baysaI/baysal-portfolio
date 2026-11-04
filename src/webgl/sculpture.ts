@@ -17,12 +17,12 @@ export class Sculpture {
 
   readonly uniforms = {
     uTime: { value: 0 },
-    uAmp: { value: 0.22 },
-    uFreq: { value: 1.1 },
+    uAmp: { value: 0.16 },
+    uFreq: { value: 0.95 },
     uSpeed: { value: 1 },
     uTwist: { value: 0 },
     uRidge: { value: 0 },
-    uRim: { value: 0.6 },
+    uRim: { value: 0.06 },
     uRimColor: { value: new THREE.Color(0xff5a1f) },
   };
 
@@ -37,9 +37,9 @@ export class Sculpture {
     geometry.computeVertexNormals();
 
     const material = new THREE.MeshPhysicalMaterial({
-      color: 0xd9d3ca,
+      color: 0xe4ded6,
       metalness: 1,
-      roughness: 0.16,
+      roughness: 0.12,
       clearcoat: 0.5,
       clearcoatRoughness: 0.12,
       envMapIntensity: 1.3,
@@ -70,7 +70,7 @@ export class Sculpture {
             float n1 = snoise(q + vec3(0.0, t * 0.35, t * 0.18));
             float n2 = snoise(q * 2.1 - vec3(t * 0.22, 0.0, t * 0.3));
             float ridge = 1.0 - abs(n2);
-            float detail = mix(n2 * 0.25, ridge * ridge * 0.55 - 0.18, uRidge);
+            float detail = mix(n2 * 0.18, ridge * ridge * 0.55 - 0.18, uRidge);
             return (n1 * 0.75 + detail) * uAmp;
           }
 

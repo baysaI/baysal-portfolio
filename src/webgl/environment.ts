@@ -25,7 +25,7 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer) {
         void main() {
           float h = vDir.y * 0.5 + 0.5;
           vec3 floorCol = vec3(0.012, 0.011, 0.010);
-          vec3 skyCol = vec3(0.055, 0.050, 0.046);
+          vec3 skyCol = vec3(0.045, 0.044, 0.043);
           gl_FragColor = vec4(mix(floorCol, skyCol, smoothstep(0.2, 0.9, h)), 1.0);
         }`,
     }),
@@ -49,15 +49,18 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer) {
   };
 
   // Key: large warm softbox overhead, slightly in front.
-  panel(14, 6, 0xfff3e6, 2.6, [0, 9, 3]);
-  // Ember strip — the signature reflection along the left flank.
-  panel(1.2, 14, 0xff5a1f, 7, [-8, 0, 2]);
-  // Cool-neutral strip on the right for separation.
-  panel(1, 12, 0xdfe6ee, 2.2, [8, 1, -1]);
-  // Rim from behind.
-  panel(10, 1.2, 0xff7a45, 3.2, [0, 2, -9]);
-  // Subtle frontal fill so faces towards the camera never go fully black.
-  panel(8, 3, 0x9a948c, 0.6, [0, -2, 10]);
+  panel(12, 5, 0xfff4ea, 3.4, [0, 9, 4]);
+  // Twin vertical strip lights — crisp white lines across the chrome.
+  panel(0.7, 12, 0xffffff, 4.5, [-5.5, 1, 6]);
+  panel(0.7, 12, 0xffffff, 3.2, [6, 1, 5]);
+  // Ember strip — the single signature accent, raking from the left-back.
+  panel(0.9, 12, 0xff5a1f, 4.2, [-8, 0, -2]);
+  // Neutral rim from behind for silhouette separation.
+  panel(10, 1, 0xf2ece4, 1.8, [0, 2, -9]);
+  // Low frontal fill so faces towards the camera never collapse to black.
+  panel(8, 2.5, 0x8f8a83, 0.5, [0, -3, 10]);
+  // Floor bounce — gives the underside a soft horizon reflection.
+  panel(14, 14, 0xd9d4cc, 0.16, [0, -9, 0]);
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   const target = pmrem.fromScene(env, 0.035);
