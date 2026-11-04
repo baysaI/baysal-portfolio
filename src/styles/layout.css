@@ -1,0 +1,74 @@
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Fixed full-viewport WebGL stage, rendered behind the document. */
+.webgl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-out);
+}
+
+.is-ready .webgl {
+  opacity: 1;
+}
+
+main,
+.footer {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+section {
+  position: relative;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: calc(var(--z-loader) + 1);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--bone);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  transform: translateY(-200%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
