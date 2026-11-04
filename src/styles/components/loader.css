@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Preloader
+   ========================================================================== */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: var(--gutter);
+  background: var(--ink);
+  color: var(--bone);
+  will-change: clip-path;
+}
+
+.no-js .loader,
+.is-loaded .loader {
+  display: none;
+}
+
+.loader__top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loader__brand {
+  align-self: center;
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  overflow: hidden;
+}
+
+.loader__bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--gutter);
+}
+
+.loader__bar {
+  height: 1px;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.loader__bar span {
+  display: block;
+  height: 100%;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.loader__count {
+  font-size: var(--fs-mega);
+  font-weight: 500;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+}
