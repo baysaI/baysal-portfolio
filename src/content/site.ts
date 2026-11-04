@@ -33,3 +33,22 @@ export const projects: ProjectMeta[] = [
   { key: 'work.p3', year: '2025', tags: ['R3F', 'Configurator', 'E-commerce'], href: '#contact' },
   { key: 'work.p4', year: '2024', tags: ['Generative', 'Audio', 'Identity'], href: '#contact' },
 ];
+
+export const services = [
+  { key: 'services.s1', tags: ['TypeScript', 'React', 'Astro', 'Vite'] },
+  { key: 'services.s2', tags: ['Three.js', 'GLSL', 'WebGPU', 'R3F'] },
+  { key: 'services.s3', tags: ['GSAP', 'Lenis', 'Rive', 'Lottie'] },
+  { key: 'services.s4', tags: ['Blender', 'Houdini', 'Figma', 'Substance'] },
+] as const;
+
+export const processSteps = ['process.s1', 'process.s2', 'process.s3', 'process.s4'] as const;
+
+export const marquee = ['marquee.a', 'marquee.b', 'marquee.c', 'marquee.d'] as const;
+
+/** Replace these numbers with your own. `value` animates from 0 on scroll. */
+export const stats = [
+  { key: 'stats.s1', value: 8, suffix: '+' },
+  { key: 'stats.s2', value: 60, suffix: '+' },
+  { key: 'stats.s3', value: 12, suffix: '' },
+  { key: 'stats.s4', value: 60, suffix: 'fps' },
+] as const;
