@@ -40,7 +40,10 @@ export class Stage {
       powerPreference: 'high-performance',
       stencil: false,
     });
-    this.renderer.setClearColor(0x0b0b0c, 1);
+    // Render on pure black; the lens pass lifts blacks to the page's ink colour
+    // after tone mapping, so canvas and DOM backgrounds match exactly.
+    this.renderer.setClearColor(0x000000, 1);
+    this.scene.background = new THREE.Color(0x000000);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1;

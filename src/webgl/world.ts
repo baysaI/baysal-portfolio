@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { device } from '../core/device';
 import { createStudioEnvironment } from './environment';
 import { Particles } from './particles';
+import { Post } from './post';
 import { Sculpture } from './sculpture';
 import { Stage } from './stage';
 
@@ -20,11 +21,14 @@ export function createWorld(canvas: HTMLCanvasElement) {
   stage.onUpdate((frame) => particles.update(frame));
   stage.onResize(() => particles.setPixelRatio(stage.size.dpr));
 
+  const post = new Post(stage);
+  stage.onUpdate(({ time }) => post.update(time));
+
   const clock = new THREE.Timer();
   const tick = () => {
     clock.update();
     stage.update({ time: clock.getElapsed(), delta: Math.min(clock.getDelta(), 1 / 20) });
   };
 
-  return { stage, sculpture, particles, tick };
+  return { stage, sculpture, particles, post, tick };
 }
