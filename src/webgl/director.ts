@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+import { device } from '../core/device';
 import { pointer } from '../core/pointer';
 import { ScrollTrigger, scrollState } from '../core/scroll';
 import { WORK_HOLD } from '../ui/work';
@@ -89,6 +91,12 @@ export class Director {
   private readonly current: SceneState = { ...BASE };
   /** 0 → 1 entrance multiplier, tweened by the intro. */
   intro = 0;
+
+  private readonly raycaster = new THREE.Raycaster();
+  private readonly ndc = new THREE.Vector2();
+  private readonly sphere = new THREE.Sphere();
+  private readonly hit = new THREE.Vector3();
+  private readonly touchDir = new THREE.Vector3(0, 0, 1);
 
   constructor(
     private readonly world: World,
@@ -263,6 +271,28 @@ export class Director {
     for (const k of KEYS) target[k] = a.state[k] + (b.state[k] - a.state[k]) * t;
   }
 
+  /** Raycast the pointer against the sculpture's bounding sphere to drive the swell. */
+  private updateTouch(scale: number, delta: number) {
+    const { sculpture, stage } = this.world;
+    const u = sculpture.uniforms;
+    let strength = 0;
+
+    if (!device.isTouch && pointer.active && sculpture.group.visible) {
+      this.ndc.set(pointer.nx, pointer.ny);
+      this.raycaster.setFromCamera(this.ndc, stage.camera);
+      sculpture.group.getWorldPosition(this.sphere.center);
+      this.sphere.radius = scale * 1.15;
+      if (this.raycaster.ray.intersectSphere(this.sphere, this.hit)) {
+        sculpture.mesh.worldToLocal(this.hit).normalize();
+        this.touchDir.lerp(this.hit, 1 - Math.exp(-delta * 10)).normalize();
+        strength = 0.2;
+      }
+    }
+
+    u.uPointer.value.copy(this.touchDir);
+    u.uPointerStrength.value += (strength - u.uPointerStrength.value) * (1 - Math.exp(-delta * 4));
+  }
+
   update({ time, delta }: Frame) {
     const y = scrollState.lenis?.animatedScroll ?? window.scrollY;
     this.sample(y);
@@ -288,6 +318,7 @@ export class Director {
     su.uRidge.value = c.sRidge;
     su.uSpeed.value = c.sFlow + energy * 2.5;
     su.uRim.value = c.sRim;
+    this.updateTouch(scale, delta);
 
     // Particles
     particles.points.position.set(c.px + pointer.sx * 0.06, c.py + pointer.sy * 0.04, c.pz);
