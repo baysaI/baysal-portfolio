@@ -72,7 +72,9 @@ export function playIntro({ reduced }: { reduced: boolean }) {
   if (!hero) return;
   const lines = hero.querySelectorAll('[data-split]');
   const fades = hero.querySelectorAll('.hero__top > *, .hero__intro, .hero__scroll');
-  const header = document.querySelector('[data-header]');
+  // Animate the header's children: the header itself owns a CSS transform
+  // transition (hide on scroll) that would fight a JS tween.
+  const headerParts = document.querySelectorAll('[data-header] > *');
 
   if (reduced) {
     lines.forEach((l) => revealed.add(l));
@@ -83,6 +85,6 @@ export function playIntro({ reduced }: { reduced: boolean }) {
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
   lines.forEach((line, i) => tl.add(revealWords(line), 0.1 + i * 0.12));
   tl.from(fades, { y: 24, opacity: 0, duration: 1.2, stagger: 0.08 }, 0.45);
-  if (header) tl.from(header, { yPercent: -100, opacity: 0, duration: 1.2 }, 0.3);
+  tl.from(headerParts, { y: -28, opacity: 0, duration: 1.2, stagger: 0.08 }, 0.3);
   return tl;
 }
