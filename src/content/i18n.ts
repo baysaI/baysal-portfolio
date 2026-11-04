@@ -112,6 +112,8 @@ const en = {
   'footer.top': 'Back to top',
   'footer.credit': 'Designed & developed by Baysai',
   'fallback': 'Your browser does not support WebGL — enjoying the lightweight version.',
+  'cursor.view': 'View',
+  'cursor.mail': 'Say hi',
 } as const;
 
 export type DictKey = keyof typeof en;
@@ -220,6 +222,8 @@ const tr: Dict = {
   'footer.top': 'Başa dön',
   'footer.credit': 'Tasarım & geliştirme: Baysai',
   'fallback': 'Tarayıcın WebGL desteklemiyor — hafif sürümün keyfini çıkar.',
+  'cursor.view': 'İncele',
+  'cursor.mail': 'Merhaba',
 };
 
 export const dict: Record<Lang, Dict> = { en, tr };
