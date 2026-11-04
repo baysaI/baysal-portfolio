@@ -97,11 +97,16 @@ export class Director {
   private readonly sphere = new THREE.Sphere();
   private readonly hit = new THREE.Vector3();
   private readonly touchDir = new THREE.Vector3(0, 0, 1);
+  /** 1 normally, 0 under prefers-reduced-motion. */
+  private readonly calm: number;
 
   constructor(
     private readonly world: World,
     private readonly anchors: DirectorAnchors,
   ) {
+    // Reduced motion: slower flow, no mid-morph burst, no velocity effects.
+    this.calm = device.reducedMotion ? 0 : 1;
+    if (!this.calm) world.particles.uniforms.uScatter.value = 0;
     this.build();
     // Rebuild after every refresh: anchors and DOM measurements are final by then.
     ScrollTrigger.addEventListener('refresh', () => this.build());
@@ -310,7 +315,7 @@ export class Director {
     for (const key of KEYS) this.current[key] += (this.target[key] - this.current[key]) * k;
 
     const c = this.current;
-    const energy = Math.abs(scrollState.energy);
+    const energy = Math.abs(scrollState.energy) * this.calm;
     const { sculpture, particles, stage, post } = this.world;
 
     // Sculpture
@@ -323,9 +328,9 @@ export class Director {
     const su = sculpture.uniforms;
     su.uAmp.value = c.sAmp + energy * 0.08;
     su.uFreq.value = c.sFreq;
-    su.uTwist.value = c.sTwist + scrollState.energy * 0.6;
+    su.uTwist.value = c.sTwist + scrollState.energy * 0.6 * this.calm;
     su.uRidge.value = c.sRidge;
-    su.uSpeed.value = c.sFlow + energy * 2.5;
+    su.uSpeed.value = (c.sFlow + energy * 2.5) * (this.calm ? 1 : 0.3);
     su.uRim.value = c.sRim;
     this.updateTouch(scale, delta);
 
