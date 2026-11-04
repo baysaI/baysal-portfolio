@@ -5,6 +5,7 @@ import { words } from './split';
 const SPLIT = '[data-split]:not([data-split-manual])';
 const FADE = [
   '.about__side',
+  '.archive__item',
   '.service',
   '.step',
   '.stat',

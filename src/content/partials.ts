@@ -1,8 +1,10 @@
-import { marquee, processSteps, projects, services, site, stats } from './site';
+import { archive, marquee, processSteps, projects, services, site, stats } from './site';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 const t = (key: string, tag = 'span', attrs = '') =>
   `<${tag}${attrs ? ` ${attrs}` : ''} data-i18n="${key}"></${tag}>`;
+const external = (href: string) =>
+  /^https?:/.test(href) ? ' target="_blank" rel="noopener noreferrer"' : '';
 
 const projectsMarkup = () =>
   projects
@@ -17,8 +19,24 @@ const projectsMarkup = () =>
   ${t(`${p.key}.title`, 'h3', 'class="project__title" data-split data-split-manual')}
   ${t(`${p.key}.desc`, 'p', 'class="project__desc"')}
   <ul class="project__tags">${p.tags.map((tag) => `<li>${tag}</li>`).join('')}</ul>
-  <a class="project__link" href="${p.href}" data-cursor="view">
-    ${t('work.cta')}<span class="project__arrow" aria-hidden="true"></span>
+  <a class="project__link" href="${p.href}"${external(p.href)} data-cursor="view">
+    ${t(`${p.key}.cta`)}<span class="project__arrow" aria-hidden="true"></span>
+  </a>
+</li>`,
+    )
+    .join('');
+
+const archiveMarkup = () =>
+  archive
+    .map(
+      (a) => `
+<li class="archive__item">
+  <a class="archive__link" href="${a.href}"${external(a.href)} data-cursor="view">
+    <span class="label archive__year">${a.year}</span>
+    <span class="archive__name">${a.name}</span>
+    ${t(`${a.key}.desc`, 'span', 'class="archive__desc"')}
+    <span class="archive__tags">${a.tags.map((tag) => `<span>${tag}</span>`).join('')}</span>
+    <span class="archive__go">${t('others.cta')}<span class="archive__arrow" aria-hidden="true"></span></span>
   </a>
 </li>`,
     )
@@ -83,6 +101,7 @@ const socialsMarkup = () =>
 
 export const partials: Record<string, () => string> = {
   projects: projectsMarkup,
+  archive: archiveMarkup,
   projectProgress: projectProgressMarkup,
   marquee: marqueeMarkup,
   services: servicesMarkup,
@@ -97,6 +116,7 @@ export const tokens: Record<string, string> = {
   'site.location': site.location,
   'site.url': site.url,
   'site.role': site.role,
+  'site.github': site.github,
   'projects.count': pad(projects.length),
   'year': String(new Date().getFullYear()),
 };
