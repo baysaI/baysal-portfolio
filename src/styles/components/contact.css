@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Contact — finale around the returning sculpture
+   ========================================================================== */
+
+.contact {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding-block: var(--section-y);
+}
+
+.contact__inner {
+  display: grid;
+  justify-items: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  text-align: center;
+}
+
+.contact__title {
+  display: grid;
+  gap: 0.15em;
+  font-weight: 500;
+}
+
+.contact__line:first-child {
+  font-size: var(--fs-h3);
+  letter-spacing: -0.035em;
+  color: var(--fg-muted);
+}
+
+.contact__line:last-child {
+  font-size: clamp(3rem, 1rem + 7.4vw, 10.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.058em;
+}
+
+.contact__line em {
+  color: var(--ember);
+}
+
+.contact__text {
+  max-width: 40ch;
+  color: var(--fg-muted);
+  font-size: var(--fs-lead);
+  line-height: 1.4;
+}
+
+.contact__cta {
+  position: relative;
+  display: inline-grid;
+  margin-top: 1rem;
+  padding: clamp(1.1rem, 1.6vw, 1.6rem) clamp(2rem, 3.5vw, 3.5rem);
+  border-radius: var(--radius);
+  background: var(--ember);
+  color: var(--ink);
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.contact__cta-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bone);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.contact__cta-label,
+.contact__cta-mail {
+  grid-area: 1 / 1;
+  transition:
+    transform 0.7s var(--ease-out),
+    opacity 0.5s ease;
+}
+
+.contact__cta-mail {
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+.contact__cta:hover .contact__cta-fill,
+.contact__cta:focus-visible .contact__cta-fill {
+  transform: none;
+}
+
+.contact__cta:hover .contact__cta-label,
+.contact__cta:focus-visible .contact__cta-label {
+  transform: translateY(-110%);
+  opacity: 0;
+}
+
+.contact__cta:hover .contact__cta-mail,
+.contact__cta:focus-visible .contact__cta-mail {
+  transform: none;
+  opacity: 1;
+}
+
+.contact__social {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.contact__social ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.contact__social a {
+  font-size: var(--fs-lead);
+  letter-spacing: -0.02em;
+}
