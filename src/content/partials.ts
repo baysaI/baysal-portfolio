@@ -103,5 +103,5 @@ export const tokens: Record<string, string> = {
   'site.url': site.url,
   'site.role': site.role,
   'projects.count': pad(projects.length),
-  year: String(new Date().getFullYear()),
+  'year': String(new Date().getFullYear()),
 };

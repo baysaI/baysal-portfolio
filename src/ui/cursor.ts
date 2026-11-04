@@ -23,7 +23,9 @@ export function initCursor() {
   // Stay invisible until the first real pointer movement.
   if (!pointer.active) {
     root.classList.add('is-hidden');
-    window.addEventListener('pointermove', () => root.classList.remove('is-hidden'), { once: true });
+    window.addEventListener('pointermove', () => root.classList.remove('is-hidden'), {
+      once: true,
+    });
   }
 
   const ringPos = { x: pointer.x, y: pointer.y };
@@ -49,7 +51,9 @@ export function initCursor() {
   });
 
   document.addEventListener('pointerdown', () => gsap.to(ring, { scale: 0.85, duration: 0.2 }));
-  document.addEventListener('pointerup', () => gsap.to(ring, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.4)' }));
+  document.addEventListener('pointerup', () =>
+    gsap.to(ring, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.4)' }),
+  );
   document.documentElement.addEventListener('pointerleave', () => root.classList.add('is-hidden'));
   document.documentElement.addEventListener('pointerenter', () => {
     if (pointer.active) root.classList.remove('is-hidden');

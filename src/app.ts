@@ -113,5 +113,6 @@ export async function boot() {
     gsap.to(director, { intro: 1, duration: reduced ? 0.01 : 2.4, ease: 'expo.out', delay: 0.1 });
   }
 
-  if (import.meta.env.DEV) Object.assign(window, { __world: world, __lenis: lenis, __director: director });
+  if (import.meta.env.DEV)
+    Object.assign(window, { __world: world, __lenis: lenis, __director: director });
 }

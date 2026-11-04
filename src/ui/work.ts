@@ -55,7 +55,11 @@ export function initWork({ reduced }: { reduced: boolean }): WorkStage | null {
 
     timeline = gsap
       .timeline()
-      .to(title(prev), { yPercent: -115 * dir, duration: 0.45, ease: 'power3.in', stagger: 0.03 }, 0)
+      .to(
+        title(prev),
+        { yPercent: -115 * dir, duration: 0.45, ease: 'power3.in', stagger: 0.03 },
+        0,
+      )
       .to(rest(prev), { opacity: 0, y: -14 * dir, duration: 0.35, ease: 'power2.in' }, 0)
       .set(prev, { autoAlpha: 0 }, 0.5)
       .set(incoming, { autoAlpha: 1 }, 0.3)

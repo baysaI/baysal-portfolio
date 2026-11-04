@@ -25,11 +25,22 @@ export async function runLoader(ready: Promise<unknown>, { fast = false } = {}) 
   const minTime = fast ? 0.2 : 1.4;
   await gsap.to(progress, { value: 80, duration: minTime, ease: 'power2.out', onUpdate: render });
   await ready;
-  await gsap.to(progress, { value: 100, duration: fast ? 0.2 : 0.5, ease: 'power3.inOut', onUpdate: render });
+  await gsap.to(progress, {
+    value: 100,
+    duration: fast ? 0.2 : 0.5,
+    ease: 'power3.inOut',
+    onUpdate: render,
+  });
 
   const exit = gsap.timeline();
   exit
-    .to(root.children, { yPercent: -30, opacity: 0, duration: 0.6, ease: 'power3.in', stagger: 0.04 })
+    .to(root.children, {
+      yPercent: -30,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power3.in',
+      stagger: 0.04,
+    })
     .to(root, { clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'expo.inOut' }, 0.15)
     .add(() => document.documentElement.classList.add('is-loaded'));
 

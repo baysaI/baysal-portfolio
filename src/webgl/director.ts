@@ -179,9 +179,15 @@ export class Director {
       });
       for (let i = 0; i < count; i++) {
         keys.push({ at: seg(i), state: projectState(i) });
-        keys.push({ at: seg(i + WORK_HOLD), state: { ...projectState(i), pSpin: 1.6 + i * 0.9 + 0.45 } });
+        keys.push({
+          at: seg(i + WORK_HOLD),
+          state: { ...projectState(i), pSpin: 1.6 + i * 0.9 + 0.45 },
+        });
       }
-      keys.push({ at: seg(count), state: { ...projectState(count - 1), pSpin: 1.6 + count * 0.9 } });
+      keys.push({
+        at: seg(count),
+        state: { ...projectState(count - 1), pSpin: 1.6 + count * 0.9 },
+      });
     }
 
     const knot: Partial<SceneState> = {

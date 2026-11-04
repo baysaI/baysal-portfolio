@@ -86,15 +86,37 @@ const monolith: Generator = (count, rng) => {
   const hz = d / 2;
   const edges: Array<[number[], number[]]> = [];
   for (const sx of [-1, 1]) {
-    for (const sz of [-1, 1]) edges.push([[sx * hx, -hy, sz * hz], [sx * hx, hy, sz * hz]]);
-    for (const sy of [-1, 1]) edges.push([[sx * hx, sy * hy, -hz], [sx * hx, sy * hy, hz]]);
+    for (const sz of [-1, 1])
+      edges.push([
+        [sx * hx, -hy, sz * hz],
+        [sx * hx, hy, sz * hz],
+      ]);
+    for (const sy of [-1, 1])
+      edges.push([
+        [sx * hx, sy * hy, -hz],
+        [sx * hx, sy * hy, hz],
+      ]);
   }
-  for (const sy of [-1, 1]) for (const sz of [-1, 1]) edges.push([[-hx, sy * hy, sz * hz], [hx, sy * hy, sz * hz]]);
+  for (const sy of [-1, 1])
+    for (const sz of [-1, 1])
+      edges.push([
+        [-hx, sy * hy, sz * hz],
+        [hx, sy * hy, sz * hz],
+      ]);
 
   const faces = [
-    { area: w * h, at: (u: number, v: number, s: number) => [(u - 0.5) * w, (v - 0.5) * h, s * hz] },
-    { area: d * h, at: (u: number, v: number, s: number) => [s * hx, (v - 0.5) * h, (u - 0.5) * d] },
-    { area: w * d, at: (u: number, v: number, s: number) => [(u - 0.5) * w, s * hy, (v - 0.5) * d] },
+    {
+      area: w * h,
+      at: (u: number, v: number, s: number) => [(u - 0.5) * w, (v - 0.5) * h, s * hz],
+    },
+    {
+      area: d * h,
+      at: (u: number, v: number, s: number) => [s * hx, (v - 0.5) * h, (u - 0.5) * d],
+    },
+    {
+      area: w * d,
+      at: (u: number, v: number, s: number) => [(u - 0.5) * w, s * hy, (v - 0.5) * d],
+    },
   ];
   const total = faces.reduce((acc, f) => acc + f.area, 0);
 

@@ -71,7 +71,12 @@ export class Post {
     this.composer.addPass(new RenderPass(scene, camera));
 
     if (tier !== 'low') {
-      this.bloom = new UnrealBloomPass(new THREE.Vector2(size.width, size.height), 0.55, 0.65, 0.82);
+      this.bloom = new UnrealBloomPass(
+        new THREE.Vector2(size.width, size.height),
+        0.55,
+        0.65,
+        0.82,
+      );
       this.composer.addPass(this.bloom);
     }
 

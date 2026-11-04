@@ -44,18 +44,21 @@ export function htmlContent(): Plugin {
             `<${tag}${before} data-i18n="${key}"${after}>${lookup(key, `<${tag}>`)}</${tag}>`,
         );
 
-        html = html.replace(/<[a-z][^>]*\sdata-i18n-attr="([^"]+)"[^>]*>/g, (tagHtml, spec: string) => {
-          let out = tagHtml;
-          for (const pair of spec.split(',')) {
-            const [attr, key] = pair.split(':').map((s) => s.trim());
-            const value = escapeAttr(lookup(key, `[${attr}]`));
-            const attrRe = new RegExp(`\\s${attr}="[^"]*"`);
-            out = attrRe.test(out)
-              ? out.replace(attrRe, ` ${attr}="${value}"`)
-              : out.replace(/\s*\/?>$/, (end) => ` ${attr}="${value}"${end}`);
-          }
-          return out;
-        });
+        html = html.replace(
+          /<[a-z][^>]*\sdata-i18n-attr="([^"]+)"[^>]*>/g,
+          (tagHtml, spec: string) => {
+            let out = tagHtml;
+            for (const pair of spec.split(',')) {
+              const [attr, key] = pair.split(':').map((s) => s.trim());
+              const value = escapeAttr(lookup(key, `[${attr}]`));
+              const attrRe = new RegExp(`\\s${attr}="[^"]*"`);
+              out = attrRe.test(out)
+                ? out.replace(attrRe, ` ${attr}="${value}"`)
+                : out.replace(/\s*\/?>$/, (end) => ` ${attr}="${value}"${end}`);
+            }
+            return out;
+          },
+        );
 
         return html;
       },
