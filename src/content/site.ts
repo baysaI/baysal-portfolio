@@ -10,7 +10,7 @@ export const site = {
   email: 'hello@baysal.dev',
   location: 'Istanbul, TR',
   timeZone: 'Europe/Istanbul',
-  url: 'https://baysai.github.io/baysaI/',
+  url: 'https://baysai.github.io/baysal-portfolio/',
   socials: [
     { label: 'GitHub', href: 'https://github.com/baysaI' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
