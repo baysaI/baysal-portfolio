@@ -1,4 +1,5 @@
 import { device } from './core/device';
+import { createDprGovernor, createRenderGate } from './core/performance';
 import { updatePointer } from './core/pointer';
 import { gsap, initScroll, ScrollTrigger } from './core/scroll';
 import { initAbout } from './ui/about';
@@ -73,12 +74,16 @@ export async function boot() {
 
   // One clock for pointer easing and rendering.
   if (world) {
+    const gate = createRenderGate();
+    const governor = createDprGovernor((dpr) => world.stage.setPixelRatio(dpr), world.stage.size.dpr);
     let time = 0;
     gsap.ticker.add((_t, deltaMs) => {
       const delta = Math.min(deltaMs / 1000, 1 / 20);
-      time += delta;
       updatePointer(delta);
+      if (!gate.open) return;
+      time += delta;
       world.stage.update({ time, delta });
+      governor(delta);
     });
   } else {
     gsap.ticker.add((_t, deltaMs) => updatePointer(Math.min(deltaMs / 1000, 1 / 20)));
