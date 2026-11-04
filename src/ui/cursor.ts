@@ -20,6 +20,11 @@ export function initCursor() {
   const ring = root.querySelector<HTMLElement>('.cursor__ring')!;
   const label = root.querySelector<HTMLElement>('[data-cursor-label]')!;
   document.documentElement.classList.add('has-cursor');
+  // Stay invisible until the first real pointer movement.
+  if (!pointer.active) {
+    root.classList.add('is-hidden');
+    window.addEventListener('pointermove', () => root.classList.remove('is-hidden'), { once: true });
+  }
 
   const ringPos = { x: pointer.x, y: pointer.y };
   const dotPos = { x: pointer.x, y: pointer.y };
