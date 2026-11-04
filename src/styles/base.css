@@ -124,3 +124,30 @@ em,
 .accent {
   color: var(--accent);
 }
+
+/* Split text */
+.w-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.06em 0.12em 0;
+  margin: 0 -0.06em -0.12em 0;
+}
+
+.w-mask > .w,
+[data-words] .w {
+  display: inline-block;
+}
+
+/* Language swap cross-fade */
+main,
+.header__nav,
+.footer {
+  transition: opacity 0.38s ease;
+}
+
+.is-switching main,
+.is-switching .header__nav,
+.is-switching .footer {
+  opacity: 0;
+}
