@@ -24,6 +24,9 @@ export class Sculpture {
     uRidge: { value: 0 },
     uRim: { value: 0.06 },
     uRimColor: { value: new THREE.Color(0xff5a1f) },
+    /** Pointer hit direction in object space (unit vector). */
+    uPointer: { value: new THREE.Vector3(0, 0, 1) },
+    uPointerStrength: { value: 0 },
   };
 
   /** Shader time advances at a variable rate so scroll can speed the flow up. */
@@ -57,6 +60,8 @@ export class Sculpture {
           uniform float uFreq;
           uniform float uTwist;
           uniform float uRidge;
+          uniform vec3 uPointer;
+          uniform float uPointerStrength;
           ${noise}
 
           vec3 rotY(vec3 p, float a) {
@@ -74,8 +79,16 @@ export class Sculpture {
             return (n1 * 0.75 + detail) * uAmp;
           }
 
+          // Soft swell under the cursor, with a faint ripple ring.
+          float touch(vec3 b) {
+            float d = distance(b, uPointer);
+            float swell = smoothstep(0.95, 0.0, d);
+            float ripple = 0.75 + 0.25 * cos(d * 14.0 - uTime * 5.0);
+            return swell * swell * ripple * uPointerStrength;
+          }
+
           vec3 deform(vec3 b) {
-            vec3 p = b * (1.0 + field(b));
+            vec3 p = b * (1.0 + field(b) + touch(b));
             return rotY(p, b.y * uTwist);
           }`,
         )
