@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { device } from '../core/device';
 import { createStudioEnvironment } from './environment';
 import { Particles } from './particles';
@@ -24,11 +23,10 @@ export function createWorld(canvas: HTMLCanvasElement) {
   const post = new Post(stage);
   stage.onUpdate(({ time }) => post.update(time));
 
-  const clock = new THREE.Timer();
-  const tick = () => {
-    clock.update();
-    stage.update({ time: clock.getElapsed(), delta: Math.min(clock.getDelta(), 1 / 20) });
-  };
+  /** Compile every program up-front so the first scroll never hitches. */
+  const compile = () => stage.renderer.compileAsync(stage.scene, stage.camera);
 
-  return { stage, sculpture, particles, post, tick };
+  return { stage, sculpture, particles, post, compile };
 }
+
+export type World = ReturnType<typeof createWorld>;
