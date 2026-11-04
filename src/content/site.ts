@@ -5,9 +5,9 @@
  */
 
 export const site = {
-  name: 'Baysai',
+  name: 'Baysal',
   role: 'Creative Developer & 3D Designer',
-  email: 'hello@baysai.dev',
+  email: 'hello@baysal.dev',
   location: 'Istanbul, TR',
   timeZone: 'Europe/Istanbul',
   url: 'https://baysai.github.io/baysaI/',

@@ -1,7 +1,7 @@
 import { dict, languages, type DictKey, type Lang } from '../content/i18n';
 import { resetSource, split } from './split';
 
-const STORAGE_KEY = 'baysai:lang';
+const STORAGE_KEY = 'baysal:lang';
 
 const listeners = new Set<(lang: Lang) => void>();
 let current: Lang = 'en';

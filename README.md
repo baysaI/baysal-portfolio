@@ -1,4 +1,4 @@
-# Baysai — Immersive 3D Portfolio
+# Baysal — Immersive 3D Portfolio
 
 Kaydırdıkça şekil değiştiren gerçek zamanlı 3D sahneye sahip, iki dilli (TR / EN) kişisel portfolyo.
 A bilingual personal portfolio built around a real-time 3D scene that transforms as you scroll.

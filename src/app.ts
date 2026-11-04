@@ -29,7 +29,7 @@ const createWorldSafely = async () => {
     const [{ createWorld }, { Director }] = await loadWebgl();
     return { world: createWorld(canvas) as World, Director };
   } catch (error) {
-    console.warn('[baysai] WebGL unavailable, continuing without 3D.', error);
+    console.warn('[baysal] WebGL unavailable, continuing without 3D.', error);
     return null;
   }
 };

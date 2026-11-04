@@ -10,7 +10,7 @@ export const languages = ['en', 'tr'] as const;
 export type Lang = (typeof languages)[number];
 
 const en = {
-  'meta.title': 'Baysai — Creative Developer & 3D Designer',
+  'meta.title': 'Baysal — Creative Developer & 3D Designer',
   'meta.description':
     'Independent creative developer crafting immersive 3D websites, real-time product experiences and interactive stories.',
 
@@ -110,7 +110,7 @@ const en = {
   'footer.rights': 'All rights reserved.',
   'footer.time': 'Local time',
   'footer.top': 'Back to top',
-  'footer.credit': 'Designed & developed by Baysai',
+  'footer.credit': 'Designed & developed by Baysal',
   'fallback': 'Your browser does not support WebGL — enjoying the lightweight version.',
   'cursor.view': 'View',
   'cursor.mail': 'Say hi',
@@ -120,7 +120,7 @@ export type DictKey = keyof typeof en;
 export type Dict = Record<DictKey, string>;
 
 const tr: Dict = {
-  'meta.title': 'Baysai — Kreatif Geliştirici & 3D Tasarımcı',
+  'meta.title': 'Baysal — Kreatif Geliştirici & 3D Tasarımcı',
   'meta.description':
     'Sürükleyici 3D web siteleri, gerçek zamanlı ürün deneyimleri ve etkileşimli hikâyeler üreten bağımsız kreatif geliştirici.',
 
@@ -220,7 +220,7 @@ const tr: Dict = {
   'footer.rights': 'Tüm hakları saklıdır.',
   'footer.time': 'Yerel saat',
   'footer.top': 'Başa dön',
-  'footer.credit': 'Tasarım & geliştirme: Baysai',
+  'footer.credit': 'Tasarım & geliştirme: Baysal',
   'fallback': 'Tarayıcın WebGL desteklemiyor — hafif sürümün keyfini çıkar.',
   'cursor.view': 'İncele',
   'cursor.mail': 'Merhaba',

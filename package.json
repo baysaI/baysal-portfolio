@@ -1,8 +1,8 @@
 {
-  "name": "baysai-portfolio",
+  "name": "baysal-portfolio",
   "private": true,
   "version": "0.1.0",
-  "description": "Baysai — immersive 3D portfolio built with Three.js, GSAP and Lenis.",
+  "description": "Baysal — immersive 3D portfolio built with Three.js, GSAP and Lenis.",
   "type": "module",
   "scripts": {
     "dev": "vite",
