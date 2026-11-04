@@ -134,19 +134,22 @@ export class Director {
       camZ: 9,
     };
 
+    // On phones the manifesto fills the screen: tuck the sculpture low and small.
+    const aboutX = mobile ? 0.45 : right;
+    const aboutY = mobile ? -1.55 : lift;
     const about: Partial<SceneState> = {
-      sx: right,
-      sy: lift,
-      sScale: 0.95 * m,
+      sx: aboutX,
+      sy: aboutY,
+      sScale: (mobile ? 0.55 : 0.95) * m,
       sAmp: 0.2,
       sFreq: 1.25,
       sTwist: 1.1,
       sRidge: 0.35,
       sFlow: 1.3,
       pMorph: 1,
-      px: right,
-      py: lift,
-      pScale: 0.98 * m,
+      px: aboutX,
+      py: aboutY,
+      pScale: (mobile ? 0.6 : 0.98) * m,
       pOpacity: 0.85,
     };
 
