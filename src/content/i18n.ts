@@ -2,107 +2,124 @@ export const languages = ['en', 'tr'] as const;
 export type Lang = (typeof languages)[number];
 
 const en = {
-  'meta.title': 'Baysal — Creative Developer & 3D Designer',
+  'meta.title': 'Mehmet Baysal — Web Design & Coding Student',
   'meta.description':
-    'Independent creative developer crafting immersive 3D websites, real-time product experiences and interactive stories.',
+    'Portfolio of Mehmet Baysal, a web design and coding student: a browser horror game, a five-language listings platform, a book forum and more.',
 
   'skip': 'Skip to content',
-  'loader.label': 'Loading experience',
+  'loader.label': 'Loading portfolio',
 
   'nav.work': 'Work',
   'nav.about': 'About',
-  'nav.services': 'Services',
+  'nav.services': 'Skills',
   'nav.contact': 'Contact',
   'nav.menu': 'Menu',
   'nav.close': 'Close',
-  'header.status': 'Available for new projects',
+  'header.status': 'Open to internships & freelance',
 
-  'hero.eyebrow': 'Creative Developer & 3D Designer',
-  'hero.title.a': 'Interfaces',
-  'hero.title.b': 'with <em>depth</em>',
+  'hero.eyebrow': 'Web Design & Coding Student',
+  'hero.title.a': 'Mehmet',
+  'hero.title.b': '<em>Baysal</em>',
   'hero.intro':
-    'Independent creative developer crafting immersive 3D websites, product experiences and interactive stories for ambitious brands.',
-  'hero.location': 'Istanbul — working worldwide',
+    'I’m a web design and coding student who learns by shipping real projects: a 3D horror game that runs in the browser, a five-language listings platform, a book forum with AI features.',
+  'hero.location': 'Türkiye — open to remote work',
   'hero.scroll': 'Scroll to explore',
 
   'about.label': '(01) About',
   'about.text':
-    'I work where design meets engineering. Every project begins with one question — how should this <em>feel</em>? Then I build it, with real-time 3D, motion and code that respects performance as much as craft.',
+    'I believe the fastest way to learn code is to build something people can actually use. That’s why every project here was made to <em>work</em>: a game you can finish, a marketplace you can post on, a forum you can argue in.',
   'about.side':
-    'Studio-level quality, delivered by one focused partner. From concept and art direction to production-ready code.',
-  'about.cta': 'Start a conversation',
+    'Right now I’m going deeper into Node.js back-ends, real-time 3D with Three.js and fast, accessible front-ends.',
+  'about.cta': 'Get in touch',
 
   'work.label': '(02) Selected work',
   'work.title': 'Selected <em>work</em>',
-  'work.cta': 'View case study',
-  'work.p1.title': 'Monolith',
-  'work.p1.type': 'Immersive product launch',
+  'work.p1.title': 'Almost There',
+  'work.p1.type': 'Browser game · PS1-style horror',
   'work.p1.desc':
-    'A scroll-driven WebGL launch for a premium audio brand — the product assembles itself in real time as the story unfolds.',
-  'work.p2.title': 'Helix',
-  'work.p2.type': 'Biotech brand platform',
+    'A psychological horror game in a single HTML file. Hand-written PS1 shader, textures drawn in code, five in-game days, English and Turkish, plus a Windows build with Electron.',
+  'work.p1.cta': 'Play in the browser',
+  'work.p2.title': 'Cypilan',
+  'work.p2.type': 'Listings marketplace · Full-stack',
   'work.p2.desc':
-    'Data-rich storytelling for a genomics lab. Millions of data points rendered as a living, explorable structure.',
-  'work.p3.title': 'Orbit',
-  'work.p3.type': 'Real-time 3D configurator',
+    'A digital marketplace for Cyprus: real estate, vehicles, second-hand, jobs and services. Five languages including right-to-left Farsi, with scripts that keep every translation in sync.',
+  'work.p2.cta': 'View on GitHub',
+  'work.p3.title': 'Okuryazmaz',
+  'work.p3.type': 'Book forum · Full-stack',
   'work.p3.desc':
-    'A configurator that lets customers shape, light and order a product in the browser — at 60 fps, even on mobile.',
-  'work.p4.title': 'Tidal',
-  'work.p4.type': 'Generative identity system',
+    'A new-generation literature and book forum. JWT authentication, rate limiting and security headers, with optional AI features powered by the Gemini API.',
+  'work.p3.cta': 'View on GitHub',
+  'work.p4.title': 'Altuncu Premium',
+  'work.p4.type': 'Hotel website · Front-end',
   'work.p4.desc':
-    'A motion identity where every frame is generated: wave fields that respond to sound, data and touch.',
+    'Corporate website for a thermal hotel in Armutlu, Yalova: rooms, thermal pools, spa, gallery and contact across seven responsive pages.',
+  'work.p4.cta': 'View on GitHub',
 
-  'marquee.a': 'Creative Development',
-  'marquee.b': 'Real-time 3D',
-  'marquee.c': 'Motion Design',
-  'marquee.d': 'Interaction',
+  'others.label': '(03) More projects',
+  'others.title': 'Smaller builds, <em>real</em> lessons',
+  'others.cta': 'GitHub',
+  'others.o1.desc':
+    'Monitoring dashboard that simulates pipeline sensors, with live charts, alerts and an optional AI assistant.',
+  'others.o2.desc':
+    'Distribution tracker for a role-play server: role-based accounts, live countdowns and a four-hour rule enforced on the server.',
+  'others.o3.desc':
+    'A 3D virtual pet: feed it, play with it and watch its hunger and happiness change. Progress is saved in the browser.',
+  'others.o4.desc':
+    'Storefront for an imported snack shop in vanilla JavaScript, with a sliding cart that survives page reloads.',
+  'others.o5.desc':
+    'A classic PHP login template (original by Bharathi Kannan N) rebuilt with a modern, responsive interface.',
 
-  'services.label': '(03) Capabilities',
-  'services.title': 'What I <em>bring</em> to the table',
-  'services.s1.title': 'Creative Development',
+  'marquee.a': 'Web Design',
+  'marquee.b': 'Front-end',
+  'marquee.c': 'Three.js',
+  'marquee.d': 'Node.js',
+
+  'services.label': '(04) Skills',
+  'services.title': 'What I <em>build</em> with',
+  'services.s1.title': 'Front-end development',
   'services.s1.desc':
-    'High-end front-end engineering — smooth, accessible and fast on every device, from flagship sites to product UIs.',
-  'services.s2.title': 'WebGL & Real-time 3D',
+    'Semantic HTML, modern CSS and framework-free JavaScript: responsive interfaces that load fast on any device.',
+  'services.s2.title': 'Back-end & databases',
   'services.s2.desc':
-    'Custom shaders, particle systems and 3D scenes that run in the browser at a steady 60 frames per second.',
-  'services.s3.title': 'Motion & Interaction',
+    'Express servers, sessions and JWT authentication, role-based access and SQLite databases.',
+  'services.s3.title': 'Real-time 3D & games',
   'services.s3.desc':
-    'Scroll choreography, micro-interactions and transitions that give an interface rhythm and a pulse.',
-  'services.s4.title': '3D Design & Art Direction',
+    'Three.js scenes, custom GLSL shaders and browser games packaged for desktop with Electron.',
+  'services.s4.title': 'Multilingual & AI features',
   'services.s4.desc':
-    'From concept to final frame: modelling, lighting and look-development for digital products and campaigns.',
+    'Interfaces in five languages including right-to-left, Gemini API integrations and data dashboards.',
 
-  'process.label': '(04) Process',
-  'process.title': 'From first sketch to <em>final frame</em>',
-  'process.s1.title': 'Discover',
+  'process.label': '(05) Approach',
+  'process.title': 'From idea to <em>live link</em>',
+  'process.s1.title': 'Idea',
   'process.s1.desc':
-    'Workshops, research and a sharp brief. We define what success feels like before anything gets built.',
+    'I start with the problem: who will use it and what do they need? A quick sketch and a short feature list come first.',
   'process.s2.title': 'Design',
-  'process.s2.desc':
-    'Art direction, 3D look-dev and motion prototypes — validated early, directly in the browser.',
-  'process.s3.title': 'Develop',
+  'process.s2.desc': 'Colours, type and page flow, with the mobile layout planned from the start.',
+  'process.s3.title': 'Code',
   'process.s3.desc':
-    'Production-grade code, custom shaders and a relentless focus on performance and accessibility.',
-  'process.s4.title': 'Deliver',
+    'Small steps and frequent commits. Security and performance are part of the work, not an afterthought.',
+  'process.s4.title': 'Ship',
   'process.s4.desc':
-    'Launch, measure, refine. Clear documentation and handover so your team owns the result.',
+    'Pushed to GitHub, put online, improved with feedback and always documented with a README.',
 
-  'stats.s1': 'Years of practice',
-  'stats.s2': 'Projects shipped',
-  'stats.s3': 'Countries',
-  'stats.s4': 'Target on mobile',
+  'stats.s1': 'Public projects',
+  'stats.s2': 'Commits across projects',
+  'stats.s3': 'Technologies used',
+  'stats.s4': 'Languages in Cypilan',
 
-  'contact.label': '(05) Contact',
-  'contact.title.a': 'Have an idea?',
-  'contact.title.b': 'Let’s make it <em>unforgettable</em>.',
-  'contact.text': 'Tell me about your project, timeline and ambitions. I reply within 24 hours.',
-  'contact.cta': 'Start a project',
-  'contact.social': 'Elsewhere',
+  'contact.label': '(06) Contact',
+  'contact.title.a': 'Internship, freelance or a question?',
+  'contact.title.b': 'Let’s build something <em>together</em>.',
+  'contact.text':
+    'I’m open to internships and freelance work. Write to me and I’ll get back to you soon.',
+  'contact.cta': 'Send an email',
+  'contact.social': 'Code',
 
   'footer.rights': 'All rights reserved.',
   'footer.time': 'Local time',
   'footer.top': 'Back to top',
-  'footer.credit': 'Designed & developed by Baysal',
+  'footer.credit': 'Designed & built by Mehmet Baysal',
   'fallback': 'Your browser does not support WebGL — enjoying the lightweight version.',
   'cursor.view': 'View',
   'cursor.mail': 'Say hi',
@@ -112,107 +129,123 @@ export type DictKey = keyof typeof en;
 export type Dict = Record<DictKey, string>;
 
 const tr: Dict = {
-  'meta.title': 'Baysal — Kreatif Geliştirici & 3D Tasarımcı',
+  'meta.title': 'Mehmet Baysal — Web Tasarım & Kodlama Öğrencisi',
   'meta.description':
-    'Sürükleyici 3D web siteleri, gerçek zamanlı ürün deneyimleri ve etkileşimli hikâyeler üreten bağımsız kreatif geliştirici.',
+    'Web tasarımı ve kodlama öğrencisi Mehmet Baysal’ın portfolyosu: tarayıcıda çalışan bir korku oyunu, beş dilli bir ilan platformu, bir kitap forumu ve daha fazlası.',
 
   'skip': 'İçeriğe geç',
-  'loader.label': 'Deneyim yükleniyor',
+  'loader.label': 'Portfolyo yükleniyor',
 
   'nav.work': 'İşler',
   'nav.about': 'Hakkımda',
-  'nav.services': 'Hizmetler',
+  'nav.services': 'Yetenekler',
   'nav.contact': 'İletişim',
   'nav.menu': 'Menü',
   'nav.close': 'Kapat',
-  'header.status': 'Yeni projelere açığım',
+  'header.status': 'Staj ve freelance işlere açığım',
 
-  'hero.eyebrow': 'Kreatif Geliştirici & 3D Tasarımcı',
-  'hero.title.a': 'Derinliği',
-  'hero.title.b': 'olan <em>arayüzler</em>',
+  'hero.eyebrow': 'Web Tasarım & Kodlama Öğrencisi',
+  'hero.title.a': 'Mehmet',
+  'hero.title.b': '<em>Baysal</em>',
   'hero.intro':
-    'Cesur markalar için sürükleyici 3D web siteleri, ürün deneyimleri ve etkileşimli hikâyeler üreten bağımsız kreatif geliştirici.',
-  'hero.location': 'İstanbul — dünya çapında',
+    'Gerçek projeler yaparak öğrenen bir web tasarımı ve kodlama öğrencisiyim: tarayıcıda çalışan 3D bir korku oyunu, beş dilli bir ilan platformu, yapay zekâ destekli bir kitap forumu.',
+  'hero.location': 'Türkiye — uzaktan çalışmaya açık',
   'hero.scroll': 'Keşfetmek için kaydır',
 
   'about.label': '(01) Hakkımda',
   'about.text':
-    'Tasarımın mühendislikle buluştuğu yerde çalışıyorum. Her proje tek bir soruyla başlar — bu nasıl <em>hissettirmeli</em>? Sonra onu inşa ederim; gerçek zamanlı 3D, hareket ve zanaat kadar performansa da saygı duyan kodla.',
+    'Kodlamayı öğrenmenin en hızlı yolunun, insanların gerçekten kullanabileceği bir şey yapmak olduğuna inanıyorum. Bu yüzden buradaki her proje <em>çalışsın</em> diye yapıldı: bitirilebilen bir oyun, ilan verilebilen bir pazaryeri, tartışılabilen bir forum.',
   'about.side':
-    'Stüdyo kalitesi, tek ve odaklı bir partnerden. Konsept ve sanat yönetiminden yayına hazır koda kadar.',
-  'about.cta': 'Sohbet başlat',
+    'Şu sıralar Node.js ile back-end, Three.js ile gerçek zamanlı 3D ve hızlı, erişilebilir arayüzler üzerine yoğunlaşıyorum.',
+  'about.cta': 'Bana ulaş',
 
-  'work.label': '(02) Seçili işler',
-  'work.title': 'Seçili <em>işler</em>',
-  'work.cta': 'Projeyi incele',
-  'work.p1.title': 'Monolith',
-  'work.p1.type': 'Sürükleyici ürün lansmanı',
+  'work.label': '(02) Öne çıkan işler',
+  'work.title': 'Öne çıkan <em>işler</em>',
+  'work.p1.title': 'Almost There',
+  'work.p1.type': 'Tarayıcı oyunu · PS1 tarzı korku',
   'work.p1.desc':
-    'Premium bir ses markası için kaydırmayla ilerleyen WebGL lansmanı — hikâye aktıkça ürün gerçek zamanlı olarak kendini monte ediyor.',
-  'work.p2.title': 'Helix',
-  'work.p2.type': 'Biyoteknoloji marka platformu',
+    'Tek bir HTML dosyasında çalışan psikolojik korku oyunu. Elle yazılmış PS1 shader’ı, kodla çizilen dokular, beş oyun günü, Türkçe ve İngilizce dil desteği ve Electron ile Windows sürümü.',
+  'work.p1.cta': 'Tarayıcıda oyna',
+  'work.p2.title': 'Cypilan',
+  'work.p2.type': 'İlan pazaryeri · Full-stack',
   'work.p2.desc':
-    'Bir genomik laboratuvarı için veri odaklı anlatım. Milyonlarca veri noktası, keşfedilebilir canlı bir yapı olarak render ediliyor.',
-  'work.p3.title': 'Orbit',
-  'work.p3.type': 'Gerçek zamanlı 3D konfigüratör',
+    'Kıbrıs için dijital ilan pazaryeri: emlak, vasıta, ikinci el, iş ilanları ve hizmetler. Sağdan sola Farsça dahil beş dil ve tüm çevirileri senkron tutan betikler.',
+  'work.p2.cta': 'GitHub’da incele',
+  'work.p3.title': 'Okuryazmaz',
+  'work.p3.type': 'Kitap forumu · Full-stack',
   'work.p3.desc':
-    'Müşterilerin ürünü tarayıcıda şekillendirip ışıklandırıp sipariş edebildiği bir konfigüratör — mobilde bile 60 fps.',
-  'work.p4.title': 'Tidal',
-  'work.p4.type': 'Üretken kimlik sistemi',
+    'Yeni nesil edebiyat ve kitap forumu. JWT ile kimlik doğrulama, istek sınırlama ve güvenlik başlıkları; Gemini API ile isteğe bağlı yapay zekâ özellikleri.',
+  'work.p3.cta': 'GitHub’da incele',
+  'work.p4.title': 'Altuncu Premium',
+  'work.p4.type': 'Otel web sitesi · Front-end',
   'work.p4.desc':
-    'Her karenin üretildiği bir hareket kimliği: sese, veriye ve dokunuşa tepki veren dalga alanları.',
+    'Yalova Armutlu’daki bir termal otelin kurumsal web sitesi: odalar, termal havuzlar, spa, galeri ve iletişim; yedi duyarlı sayfa.',
+  'work.p4.cta': 'GitHub’da incele',
 
-  'marquee.a': 'Kreatif Geliştirme',
-  'marquee.b': 'Gerçek Zamanlı 3D',
-  'marquee.c': 'Hareket Tasarımı',
-  'marquee.d': 'Etkileşim',
+  'others.label': '(03) Diğer projeler',
+  'others.title': 'Küçük projeler, <em>gerçek</em> dersler',
+  'others.cta': 'GitHub',
+  'others.o1.desc':
+    'Boru hattı sensörlerini simüle eden izleme paneli: canlı grafikler, uyarılar ve isteğe bağlı yapay zekâ asistanı.',
+  'others.o2.desc':
+    'Bir rol yapma sunucusu için dağıtım takip paneli: rol tabanlı hesaplar, canlı geri sayım ve sunucuda zorunlu tutulan dört saat kuralı.',
+  'others.o3.desc':
+    '3D sanal evcil hayvan: besle, oyna, açlık ve mutluluk değerlerini takip et. İlerleme tarayıcıda saklanır.',
+  'others.o4.desc':
+    'İthal atıştırmalık mağazası için framework’süz JavaScript ile yazılmış vitrin; sayfa yenilense de kaybolmayan kayan sepet.',
+  'others.o5.desc':
+    'Klasik bir PHP giriş şablonunun (orijinali Bharathi Kannan N’ye ait) modern ve duyarlı arayüzle yenilenmiş hali.',
 
-  'services.label': '(03) Yetkinlikler',
-  'services.title': 'Masaya <em>getirdiklerim</em>',
-  'services.s1.title': 'Kreatif Geliştirme',
+  'marquee.a': 'Web Tasarımı',
+  'marquee.b': 'Front-end',
+  'marquee.c': 'Three.js',
+  'marquee.d': 'Node.js',
+
+  'services.label': '(04) Yetenekler',
+  'services.title': 'Neyle <em>üretiyorum</em>',
+  'services.s1.title': 'Front-end geliştirme',
   'services.s1.desc':
-    'Üst düzey front-end mühendisliği — amiral gemisi sitelerden ürün arayüzlerine, her cihazda akıcı, erişilebilir ve hızlı.',
-  'services.s2.title': 'WebGL & Gerçek Zamanlı 3D',
+    'Semantik HTML, modern CSS ve framework’süz JavaScript: her cihazda hızlı açılan, duyarlı arayüzler.',
+  'services.s2.title': 'Back-end & veritabanı',
   'services.s2.desc':
-    'Tarayıcıda saniyede istikrarlı 60 karede çalışan özel shader’lar, parçacık sistemleri ve 3D sahneler.',
-  'services.s3.title': 'Hareket & Etkileşim',
+    'Express sunucuları, oturum ve JWT ile kimlik doğrulama, rol tabanlı yetkilendirme ve SQLite veritabanları.',
+  'services.s3.title': 'Gerçek zamanlı 3D & oyun',
   'services.s3.desc':
-    'Arayüze ritim ve nabız kazandıran kaydırma koreografisi, mikro etkileşimler ve geçişler.',
-  'services.s4.title': '3D Tasarım & Sanat Yönetimi',
+    'Three.js sahneleri, özel GLSL shader’lar ve Electron ile masaüstüne paketlenen tarayıcı oyunları.',
+  'services.s4.title': 'Çok dillilik & yapay zekâ',
   'services.s4.desc':
-    'Konseptten son kareye: dijital ürünler ve kampanyalar için modelleme, ışıklandırma ve görünüm geliştirme.',
+    'Sağdan sola dahil beş dilde arayüzler, Gemini API entegrasyonları ve veri panelleri.',
 
-  'process.label': '(04) Süreç',
-  'process.title': 'İlk eskizden <em>son kareye</em>',
-  'process.s1.title': 'Keşif',
+  'process.label': '(05) Yaklaşım',
+  'process.title': 'Fikirden <em>canlı linke</em>',
+  'process.s1.title': 'Fikir',
   'process.s1.desc':
-    'Atölyeler, araştırma ve net bir brief. Herhangi bir şey inşa edilmeden önce başarının nasıl hissettireceğini tanımlarız.',
+    'Önce problemi anlıyorum: kim kullanacak, neye ihtiyacı var? Kısa bir eskiz ve özellik listesiyle başlıyorum.',
   'process.s2.title': 'Tasarım',
-  'process.s2.desc':
-    'Sanat yönetimi, 3D görünüm geliştirme ve hareket prototipleri — erken aşamada, doğrudan tarayıcıda doğrulanır.',
-  'process.s3.title': 'Geliştirme',
+  'process.s2.desc': 'Renkler, tipografi ve sayfa akışı; mobil görünümü en baştan planlıyorum.',
+  'process.s3.title': 'Kodlama',
   'process.s3.desc':
-    'Üretim kalitesinde kod, özel shader’lar ve performans ile erişilebilirliğe tavizsiz odak.',
-  'process.s4.title': 'Teslim',
+    'Küçük adımlar ve sık commit. Güvenlik ve performans sona bırakılmaz, işin parçasıdır.',
+  'process.s4.title': 'Yayın',
   'process.s4.desc':
-    'Yayına al, ölç, iyileştir. Ekibinin sonuca sahip olması için net dokümantasyon ve devir teslim.',
+    'GitHub’a yüklenir, yayına alınır, geri bildirimle iyileştirilir ve her zaman bir README ile belgelenir.',
 
-  'stats.s1': 'Yıllık deneyim',
-  'stats.s2': 'Tamamlanan proje',
-  'stats.s3': 'Ülke',
-  'stats.s4': 'Mobilde hedef',
+  'stats.s1': 'Herkese açık proje',
+  'stats.s2': 'Projelerdeki commit',
+  'stats.s3': 'Kullanılan teknoloji',
+  'stats.s4': 'Cypilan’daki dil',
 
-  'contact.label': '(05) İletişim',
-  'contact.title.a': 'Bir fikrin mi var?',
-  'contact.title.b': 'Hadi onu <em>unutulmaz</em> yapalım.',
-  'contact.text': 'Projeni, takvimini ve hedeflerini anlat. 24 saat içinde dönüş yaparım.',
-  'contact.cta': 'Proje başlat',
-  'contact.social': 'Diğer kanallar',
+  'contact.label': '(06) İletişim',
+  'contact.title.a': 'Staj, freelance ya da bir soru?',
+  'contact.title.b': 'Birlikte bir şey <em>üretelim</em>.',
+  'contact.text': 'Staj ve freelance işlere açığım. Bana yaz, en kısa sürede dönüş yaparım.',
+  'contact.cta': 'E-posta gönder',
+  'contact.social': 'Kodlarım',
 
   'footer.rights': 'Tüm hakları saklıdır.',
   'footer.time': 'Yerel saat',
   'footer.top': 'Başa dön',
-  'footer.credit': 'Tasarım & geliştirme: Baysal',
+  'footer.credit': 'Tasarım & kodlama: Mehmet Baysal',
   'fallback': 'Tarayıcın WebGL desteklemiyor — hafif sürümün keyfini çıkar.',
   'cursor.view': 'İncele',
   'cursor.mail': 'Merhaba',
