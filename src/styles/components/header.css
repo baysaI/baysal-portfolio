@@ -128,10 +128,6 @@
 }
 
 .lang button[aria-pressed='true'] {
-  background: currentColor;
-}
-
-.lang button[aria-pressed='true'] {
   background: var(--bone);
   color: var(--ink);
 }
