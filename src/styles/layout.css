@@ -72,3 +72,48 @@ html.lenis body {
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
+
+/* ==========================================================================
+   Without WebGL: a CSS-only chrome orb keeps the hero composed
+   ========================================================================== */
+
+.no-webgl .webgl {
+  display: none;
+}
+
+.no-webgl .hero {
+  isolation: isolate;
+}
+
+.no-webgl .hero::before {
+  content: '';
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  z-index: -1;
+  width: min(62vw, 34rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 32% 28%, #fff 0 2%, rgb(255 255 255 / 0.55) 6%, transparent 22%),
+    radial-gradient(circle at 70% 78%, rgb(255 90 31 / 0.55), transparent 42%),
+    radial-gradient(circle at 45% 40%, #6d6964, #232220 48%, #0b0b0c 72%);
+  box-shadow:
+    inset -1.5rem -2rem 4rem rgb(0 0 0 / 0.6),
+    0 0 8rem rgb(255 90 31 / 0.12);
+}
+
+/* ==========================================================================
+   Reduced motion: keep state changes, drop the travel
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
