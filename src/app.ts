@@ -15,14 +15,18 @@ import { initReveals, playIntro } from './ui/reveal';
 import { splitAll } from './ui/split';
 import { initStats } from './ui/stats';
 import { initWork } from './ui/work';
-import { Director } from './webgl/director';
-import { createWorld, type World } from './webgl/world';
+import type { World } from './webgl/world';
 
-const createWorldSafely = (): World | null => {
+/** The 3D engine (three.js + shaders) is a separate chunk, fetched while the loader runs. */
+const loadWebgl = () => Promise.all([import('./webgl/world'), import('./webgl/director')]);
+type WebglModules = { Director: typeof import('./webgl/director').Director };
+
+const createWorldSafely = async () => {
   const canvas = document.querySelector<HTMLCanvasElement>('[data-webgl]');
   if (!canvas || !device.webgl2) return null;
   try {
-    return createWorld(canvas);
+    const [{ createWorld }, { Director }] = await loadWebgl();
+    return { world: createWorld(canvas) as World, Director };
   } catch (error) {
     console.warn('[baysai] WebGL unavailable, continuing without 3D.', error);
     return null;
@@ -46,11 +50,8 @@ export async function boot() {
   lenis.stop();
   window.scrollTo(0, 0);
 
-  const world = createWorldSafely();
-  if (!world) {
-    root.classList.add('no-webgl');
-    document.querySelector<HTMLElement>('[data-fallback-note]')?.removeAttribute('hidden');
-  }
+  // Start fetching the 3D engine immediately; the interface boots meanwhile.
+  const webglPending = createWorldSafely();
 
   // Interface
   const cursor = device.isTouch ? null : initCursor();
@@ -64,41 +65,51 @@ export async function boot() {
   const work = initWork({ reduced });
   const process = initProcess();
 
-  // 3D choreography — created after the pins so every anchor sees pin spacing.
-  const director = world ? new Director(world, { work, process }) : null;
-
   ScrollTrigger.sort();
   ScrollTrigger.refresh();
   onLangChange(() => ScrollTrigger.refresh());
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
-  // One clock for pointer easing and rendering.
-  if (world) {
+  let director: InstanceType<WebglModules['Director']> | null = null;
+  let world: World | null = null;
+
+  /** Resolves once the scene exists, is choreographed and its shaders are compiled. */
+  const sceneReady = webglPending.then(async (webgl) => {
+    if (!webgl) {
+      root.classList.add('no-webgl');
+      document.querySelector<HTMLElement>('[data-fallback-note]')?.removeAttribute('hidden');
+      gsap.ticker.add((_t, deltaMs) => updatePointer(Math.min(deltaMs / 1000, 1 / 20)));
+      return;
+    }
+    world = webgl.world;
+    const stage = world.stage;
+    // Created after the pins so every anchor sees pin spacing.
+    director = new webgl.Director(world, { work, process });
+    ScrollTrigger.refresh();
+
     const gate = createRenderGate();
-    const governor = createDprGovernor((dpr) => world.stage.setPixelRatio(dpr), world.stage.size.dpr);
+    const governor = createDprGovernor((dpr) => stage.setPixelRatio(dpr), stage.size.dpr);
     let time = 0;
     gsap.ticker.add((_t, deltaMs) => {
       const delta = Math.min(deltaMs / 1000, 1 / 20);
       updatePointer(delta);
       if (!gate.open) return;
       time += delta;
-      world.stage.update({ time, delta });
+      stage.update({ time, delta });
       governor(delta);
     });
-  } else {
-    gsap.ticker.add((_t, deltaMs) => updatePointer(Math.min(deltaMs / 1000, 1 / 20)));
-  }
 
-  const ready = Promise.all([
-    document.fonts?.ready ?? Promise.resolve(),
-    world?.compile().catch(() => undefined),
-  ]);
-  await runLoader(ready, { fast: reduced });
+    await world.compile().catch(() => undefined);
+  });
+
+  await runLoader(Promise.all([document.fonts?.ready, sceneReady]), { fast: reduced });
 
   root.classList.add('is-ready');
   lenis.start();
   playIntro({ reduced });
-  if (director) gsap.to(director, { intro: 1, duration: reduced ? 0.01 : 2.4, ease: 'expo.out', delay: 0.1 });
+  if (director) {
+    gsap.to(director, { intro: 1, duration: reduced ? 0.01 : 2.4, ease: 'expo.out', delay: 0.1 });
+  }
 
   if (import.meta.env.DEV) Object.assign(window, { __world: world, __lenis: lenis, __director: director });
 }
