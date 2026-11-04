@@ -153,3 +153,27 @@ html.lenis body {
     display: none;
   }
 }
+
+/* ==========================================================================
+   Without JavaScript: pinned / horizontal layouts fall back to normal flow
+   ========================================================================== */
+
+.no-js .work__pin,
+.no-js .process__pin {
+  height: auto;
+  overflow: visible;
+}
+
+.no-js .work__list {
+  padding-block: 3rem;
+}
+
+.no-js .process__track {
+  flex-wrap: wrap;
+  width: auto;
+}
+
+.no-js .webgl,
+.no-js .progress {
+  display: none;
+}
