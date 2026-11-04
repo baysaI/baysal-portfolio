@@ -60,7 +60,7 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer) {
   // Low frontal fill so faces towards the camera never collapse to black.
   panel(8, 2.5, 0x8f8a83, 0.5, [0, -3, 10]);
   // Floor bounce — gives the underside a soft horizon reflection.
-  panel(14, 14, 0xd9d4cc, 0.16, [0, -9, 0]);
+  panel(14, 14, 0xd9d4cc, 0.09, [0, -9, 0]);
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   const target = pmrem.fromScene(env, 0.035);
