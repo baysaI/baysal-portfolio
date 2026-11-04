@@ -18,7 +18,7 @@ const projectsMarkup = () =>
     ${t(`${p.key}.type`, 'span', 'class="label project__type"')}
     <span class="label project__year">${p.year}</span>
   </div>
-  ${t(`${p.key}.title`, 'h3', 'class="project__title"')}
+  ${t(`${p.key}.title`, 'h3', 'class="project__title" data-split data-split-manual')}
   ${t(`${p.key}.desc`, 'p', 'class="project__desc"')}
   <ul class="project__tags">${p.tags.map((tag) => `<li>${tag}</li>`).join('')}</ul>
   <a class="project__link" href="${p.href}" data-cursor="view">
