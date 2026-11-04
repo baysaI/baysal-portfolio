@@ -10,6 +10,7 @@ import { applyLang, detectLang, initLangSwitch, onLangChange } from './ui/i18n';
 import { runLoader } from './ui/loader';
 import { initMagnetic } from './ui/magnetic';
 import { initMarquee } from './ui/marquee';
+import { initParallax } from './ui/parallax';
 import { initProcess } from './ui/process';
 import { initReveals, playIntro } from './ui/reveal';
 import { splitAll } from './ui/split';
@@ -62,6 +63,7 @@ export async function boot() {
   initAbout({ reduced });
   initMarquee({ reduced });
   initStats({ reduced });
+  initParallax({ reduced });
   const work = initWork({ reduced });
   const process = initProcess();
 
