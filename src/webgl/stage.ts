@@ -27,6 +27,7 @@ export class Stage {
   private readonly resizers = new Set<() => void>();
   private renderFn: (() => void) | null = null;
   private lastWidth = 0;
+  private dprLimit = Infinity;
   private lastHeight = 0;
 
   constructor(
@@ -72,6 +73,15 @@ export class Stage {
     this.renderFn = fn;
   }
 
+  /** Lower the pixel ratio at runtime (adaptive quality). */
+  setPixelRatio(dpr: number) {
+    this.dprLimit = dpr;
+    this.size.dpr = dpr;
+    this.renderer.setPixelRatio(dpr);
+    this.renderer.setSize(this.size.width, this.size.height, false);
+    this.resizers.forEach((fn) => fn());
+  }
+
   resize(force = false) {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -81,7 +91,7 @@ export class Stage {
     this.lastWidth = width;
     this.lastHeight = height;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP[this.tier]);
+    const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP[this.tier], this.dprLimit);
     Object.assign(this.size, { width, height, dpr, aspect: width / height });
 
     this.renderer.setPixelRatio(dpr);
