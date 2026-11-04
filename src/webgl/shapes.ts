@@ -33,6 +33,12 @@ const rotateX = (p: number[], a: number) => {
   return [p[0], p[1] * c - p[2] * s, p[1] * s + p[2] * c];
 };
 
+const rotateY = (p: number[], a: number) => {
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  return [p[0] * c + p[2] * s, p[1], -p[0] * s + p[2] * c];
+};
+
 const rotateZ = (p: number[], a: number) => {
   const c = Math.cos(a);
   const s = Math.sin(a);
@@ -126,28 +132,39 @@ const monolith: Generator = (count, rng) => {
   });
 };
 
-const helix: Generator = (count, rng) => {
-  const radius = 0.85;
-  const height = 3.6;
-  const turns = 2.25;
+export const BOOK_FACING_SPIN = 3.6;
+
+const book: Generator = (count, rng) => {
+  const width = 1.3;
+  const height = 2.1;
+  const restAngle = 0.32;
+  const page = (angle: number, curl: number, u: number, v: number) => {
+    const a = angle + curl * u * u;
+    const lift = Math.sin(u * Math.PI) * 0.08;
+    return [Math.cos(a) * u * width, (v - 0.5) * height, Math.sin(a) * u * width + lift];
+  };
   return fill(count, () => {
-    const t = rng();
-    const y = (t - 0.5) * height;
-    const angle = t * turns * TAU;
-    if (rng() < 0.72) {
-      const strand = rng() < 0.5 ? 0 : Math.PI;
-      const jitter = 0.05;
-      return [
-        Math.cos(angle + strand) * radius + gaussian(rng) * jitter,
-        y + gaussian(rng) * jitter,
-        Math.sin(angle + strand) * radius + gaussian(rng) * jitter,
-      ];
+    const roll = rng();
+    let p: number[];
+    if (roll < 0.62) {
+      const side = rng() < 0.5 ? 1 : -1;
+      const depth = Math.floor(rng() * 14) * 0.011;
+      const base = side > 0 ? restAngle + depth : Math.PI - restAngle - depth;
+      const u = rng() < 0.18 ? 1 : rng();
+      const v = rng() < 0.12 ? (rng() < 0.5 ? 0 : 1) : rng();
+      p = page(base, 0, u, v);
+    } else if (roll < 0.94) {
+      const sheet = Math.floor(rng() * 6);
+      const angle = 0.62 + sheet * 0.36;
+      const curl = sheet < 3 ? 0.42 : -0.42;
+      p = page(angle, curl, rng(), rng());
+    } else {
+      const v = rng();
+      p = [gaussian(rng) * 0.015, (v - 0.5) * height, -0.04 + gaussian(rng) * 0.015];
     }
-    const rung = Math.round(t * 28) / 28;
-    const ry = (rung - 0.5) * height;
-    const ra = rung * turns * TAU;
-    const s = rng() * 2 - 1;
-    return [Math.cos(ra) * radius * s, ry + gaussian(rng) * 0.015, Math.sin(ra) * radius * s];
+    p = rotateX(p, -0.38);
+    p = rotateZ(p, 0.06);
+    return rotateY(p, -BOOK_FACING_SPIN);
   });
 };
 
@@ -221,6 +238,6 @@ const halo: Generator = (count, rng) =>
     return rotateZ(p, 0.18);
   });
 
-export const SHAPES = { dust, shell, monolith, helix, orbit, tidal, knot, halo } as const;
+export const SHAPES = { dust, shell, monolith, orbit, book, tidal, knot, halo } as const;
 export const SHAPE_ORDER = Object.keys(SHAPES) as Array<keyof typeof SHAPES>;
 export type ShapeName = keyof typeof SHAPES;
