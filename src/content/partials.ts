@@ -1,7 +1,3 @@
-/**
- * Pure string renderers for repeated markup. Used at build time by the
- * `html-content` Vite plugin so the shipped HTML is complete and crawlable.
- */
 import { marquee, processSteps, projects, services, site, stats } from './site';
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -35,7 +31,7 @@ const marqueeMarkup = () => {
   const items = marquee
     .map((key) => `${t(key, 'span', 'class="marquee__item"')}<span class="marquee__sep"></span>`)
     .join('');
-  // Two identical groups make the loop seamless.
+
   return `<div class="marquee__group">${items}</div><div class="marquee__group">${items}</div>`;
 };
 
@@ -95,7 +91,6 @@ export const partials: Record<string, () => string> = {
   socials: socialsMarkup,
 };
 
-/** Values available to `{{token}}` placeholders in index.html. */
 export const tokens: Record<string, string> = {
   'site.name': site.name,
   'site.email': site.email,

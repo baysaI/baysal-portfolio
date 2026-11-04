@@ -17,7 +17,6 @@ const stored = (): Lang | null => {
   }
 };
 
-/** Preference order: ?lang= → saved choice → browser language → English. */
 export function detectLang(): Lang {
   const param = new URLSearchParams(location.search).get('lang');
   if (isLang(param)) return param;
@@ -32,7 +31,6 @@ export function onLangChange(fn: (lang: Lang) => void) {
   return () => listeners.delete(fn);
 }
 
-/** Swap every translatable node in place. Split elements are re-split. */
 export function applyLang(lang: Lang) {
   current = lang;
   const strings = dict[lang] as Record<string, string>;
@@ -63,13 +61,10 @@ export function applyLang(lang: Lang) {
 
   try {
     localStorage.setItem(STORAGE_KEY, lang);
-  } catch {
-    /* private mode — preference simply isn't remembered */
-  }
+  } catch {}
   listeners.forEach((fn) => fn(lang));
 }
 
-/** Wire the EN / TR toggle. Content cross-fades while copy is swapped. */
 export function initLangSwitch() {
   const root = document.documentElement;
   document.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((btn) => {

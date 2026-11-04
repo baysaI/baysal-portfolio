@@ -4,18 +4,13 @@ import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Smooth scroll (Lenis) wired into GSAP's ticker so ScrollTrigger, DOM tweens
- * and WebGL all advance on the same frame. Exposes a smoothed velocity that
- * the 3D scene and lens effects feed on.
- */
 export const scrollState = {
   lenis: null as Lenis | null,
-  /** Raw Lenis velocity (px / frame). */
+
   velocity: 0,
-  /** Smoothed, normalised velocity in roughly [-1, 1]. */
+
   energy: 0,
-  /** 0 → 1 across the whole document. */
+
   progress: 0,
   direction: 1 as 1 | -1,
 };
@@ -43,7 +38,6 @@ export function initScroll({ smooth }: { smooth: boolean }) {
   });
   gsap.ticker.lagSmoothing(0);
 
-  // In-page anchors glide instead of jumping.
   document.addEventListener('click', (event) => {
     const link = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
     if (!link) return;

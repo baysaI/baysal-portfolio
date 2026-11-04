@@ -1,6 +1,5 @@
 import { gsap, ScrollTrigger } from '../core/scroll';
 
-/** Pinned horizontal scroll through the process cards. */
 export function initProcess() {
   const section = document.querySelector<HTMLElement>('.process');
   const track = section?.querySelector<HTMLElement>('[data-process-track]');

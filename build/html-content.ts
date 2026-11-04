@@ -13,13 +13,6 @@ const lookup = (key: string, where: string) => {
 const escapeAttr = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-/**
- * Bakes content into index.html:
- *  1. `<!-- @name -->`    → repeated markup from src/content/partials.ts
- *  2. `{{token}}`          → site tokens (name, email, year…)
- *  3. `data-i18n="key"`    → English copy injected as inner HTML
- *  4. `data-i18n-attr="attr:key,…"` → English copy injected into attributes
- */
 export function htmlContent(): Plugin {
   return {
     name: 'html-content',

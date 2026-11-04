@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Layout primitives
-   ========================================================================== */
-
 .container {
   width: 100%;
   max-width: 1920px;
@@ -9,7 +5,6 @@
   padding-inline: var(--gutter);
 }
 
-/* Fixed full-viewport WebGL stage, rendered behind the document. */
 .webgl {
   position: fixed;
   inset: 0;
@@ -55,7 +50,6 @@ section {
   transform: none;
 }
 
-/* Lenis */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -72,10 +66,6 @@ html.lenis body {
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
-
-/* ==========================================================================
-   Without WebGL: a CSS-only chrome orb keeps the hero composed
-   ========================================================================== */
 
 .no-webgl .webgl {
   display: none;
@@ -104,10 +94,6 @@ html.lenis body {
     0 0 8rem rgb(255 90 31 / 0.12);
 }
 
-/* ==========================================================================
-   Reduced motion: keep state changes, drop the travel
-   ========================================================================== */
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -117,10 +103,6 @@ html.lenis body {
     transition-duration: 0.01ms !important;
   }
 }
-
-/* ==========================================================================
-   Scroll progress — hairline on the right edge
-   ========================================================================== */
 
 .progress {
   position: fixed;
@@ -153,10 +135,6 @@ html.lenis body {
     display: none;
   }
 }
-
-/* ==========================================================================
-   Without JavaScript: pinned / horizontal layouts fall back to normal flow
-   ========================================================================== */
 
 .no-js .work__pin,
 .no-js .process__pin {

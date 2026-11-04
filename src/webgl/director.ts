@@ -6,9 +6,7 @@ import { WORK_HOLD } from '../ui/work';
 import type { Frame } from './stage';
 import type { World } from './world';
 
-/** Every value the scroll choreography can animate. */
 export interface SceneState {
-  // Sculpture
   sx: number;
   sy: number;
   sz: number;
@@ -20,7 +18,7 @@ export interface SceneState {
   sRidge: number;
   sFlow: number;
   sRim: number;
-  // Particles
+
   pMorph: number;
   px: number;
   py: number;
@@ -30,7 +28,7 @@ export interface SceneState {
   pTilt: number;
   pOpacity: number;
   pSize: number;
-  // Camera
+
   camZ: number;
   camY: number;
 }
@@ -71,7 +69,6 @@ const BASE: SceneState = {
 const KEYS = Object.keys(BASE) as Array<keyof SceneState>;
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-/** A ScrollTrigger used purely as a live pixel anchor (re-measured on refresh). */
 const mark = (trigger: string, start: string) => {
   const el = document.querySelector(trigger);
   if (!el) return () => 0;
@@ -79,17 +76,11 @@ const mark = (trigger: string, start: string) => {
   return () => st.start;
 };
 
-/**
- * The scroll director maps document scroll to a full 3D scene state.
- * Keyframes are anchored to live ScrollTrigger positions (so pin spacing and
- * resizes are always respected), interpolated with easing, then damped
- * per-frame for a weighty, cinematic follow.
- */
 export class Director {
   private keys: ResolvedKeyframe[] = [];
   private readonly target: SceneState = { ...BASE };
   private readonly current: SceneState = { ...BASE };
-  /** 0 → 1 entrance multiplier, tweened by the intro. */
+
   intro = 0;
 
   private readonly raycaster = new THREE.Raycaster();
@@ -97,18 +88,17 @@ export class Director {
   private readonly sphere = new THREE.Sphere();
   private readonly hit = new THREE.Vector3();
   private readonly touchDir = new THREE.Vector3(0, 0, 1);
-  /** 1 normally, 0 under prefers-reduced-motion. */
+
   private readonly calm: number;
 
   constructor(
     private readonly world: World,
     private readonly anchors: DirectorAnchors,
   ) {
-    // Reduced motion: slower flow, no mid-morph burst, no velocity effects.
     this.calm = device.reducedMotion ? 0 : 1;
     if (!this.calm) world.particles.uniforms.uScatter.value = 0;
     this.build();
-    // Rebuild after every refresh: anchors and DOM measurements are final by then.
+
     ScrollTrigger.addEventListener('refresh', () => this.build());
     world.stage.onUpdate((frame) => this.update(frame));
   }
@@ -139,7 +129,6 @@ export class Director {
       camZ: 9,
     };
 
-    // On phones the manifesto fills the screen: tuck the sculpture low and small.
     const aboutX = mobile ? 0.45 : right;
     const aboutY = mobile ? -1.55 : lift;
     const about: Partial<SceneState> = {
@@ -221,9 +210,6 @@ export class Director {
       state: { ...knot, py: 1.2, pSpin: 9.4, pOpacity: 0.3 },
     });
 
-    // Finale: the sculpture re-forms in the free space above the contact copy
-    // as the page reaches its end. Size and height are measured from the DOM so
-    // it never sits behind text, whatever the viewport.
     const endCamZ = 8.6;
     const pxPerUnit = window.innerHeight / (2 * Math.tan((35 / 2) * (Math.PI / 180)) * endCamZ);
     const contactInner = document.querySelector('.contact__inner');
@@ -265,7 +251,6 @@ export class Director {
     });
     keys.push({ at: () => ScrollTrigger.maxScroll(window), state: { ...finale, pSpin: 11.4 } });
 
-    // Resolve partial states into full ones (each key inherits from the previous).
     let carry: SceneState = { ...BASE };
     this.keys = keys.map((k) => {
       carry = { ...carry, ...k.state };
@@ -285,7 +270,6 @@ export class Director {
     for (const k of KEYS) target[k] = a.state[k] + (b.state[k] - a.state[k]) * t;
   }
 
-  /** Raycast the pointer against the sculpture's bounding sphere to drive the swell. */
   private updateTouch(scale: number, delta: number) {
     const { sculpture, stage } = this.world;
     const u = sculpture.uniforms;
@@ -318,7 +302,6 @@ export class Director {
     const energy = Math.abs(scrollState.energy) * this.calm;
     const { sculpture, particles, stage, post } = this.world;
 
-    // Sculpture
     const scale = Math.max(c.sScale * this.intro, 0.0001);
     sculpture.group.visible = scale > 0.01;
     sculpture.group.position.set(c.sx + pointer.sx * 0.12, c.sy + pointer.sy * 0.08, c.sz);
@@ -334,7 +317,6 @@ export class Director {
     su.uRim.value = c.sRim;
     this.updateTouch(scale, delta);
 
-    // Particles
     particles.points.position.set(c.px + pointer.sx * 0.06, c.py + pointer.sy * 0.04, c.pz);
     particles.points.scale.setScalar(c.pScale);
     particles.points.rotation.y = time * 0.04 + c.pSpin + pointer.sx * 0.18;
@@ -345,7 +327,6 @@ export class Director {
     pu.uSize.value = c.pSize;
     pu.uTurbulence.value = energy * 0.3;
 
-    // Camera + lens
     stage.camera.position.z = c.camZ;
     stage.camera.position.y = c.camY;
     post.uniforms.uAberration.value = 0.003 + energy * 0.025;

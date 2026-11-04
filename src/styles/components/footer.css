@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Footer + mobile menu + fallback note
-   ========================================================================== */
-
 .footer {
   border-top: 1px solid var(--line);
   font-size: var(--fs-small);
@@ -33,7 +29,6 @@
   color: var(--bone);
 }
 
-/* Mobile menu */
 .menu {
   position: fixed;
   inset: 0;
@@ -68,7 +63,6 @@
   color: var(--fg-muted);
 }
 
-/* Shown when WebGL is unavailable */
 .fallback-note {
   position: fixed;
   left: 50%;

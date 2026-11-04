@@ -1,6 +1,3 @@
-// Simplex 3D noise — Ian McEwan, Stefan Gustavson (Ashima Arts). MIT License.
-// https://github.com/ashima/webgl-noise
-
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 permute(vec4 x) { return mod289(((x * 34.0) + 10.0) * x); }

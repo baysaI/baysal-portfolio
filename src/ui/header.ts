@@ -1,13 +1,6 @@
 import { gsap, ScrollTrigger, scrollState } from '../core/scroll';
 import { onLangChange, t } from './i18n';
 
-/**
- * Header behaviour:
- *  - hides while scrolling down, returns on scroll up
- *  - flips to ink over light (`data-opaque`) sections — the cursor follows
- *  - marks the nav link of the section in view
- *  - drives the mobile menu overlay
- */
 export function initHeader(cursor?: HTMLElement | null) {
   const header = document.querySelector<HTMLElement>('[data-header]');
   if (!header) return;

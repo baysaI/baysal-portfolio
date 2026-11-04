@@ -1,6 +1,5 @@
 import { gsap, ScrollTrigger } from '../core/scroll';
 
-/** Numbers count up from zero the first time they scroll into view. */
 export function initStats({ reduced }: { reduced: boolean }) {
   if (reduced) return;
   document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {

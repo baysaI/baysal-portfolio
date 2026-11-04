@@ -1,13 +1,3 @@
-/**
- * Lightweight word splitter that preserves inline markup (<em>, <strong>, <br>).
- *
- *  - `data-split`  → words wrapped in an overflow mask, for slide-up reveals
- *  - `data-words`  → bare word spans, for opacity scrubs
- *
- * Splitting is idempotent: it always restarts from the element's current
- * source HTML (stored before the first split, refreshed on language change).
- */
-
 const SOURCE = new WeakMap<HTMLElement, string>();
 
 const wrapWord = (text: string, masked: boolean) => {
@@ -53,7 +43,6 @@ export function split(el: HTMLElement, masked = el.hasAttribute('data-split')) {
   return Array.from(el.querySelectorAll<HTMLElement>('.w'));
 }
 
-/** Forget the cached source (call after the element's content is replaced). */
 export function resetSource(el: HTMLElement, html: string) {
   SOURCE.set(el, html);
 }

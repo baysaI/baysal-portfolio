@@ -1,7 +1,3 @@
-/* ==========================================================================
-   Header — fixed, hides on scroll down, inverts over light sections
-   ========================================================================== */
-
 .header {
   position: fixed;
   inset: 0 0 auto;

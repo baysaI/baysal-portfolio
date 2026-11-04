@@ -1,10 +1,5 @@
 import { gsap } from '../core/scroll';
 
-/**
- * Preloader: counts towards 100 while fonts load and shaders compile, then
- * wipes upward to reveal the page. Resolves the moment the wipe starts so the
- * intro choreography can overlap it.
- */
 export async function runLoader(ready: Promise<unknown>, { fast = false } = {}) {
   const root = document.querySelector<HTMLElement>('[data-loader]');
   const count = root?.querySelector<HTMLElement>('[data-loader-count]');
@@ -21,7 +16,6 @@ export async function runLoader(ready: Promise<unknown>, { fast = false } = {}) 
   const brand = root.querySelector('.loader__brand');
   if (brand) gsap.from(brand, { yPercent: 100, opacity: 0, duration: 1.1, ease: 'expo.out' });
 
-  // Fake-but-honest: race to 80% on a timer, finish only when work is done.
   const minTime = fast ? 0.2 : 1.4;
   await gsap.to(progress, { value: 80, duration: minTime, ease: 'power2.out', onUpdate: render });
   await ready;

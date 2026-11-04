@@ -1,26 +1,20 @@
 import * as THREE from 'three';
 
-/**
- * A procedural "photo studio" baked into a PMREM environment map.
- * Emissive panels act as softboxes; the chrome sculpture reflects them,
- * which is what sells the liquid-metal look — no HDR download required.
- */
 export function createStudioEnvironment(renderer: THREE.WebGLRenderer) {
   const env = new THREE.Scene();
 
-  // Dark, slightly warm cyclorama.
   const room = new THREE.Mesh(
     new THREE.SphereGeometry(20, 48, 24),
     new THREE.ShaderMaterial({
       side: THREE.BackSide,
       depthWrite: false,
-      vertexShader: /* glsl */ `
+      vertexShader: `
         varying vec3 vDir;
         void main() {
           vDir = normalize(position);
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }`,
-      fragmentShader: /* glsl */ `
+      fragmentShader: `
         varying vec3 vDir;
         void main() {
           float h = vDir.y * 0.5 + 0.5;
@@ -48,18 +42,17 @@ export function createStudioEnvironment(renderer: THREE.WebGLRenderer) {
     return mesh;
   };
 
-  // Key: large warm softbox overhead, slightly in front.
   panel(12, 5, 0xfff4ea, 3.4, [0, 9, 4]);
-  // Twin vertical strip lights — crisp white lines across the chrome.
+
   panel(0.7, 12, 0xffffff, 4.5, [-5.5, 1, 6]);
   panel(0.7, 12, 0xffffff, 3.2, [6, 1, 5]);
-  // Ember strip — the single signature accent, raking from the left-back.
+
   panel(0.9, 12, 0xff5a1f, 4.2, [-8, 0, -2]);
-  // Neutral rim from behind for silhouette separation.
+
   panel(10, 1, 0xf2ece4, 1.8, [0, 2, -9]);
-  // Low frontal fill so faces towards the camera never collapse to black.
+
   panel(8, 2.5, 0x8f8a83, 0.5, [0, -3, 10]);
-  // Floor bounce — gives the underside a soft horizon reflection.
+
   panel(14, 14, 0xd9d4cc, 0.09, [0, -9, 0]);
 
   const pmrem = new THREE.PMREMGenerator(renderer);

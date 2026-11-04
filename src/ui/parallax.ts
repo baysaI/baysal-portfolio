@@ -1,10 +1,5 @@
 import { gsap } from '../core/scroll';
 
-/**
- * Scroll-linked depth for the DOM layer, so type and 3D move as one scene:
- *  - hero headline lines drift apart and dissolve as you leave the hero
- *  - section titles glide slightly slower than the page
- */
 export function initParallax({ reduced }: { reduced: boolean }) {
   if (reduced) return;
 

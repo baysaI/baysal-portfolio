@@ -8,11 +8,6 @@ const LABELS: Record<string, DictKey> = {
   mail: 'cursor.mail',
 };
 
-/**
- * Two-part cursor: a precise dot and a lagging ring. The ring grows over
- * interactive elements and turns into a labelled ember disc over
- * `[data-cursor]` targets.
- */
 export function initCursor() {
   const root = document.querySelector<HTMLElement>('[data-cursor]');
   if (!root) return;
@@ -20,7 +15,7 @@ export function initCursor() {
   const ring = root.querySelector<HTMLElement>('.cursor__ring')!;
   const label = root.querySelector<HTMLElement>('[data-cursor-label]')!;
   document.documentElement.classList.add('has-cursor');
-  // Stay invisible until the first real pointer movement.
+
   if (!pointer.active) {
     root.classList.add('is-hidden');
     window.addEventListener('pointermove', () => root.classList.remove('is-hidden'), {

@@ -1,9 +1,3 @@
-/**
- * Point-cloud generators. Every shape returns exactly `count` xyz triplets so
- * the particle system can morph between any two of them on the GPU.
- * A seeded RNG keeps the formations identical on every visit.
- */
-
 type Rng = () => number;
 type Generator = (count: number, rng: Rng) => Float32Array;
 
@@ -56,7 +50,6 @@ const fill = (count: number, fn: (i: number) => ArrayLike<number>) => {
   return out;
 };
 
-/** 0 — Wide ambient dust cloud around the hero. */
 const dust: Generator = (count, rng) =>
   fill(count, () => {
     const [x, y, z] = unitVector(rng);
@@ -64,7 +57,6 @@ const dust: Generator = (count, rng) =>
     return [x * r, y * r * 0.7, z * r];
   });
 
-/** 1 — Fibonacci shell that wraps the sculpture like a membrane. */
 const shell: Generator = (count, rng) => {
   const golden = Math.PI * (3 - Math.sqrt(5));
   return fill(count, (i) => {
@@ -76,7 +68,6 @@ const shell: Generator = (count, rng) => {
   });
 };
 
-/** 2 — Monolith: a tall slab with crisp, edge-weighted silhouette. */
 const monolith: Generator = (count, rng) => {
   const w = 1.25;
   const h = 2.7;
@@ -129,13 +120,12 @@ const monolith: Generator = (count, rng) => {
     let pick = rng() * total;
     const face = faces.find((f) => (pick -= f.area) <= 0) ?? faces[0];
     const p = face.at(rng(), rng(), rng() < 0.5 ? -1 : 1);
-    // Horizontal grooves etched into the front face.
+
     const groove = Math.abs(Math.sin(p[1] * 9)) < 0.08 ? 0.02 : 0;
     return [p[0], p[1], p[2] + Math.sign(p[2]) * groove];
   });
 };
 
-/** 3 — Double helix with base-pair rungs. */
 const helix: Generator = (count, rng) => {
   const radius = 0.85;
   const height = 3.6;
@@ -161,7 +151,6 @@ const helix: Generator = (count, rng) => {
   });
 };
 
-/** 4 — Orbit: a gyroscope of tilted rings around a dense core. */
 const orbit: Generator = (count, rng) => {
   const rings = [
     { r: 1.15, tiltX: 1.2, tiltZ: 0.2 },
@@ -187,7 +176,6 @@ const orbit: Generator = (count, rng) => {
   });
 };
 
-/** 5 — Tidal: an undulating wave field seen at an angle. */
 const tidal: Generator = (count, rng) => {
   const cols = Math.ceil(Math.sqrt(count * 1.6));
   const rows = Math.ceil(count / cols);
@@ -203,7 +191,6 @@ const tidal: Generator = (count, rng) => {
   });
 };
 
-/** 6 — (2,3) torus knot with a volumetric tube. */
 const knot: Generator = (count, rng) => {
   const p = 2;
   const q = 3;
@@ -219,7 +206,6 @@ const knot: Generator = (count, rng) => {
   });
 };
 
-/** 7 — Halo: a planetary ring system around the returning sculpture. */
 const halo: Generator = (count, rng) =>
   fill(count, () => {
     if (rng() < 0.1) {
@@ -235,7 +221,6 @@ const halo: Generator = (count, rng) =>
     return rotateZ(p, 0.18);
   });
 
-/** Order matters: the scroll director morphs through these indices in sequence. */
 export const SHAPES = { dust, shell, monolith, helix, orbit, tidal, knot, halo } as const;
 export const SHAPE_ORDER = Object.keys(SHAPES) as Array<keyof typeof SHAPES>;
 export type ShapeName = keyof typeof SHAPES;

@@ -69,4 +69,4 @@ build/html-content.ts Vite eklentisi: metinleri ve tekrarlanan blokları HTML'e 
 
 ## Lisans
 
-Kod: MIT. Simplex noise: Ashima Arts (MIT). Fontlar: SIL Open Font License.
+Kod: MIT. Simplex noise: Ashima Arts (MIT, bkz. `THIRD_PARTY_NOTICES.md`). Fontlar: SIL Open Font License.

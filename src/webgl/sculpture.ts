@@ -6,11 +6,6 @@ import noise from './glsl/noise.glsl?raw';
 
 const DETAIL: Record<Tier, number> = { high: 96, medium: 64, low: 40 };
 
-/**
- * The hero object: a liquid-chrome sphere deformed on the GPU by layered
- * simplex noise. Normals are rebuilt per-vertex from neighbouring samples, so
- * reflections stay crisp while the surface flows.
- */
 export class Sculpture {
   readonly group = new THREE.Group();
   readonly mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhysicalMaterial>;
@@ -24,12 +19,11 @@ export class Sculpture {
     uRidge: { value: 0 },
     uRim: { value: 0.06 },
     uRimColor: { value: new THREE.Color(0xff5a1f) },
-    /** Pointer hit direction in object space (unit vector). */
+
     uPointer: { value: new THREE.Vector3(0, 0, 1) },
     uPointerStrength: { value: 0 },
   };
 
-  /** Shader time advances at a variable rate so scroll can speed the flow up. */
   private flowTime = 0;
 
   constructor(tier: Tier) {
@@ -54,7 +48,7 @@ export class Sculpture {
       shader.vertexShader = shader.vertexShader
         .replace(
           '#include <common>',
-          /* glsl */ `#include <common>
+          `#include <common>
           uniform float uTime;
           uniform float uAmp;
           uniform float uFreq;
@@ -79,7 +73,6 @@ export class Sculpture {
             return (n1 * 0.75 + detail) * uAmp;
           }
 
-          // Soft swell under the cursor, with a faint ripple ring.
           float touch(vec3 b) {
             float d = distance(b, uPointer);
             float swell = smoothstep(0.95, 0.0, d);
@@ -94,7 +87,7 @@ export class Sculpture {
         )
         .replace(
           '#include <beginnormal_vertex>',
-          /* glsl */ `
+          `
           vec3 baseDir = normalize(position);
           vec3 helper = abs(baseDir.y) > 0.99 ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0);
           vec3 tangentDir = normalize(cross(baseDir, helper));
@@ -114,13 +107,13 @@ export class Sculpture {
       shader.fragmentShader = shader.fragmentShader
         .replace(
           '#include <common>',
-          /* glsl */ `#include <common>
+          `#include <common>
           uniform float uRim;
           uniform vec3 uRimColor;`,
         )
         .replace(
           '#include <opaque_fragment>',
-          /* glsl */ `
+          `
           float facing = abs(dot(normalize(normal), normalize(vViewPosition)));
           outgoingLight += uRimColor * pow(1.0 - facing, 3.0) * uRim;
           #include <opaque_fragment>`,

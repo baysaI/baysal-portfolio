@@ -1,11 +1,6 @@
 import { gsap, ScrollTrigger } from '../core/scroll';
 import { words } from './split';
 
-/**
- * Fraction of each project's scroll segment during which its 3D formation
- * holds still; the remainder morphs into the next one. Shared with the
- * director so copy and particles change hands at the same moment.
- */
 export const WORK_HOLD = 0.55;
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -15,7 +10,6 @@ export interface WorkStage {
   count: number;
 }
 
-/** Pinned "Selected work" stage: one viewport of scroll per project. */
 export function initWork({ reduced }: { reduced: boolean }): WorkStage | null {
   const section = document.querySelector<HTMLElement>('.work');
   if (!section) return null;

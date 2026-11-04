@@ -1,9 +1,5 @@
 import { gsap, ScrollTrigger, scrollState } from '../core/scroll';
 
-/**
- * Infinite marquee whose speed, direction and skew respond to scroll velocity.
- * Only ticks while on screen.
- */
 export function initMarquee({ reduced }: { reduced: boolean }) {
   const section = document.querySelector<HTMLElement>('[data-marquee]');
   const track = section?.querySelector<HTMLElement>('[data-marquee-track]');

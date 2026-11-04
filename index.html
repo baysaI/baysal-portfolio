@@ -13,7 +13,6 @@
     <link rel="apple-touch-icon" href="./favicon.svg" />
     <link rel="manifest" href="./site.webmanifest" />
 
-    <!-- Open Graph / social -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="{{site.name}}" />
     <meta property="og:url" content="{{site.url}}" />
@@ -45,7 +44,6 @@
   <body>
     <a class="skip-link" href="#main" data-i18n="skip"></a>
 
-    <!-- Preloader -->
     <div class="loader" data-loader aria-hidden="true">
       <div class="loader__top">
         <span class="label" data-i18n="loader.label"></span>
@@ -58,19 +56,15 @@
       </div>
     </div>
 
-    <!-- Fixed WebGL stage -->
     <canvas class="webgl" data-webgl aria-hidden="true"></canvas>
 
-    <!-- Custom cursor -->
     <div class="cursor" data-cursor aria-hidden="true">
       <span class="cursor__ring"><span class="cursor__label" data-cursor-label></span></span>
       <span class="cursor__dot"></span>
     </div>
 
-    <!-- Scroll progress -->
     <div class="progress" aria-hidden="true"><span data-progress></span></div>
 
-    <!-- Header -->
     <header class="header" data-header>
       <a class="header__logo" href="#top" aria-label="{{site.name}}">{{site.name}}</a>
       <nav class="header__nav" aria-label="Primary">
@@ -101,7 +95,6 @@
       </div>
     </header>
 
-    <!-- Mobile menu -->
     <div class="menu" id="menu" data-menu hidden>
       <nav aria-label="Mobile">
         <ul class="menu__list">
@@ -115,7 +108,6 @@
     </div>
 
     <main id="main">
-      <!-- Hero -->
       <section class="hero" id="top" data-section="hero">
         <div class="hero__top">
           <p class="label" data-i18n="hero.eyebrow"></p>
@@ -134,7 +126,6 @@
         </div>
       </section>
 
-      <!-- About / manifesto -->
       <section class="about" id="about" data-section="about">
         <div class="container about__grid">
           <p class="label about__label" data-i18n="about.label"></p>
@@ -149,7 +140,6 @@
         </div>
       </section>
 
-      <!-- Selected work (pinned, drives particle morphs) -->
       <section class="work" id="work" data-section="work">
         <div class="work__pin" data-work-pin>
           <div class="work__head container">
@@ -168,14 +158,12 @@
         </div>
       </section>
 
-      <!-- Marquee -->
       <section class="marquee" aria-hidden="true" data-marquee>
         <div class="marquee__track" data-marquee-track>
           <!-- @marquee -->
         </div>
       </section>
 
-      <!-- Services -->
       <section class="services" id="services" data-section="services" data-opaque>
         <div class="container">
           <div class="services__head">
@@ -188,7 +176,6 @@
         </div>
       </section>
 
-      <!-- Process (horizontal) -->
       <section class="process" id="process" data-section="process">
         <div class="process__pin" data-process-pin>
           <div class="process__head container">
@@ -201,14 +188,12 @@
         </div>
       </section>
 
-      <!-- Stats -->
       <section class="stats" data-section="stats">
         <ul class="stats__list container">
           <!-- @stats -->
         </ul>
       </section>
 
-      <!-- Contact -->
       <section class="contact" id="contact" data-section="contact">
         <div class="container contact__inner">
           <p class="label" data-i18n="contact.label"></p>

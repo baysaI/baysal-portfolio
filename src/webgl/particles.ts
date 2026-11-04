@@ -9,7 +9,7 @@ const LAST = SHAPE_ORDER.length - 1;
 
 const shapeAttribute = (i: number) => (i === 0 ? 'position' : `aShape${i}`);
 
-const vertexShader = /* glsl */ `
+const vertexShader = `
   ${SHAPE_ORDER.slice(1)
     .map((_, i) => `attribute vec3 aShape${i + 1};`)
     .join('\n')}
@@ -38,12 +38,10 @@ const vertexShader = /* glsl */ `
     float f = m - base;
     int i0 = int(base);
 
-    // Each particle departs at its own moment → organic, staggered morphs.
     float delay = aRand.x * 0.45;
     float k = smoothstep(delay, delay + 0.55, f);
     vec3 p = mix(shapeAt(i0), shapeAt(i0 + 1), k);
 
-    // Mid-flight the swarm bursts outward along a noise field.
     float transit = sin(k * 3.14159265);
     vec3 burst = vec3(
       snoise(p * 0.8 + aRand.y * 5.0),
@@ -52,7 +50,6 @@ const vertexShader = /* glsl */ `
     );
     p += burst * transit * 0.55 * uScatter;
 
-    // Idle drift, amplified by scroll velocity.
     float t = uTime * 0.22;
     vec3 drift = vec3(
       snoise(p * 0.55 + vec3(t, 0.0, aRand.w * 10.0)),
@@ -73,7 +70,7 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-const fragmentShader = /* glsl */ `
+const fragmentShader = `
   uniform vec3 uColorA;
   uniform vec3 uColorB;
   uniform float uOpacity;
@@ -92,11 +89,6 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-/**
- * A GPU particle swarm that morphs between every formation in `shapes.ts`.
- * `uMorph` is a continuous float — 2.5 means halfway between shape 2 and 3 —
- * so the scroll position can scrub the morph directly.
- */
 export class Particles {
   readonly points: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial>;
   readonly count: number;
@@ -126,7 +118,7 @@ export class Particles {
     const rand = new Float32Array(this.count * 4);
     for (let i = 0; i < rand.length; i++) rand[i] = rng();
     geometry.setAttribute('aRand', new THREE.BufferAttribute(rand, 4));
-    // Morphs can travel far from the initial shape — never cull the swarm.
+
     geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 50);
 
     const material = new THREE.ShaderMaterial({

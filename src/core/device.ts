@@ -1,8 +1,3 @@
-/**
- * Capability detection. Decides how much GPU work the experience asks for,
- * so the same site feels premium on a workstation and stays smooth on a phone.
- */
-
 export type Tier = 'high' | 'medium' | 'low';
 
 const mq = (q: string) => typeof matchMedia === 'function' && matchMedia(q).matches;

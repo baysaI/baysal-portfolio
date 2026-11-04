@@ -26,10 +26,6 @@ export function revealWords(el: Element, delay = 0) {
   });
 }
 
-/**
- * Scroll-triggered reveals: masked words slide up, supporting blocks fade up.
- * Intro elements (`[data-intro]`, the hero) are played by `playIntro` instead.
- */
 export function initReveals({ reduced }: { reduced: boolean }) {
   const splitEls = Array.from(document.querySelectorAll<HTMLElement>(SPLIT));
 
@@ -58,7 +54,6 @@ export function initReveals({ reduced }: { reduced: boolean }) {
     });
   }
 
-  // New words after a language swap: keep revealed ones visible, re-hide the rest.
   onLangChange(() => {
     splitEls.forEach((el) => {
       if (!revealed.has(el) && !reduced) hide(el);
@@ -66,14 +61,12 @@ export function initReveals({ reduced }: { reduced: boolean }) {
   });
 }
 
-/** Hero entrance, played as the preloader lifts. */
 export function playIntro({ reduced }: { reduced: boolean }) {
   const hero = document.querySelector('.hero');
   if (!hero) return;
   const lines = hero.querySelectorAll('[data-split]');
   const fades = hero.querySelectorAll('.hero__top > *, .hero__intro, .hero__scroll');
-  // Animate the header's children: the header itself owns a CSS transform
-  // transition (hide on scroll) that would fight a JS tween.
+
   const headerParts = document.querySelectorAll('[data-header] > *');
 
   if (reduced) {

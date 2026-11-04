@@ -1,6 +1,5 @@
 import { site } from '../content/site';
 
-/** Live local time in the studio's time zone (footer). */
 export function initClock() {
   const el = document.querySelector<HTMLTimeElement>('[data-clock]');
   if (!el) return;

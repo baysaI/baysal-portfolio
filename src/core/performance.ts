@@ -1,10 +1,5 @@
 import { ScrollTrigger } from './scroll';
 
-/**
- * Decides when the WebGL stage may skip work:
- *  - while an opaque section (e.g. the light services block) fully covers the viewport
- *  - while the tab is hidden
- */
 export function createRenderGate() {
   let covering = 0;
 
@@ -26,10 +21,6 @@ export function createRenderGate() {
   };
 }
 
-/**
- * Adaptive resolution: if frames stay slow for a while, step the pixel ratio
- * down (never below 1). Keeps motion smooth on weaker GPUs and laptops on battery.
- */
 export function createDprGovernor(apply: (dpr: number) => void, initial: number) {
   let dpr = initial;
   let acc = 0;

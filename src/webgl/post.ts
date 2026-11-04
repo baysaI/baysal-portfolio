@@ -6,7 +6,6 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import type { Stage } from './stage';
 
-/** Lens pass: radial chromatic aberration, vignette and animated film grain. */
 const LensShader = {
   uniforms: {
     tDiffuse: { value: null as THREE.Texture | null },
@@ -15,16 +14,16 @@ const LensShader = {
     uVignette: { value: 0.55 },
     uGrain: { value: 0.045 },
     uResolution: { value: new THREE.Vector2(1, 1) },
-    // sRGB ink (#0b0b0c) — the floor every pixel is lifted to.
+
     uLift: { value: new THREE.Vector3(11 / 255, 11 / 255, 12 / 255) },
   },
-  vertexShader: /* glsl */ `
+  vertexShader: `
     varying vec2 vUv;
     void main() {
       vUv = uv;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }`,
-  fragmentShader: /* glsl */ `
+  fragmentShader: `
     uniform sampler2D tDiffuse;
     uniform float uTime;
     uniform float uAberration;

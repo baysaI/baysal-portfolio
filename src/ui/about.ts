@@ -2,7 +2,6 @@ import { ScrollTrigger } from '../core/scroll';
 import { onLangChange } from './i18n';
 import { words } from './split';
 
-/** Manifesto: each word brightens in reading order as the paragraph scrolls past. */
 export function initAbout({ reduced }: { reduced: boolean }) {
   const el = document.querySelector<HTMLElement>('.about__text');
   if (!el) return;

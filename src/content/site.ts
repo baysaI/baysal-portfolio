@@ -1,9 +1,3 @@
-/**
- * Site-wide, language-independent configuration.
- * Edit this file to make the portfolio yours — name, contact, socials and project meta.
- * Translatable copy lives in `./i18n.ts`.
- */
-
 export const site = {
   name: 'Baysal',
   role: 'Creative Developer & 3D Designer',
@@ -20,7 +14,6 @@ export const site = {
 } as const;
 
 export interface ProjectMeta {
-  /** i18n key prefix, e.g. `work.p1` */
   key: string;
   year: string;
   tags: string[];
@@ -45,7 +38,6 @@ export const processSteps = ['process.s1', 'process.s2', 'process.s3', 'process.
 
 export const marquee = ['marquee.a', 'marquee.b', 'marquee.c', 'marquee.d'] as const;
 
-/** Replace these numbers with your own. `value` animates from 0 on scroll. */
 export const stats = [
   { key: 'stats.s1', value: 8, suffix: '+' },
   { key: 'stats.s2', value: 60, suffix: '+' },

@@ -1,9 +1,5 @@
 import { gsap } from '../core/scroll';
 
-/**
- * Magnetic hover: the element leans toward the pointer and its label leans a
- * little further, then springs home on leave.
- */
 export function initMagnetic(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
     const inner = el.querySelector<HTMLElement>(

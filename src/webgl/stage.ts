@@ -2,9 +2,8 @@ import * as THREE from 'three';
 import type { Tier } from '../core/device';
 
 export interface Frame {
-  /** Seconds since start. */
   time: number;
-  /** Seconds since last frame, clamped. */
+
   delta: number;
 }
 
@@ -12,11 +11,6 @@ type Updater = (frame: Frame) => void;
 
 const DPR_CAP: Record<Tier, number> = { high: 2, medium: 1.5, low: 1 };
 
-/**
- * Owns the renderer, scene and camera. Everything 3D registers an updater
- * here; the stage is ticked from the global GSAP ticker so scroll, DOM
- * animation and rendering share one clock.
- */
 export class Stage {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
@@ -41,8 +35,7 @@ export class Stage {
       powerPreference: 'high-performance',
       stencil: false,
     });
-    // Render on pure black; the lens pass lifts blacks to the page's ink colour
-    // after tone mapping, so canvas and DOM backgrounds match exactly.
+
     this.renderer.setClearColor(0x000000, 1);
     this.scene.background = new THREE.Color(0x000000);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -57,7 +50,6 @@ export class Stage {
     window.addEventListener('resize', () => this.resize());
   }
 
-  /** Register a per-frame callback. Returns an unsubscribe function. */
   onUpdate(fn: Updater) {
     this.updaters.add(fn);
     return () => this.updaters.delete(fn);
@@ -68,12 +60,10 @@ export class Stage {
     return () => this.resizers.delete(fn);
   }
 
-  /** Swap the default render call for e.g. a post-processing composer. */
   setRenderer(fn: () => void) {
     this.renderFn = fn;
   }
 
-  /** Lower the pixel ratio at runtime (adaptive quality). */
   setPixelRatio(dpr: number) {
     this.dprLimit = dpr;
     this.size.dpr = dpr;
@@ -85,7 +75,7 @@ export class Stage {
   resize(force = false) {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    // Ignore tiny height changes from mobile browser chrome collapsing — avoids jank.
+
     const heightJitter = Math.abs(height - this.lastHeight) < 120 && width === this.lastWidth;
     if (!force && heightJitter) return;
     this.lastWidth = width;

@@ -18,7 +18,6 @@ import { initStats } from './ui/stats';
 import { initWork } from './ui/work';
 import type { World } from './webgl/world';
 
-/** The 3D engine (three.js + shaders) is a separate chunk, fetched while the loader runs. */
 const loadWebgl = () => Promise.all([import('./webgl/world'), import('./webgl/director')]);
 type WebglModules = { Director: typeof import('./webgl/director').Director };
 
@@ -40,7 +39,6 @@ export async function boot() {
   root.classList.toggle('is-touch', device.isTouch);
   root.classList.toggle('is-reduced', reduced);
 
-  // Copy first, so every split and measurement sees the final text.
   const lang = detectLang();
   splitAll();
   if (lang !== 'en') applyLang(lang);
@@ -51,10 +49,8 @@ export async function boot() {
   lenis.stop();
   window.scrollTo(0, 0);
 
-  // Start fetching the 3D engine immediately; the interface boots meanwhile.
   const webglPending = createWorldSafely();
 
-  // Interface
   const cursor = device.isTouch ? null : initCursor();
   initHeader(cursor);
   initMagnetic();
@@ -75,7 +71,6 @@ export async function boot() {
   let director: InstanceType<WebglModules['Director']> | null = null;
   let world: World | null = null;
 
-  /** Resolves once the scene exists, is choreographed and its shaders are compiled. */
   const sceneReady = webglPending.then(async (webgl) => {
     if (!webgl) {
       root.classList.add('no-webgl');
@@ -85,7 +80,7 @@ export async function boot() {
     }
     world = webgl.world;
     const stage = world.stage;
-    // Created after the pins so every anchor sees pin spacing.
+
     director = new webgl.Director(world, { work, process });
     ScrollTrigger.refresh();
 

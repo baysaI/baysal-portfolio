@@ -5,7 +5,6 @@ import { Post } from './post';
 import { Sculpture } from './sculpture';
 import { Stage } from './stage';
 
-/** Assembles the 3D scene: stage, lighting environment and actors. */
 export function createWorld(canvas: HTMLCanvasElement) {
   const stage = new Stage(canvas, device.tier);
   stage.scene.environment = createStudioEnvironment(stage.renderer);
@@ -23,7 +22,6 @@ export function createWorld(canvas: HTMLCanvasElement) {
   const post = new Post(stage);
   stage.onUpdate(({ time }) => post.update(time));
 
-  /** Compile every program up-front so the first scroll never hitches. */
   const compile = () => stage.renderer.compileAsync(stage.scene, stage.camera);
 
   return { stage, sculpture, particles, post, compile };

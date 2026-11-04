@@ -1,11 +1,3 @@
-/**
- * All translatable copy, keyed by `data-i18n` attributes in index.html.
- * English is injected at build time (see vite.config.ts) so the page is fully
- * readable without JavaScript; Turkish is swapped in at runtime.
- *
- * Allowed inline markup: <em>, <br>, <strong>.
- */
-
 export const languages = ['en', 'tr'] as const;
 export type Lang = (typeof languages)[number];
 
