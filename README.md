@@ -7,24 +7,22 @@ Personal portfolio of Mehmet Baysal, a web design and coding student, built arou
 
 ## Sitedeki projeler
 
-| Proje                                                                          | Ne                                                   | Teknolojiler                         |
-| ------------------------------------------------------------------------------ | ---------------------------------------------------- | ------------------------------------ |
-| [Almost There](https://github.com/baysaI/almost-there)                         | PS1 tarzı psikolojik korku oyunu, tarayıcıda oynanır | Three.js, GLSL, Electron             |
-| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri                 | Node.js, Express, EJS, SQLite        |
-| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                             | Node.js, Express, SQLite, Gemini API |
-| [Altuncu Premium](https://github.com/baysaI/altuncu-premium)                   | Termal otel kurumsal web sitesi                      | HTML, CSS, JavaScript                |
-| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | Sensör izleme paneli                                 | Bootstrap, jQuery, Chart.js          |
-| [Sigara Takip Sistemi](https://github.com/baysaI/sigara-takip-sistemi)         | Rol yapma sunucusu için dağıtım takip paneli         | Node.js, Express, SQLite             |
-| [Oiia Cat](https://github.com/baysaI/oiia-cat)                                 | 3D sanal evcil hayvan                                | Three.js                             |
-| [Munch](https://github.com/baysaI/vanilla-js-shopping-cart)                    | Atıştırmalık mağazası vitrini ve sepet               | Vanilla JavaScript                   |
-| [PHP Login Template](https://github.com/baysaI/simple-php-auth)                | Modernleştirilmiş PHP giriş şablonu                  | PHP, MySQL                           |
+Commit sayısına göre sıralı:
+
+| Proje                                                                          | Ne                                       | Commit | Teknolojiler                     |
+| ------------------------------------------------------------------------------ | ---------------------------------------- | -----: | -------------------------------- |
+| [Almost There](https://github.com/baysaI/almost-there)                         | Tarayıcıda oynanan PS1 tarzı korku oyunu |    429 | Three.js, GLSL, Electron         |
+| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri     |    299 | Node.js, Express, EJS, SQLite    |
+| [Sigara Takip Sistemi](https://github.com/baysaI/sigara-takip-sistemi)         | Rol yapma sunucusu için takip sistemi    |     62 | Node.js, Express, SQLite         |
+| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                 |     36 | Node.js, Express, SQLite, Gemini |
+| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | Sensör izleme paneli                     |     12 | Bootstrap, jQuery, Chart.js      |
 
 ![Preview](public/og.jpg)
 
 ## Öne çıkanlar · Highlights
 
 - **Sıvı chrome heykel:** GPU'da simplex noise ile deforme edilen icosphere. Normaller her vertex'te yeniden hesaplanır, prosedürel stüdyo ışıklarını (PMREM) yansıtır. Fare yüzeye değdiğinde halka dalgalar oluşur.
-- **Parçacık morph sistemi:** 26.000'e kadar parçacık 8 formasyon arasında (toz, kabuk, monolit, yörünge, açık kitap, dalga alanı, düğüm, halka) kaydırmayla birebir senkron dönüşür. Her öne çıkan projenin kendi formu var.
+- **Parçacık morph sistemi:** 26.000'e kadar parçacık 9 formasyon arasında (toz, kabuk, monolit, yörünge, saat, açık kitap, dalga alanı, düğüm, halka) kaydırmayla birebir senkron dönüşür. Her öne çıkan projenin kendi formu var.
 - **Scroll director:** Her bölüm canlı ScrollTrigger konumlarına bağlı keyframe'lerle 3D sahne durumuna eşlenir; easing ve sönümleme ile sinematik bir his verir.
 - **Post-processing:** Bloom, kaydırma hızına duyarlı kromatik sapma, vinyet, film greni.
 - **Etkileşim:** Lenis smooth scroll, pinlenmiş proje sahnesi, yatay süreç akışı, hıza duyarlı marquee, manyetik butonlar, özel imleç, kelime kelime metin animasyonları.
@@ -61,7 +59,7 @@ Tüm içerik tek yerde toplanmıştır — HTML'e dokunmanız gerekmez:
 | `src/webgl/shapes.ts`   | Parçacık formasyonları (her proje bir formasyonla eşleşir)                    |
 | `src/webgl/director.ts` | Hangi bölümde 3D sahnenin nasıl görüneceği                                    |
 
-Yeni bir proje eklemek için `site.ts` içindeki `archive` listesine bir satır, `i18n.ts` içine de TR ve EN açıklamasını eklemek yeterli.
+Yeni bir proje eklemek için `site.ts` içindeki `projects` listesine bir satır, `i18n.ts` içine TR ve EN metinlerini, `shapes.ts` içine de bir parçacık formu eklemek yeterli.
 
 Dil seçimi sırasıyla `?lang=tr` parametresi → kayıtlı tercih → tarayıcı dili ile belirlenir.
 
