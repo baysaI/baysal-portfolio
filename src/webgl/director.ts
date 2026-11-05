@@ -73,11 +73,19 @@ const BASE: SceneState = {
 const KEYS = Object.keys(BASE) as Array<keyof SceneState>;
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+const anchorCache = new Map<string, ScrollTrigger>();
+
 const mark = (trigger: string, start: string) => {
-  const el = document.querySelector(trigger);
-  if (!el) return () => 0;
-  const st = ScrollTrigger.create({ trigger: el, start });
-  return () => st.start;
+  const key = `${trigger}|${start}`;
+  let st = anchorCache.get(key);
+  if (!st) {
+    const el = document.querySelector(trigger);
+    if (!el) return () => 0;
+    st = ScrollTrigger.create({ trigger: el, start });
+    anchorCache.set(key, st);
+  }
+  const anchor = st;
+  return () => anchor.start;
 };
 
 export class Director {
