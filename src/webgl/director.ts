@@ -221,7 +221,8 @@ export class Director {
       at: mark('.services', 'top 35%'),
       state: { pMorph: lastMorph, pImage: 0, pOpacity: 0.2, pz: -1.2 },
     });
-    keys.push({ at: mark('.services', 'bottom 65%'), state: { ...journey, px: mobile ? 0 : 2.2 } });
+    const lastLight = document.querySelector('.experience') ? '.experience' : '.services';
+    keys.push({ at: mark(lastLight, 'bottom 65%'), state: { ...journey, px: mobile ? 0 : 2.2 } });
 
     const process = this.anchors.process;
     if (process) {

@@ -6,6 +6,8 @@ const SPLIT = '[data-split]:not([data-split-manual])';
 const FADE = [
   '.about__side',
   '.service',
+  '.xp-group__head',
+  '[data-xp]',
   '.step',
   '.stat',
   '.contact__text',

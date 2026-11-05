@@ -34,7 +34,9 @@
         "jobTitle": "{{site.role}}",
         "url": "{{site.url}}",
         "email": "mailto:{{site.email}}",
-        "address": { "@type": "PostalAddress", "addressLocality": "{{site.location}}" }
+        "address": { "@type": "PostalAddress", "addressLocality": "{{site.location}}" },
+        "sameAs": ["{{site.github}}", "{{site.linkedin}}"],
+        "alumniOf": "Burdur Mehmet Akif Ersoy Üniversitesi"
       }
     </script>
     <script>
@@ -85,6 +87,7 @@
           <li><a href="#work" data-i18n="nav.work"></a></li>
           <li><a href="#about" data-i18n="nav.about"></a></li>
           <li><a href="#services" data-i18n="nav.services"></a></li>
+          <li><a href="#experience" data-i18n="nav.experience"></a></li>
           <li><a href="#contact" data-i18n="nav.contact"></a></li>
         </ul>
       </nav>
@@ -114,6 +117,7 @@
           <li><a href="#work" data-i18n="nav.work"></a></li>
           <li><a href="#about" data-i18n="nav.about"></a></li>
           <li><a href="#services" data-i18n="nav.services"></a></li>
+          <li><a href="#experience" data-i18n="nav.experience"></a></li>
           <li><a href="#contact" data-i18n="nav.contact"></a></li>
         </ul>
       </nav>
@@ -187,6 +191,23 @@
           <ul class="services__list">
             <!-- @services -->
           </ul>
+        </div>
+      </section>
+
+      <section class="experience" id="experience" data-section="experience" data-opaque>
+        <div class="container">
+          <div class="experience__head">
+            <p class="label" data-i18n="experience.label"></p>
+            <h2 class="experience__title" data-split data-i18n="experience.title"></h2>
+          </div>
+          <div class="experience__body">
+            <div class="experience__main">
+              <!-- @experience -->
+            </div>
+            <aside class="experience__side">
+              <!-- @education -->
+            </aside>
+          </div>
         </div>
       </section>
 
