@@ -43,10 +43,18 @@
   line-height: 1.4;
 }
 
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
 .contact__cta {
   position: relative;
   display: inline-grid;
-  margin-top: 1rem;
   padding: clamp(1.1rem, 1.6vw, 1.6rem) clamp(2rem, 3.5vw, 3.5rem);
   border-radius: var(--radius);
   background: var(--ember);
@@ -96,6 +104,23 @@
 .contact__cta:focus-visible .contact__cta-mail {
   transform: none;
   opacity: 1;
+}
+
+.contact__cv {
+  align-self: stretch;
+}
+
+.contact__cv-meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ember);
+  transition: color 0.5s var(--ease-out);
+}
+
+.contact__cv:hover .contact__cv-meta,
+.contact__cv:focus-visible .contact__cv-meta {
+  color: var(--ink);
 }
 
 .contact__social {

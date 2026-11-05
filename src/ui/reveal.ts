@@ -12,6 +12,7 @@ const FADE = [
   '.stat',
   '.contact__text',
   '.contact__cta',
+  '.contact__cv',
   '.contact__social',
 ].join(',');
 

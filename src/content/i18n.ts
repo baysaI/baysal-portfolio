@@ -186,6 +186,7 @@ const en = {
   'contact.text':
     'I’m open to internships and freelance work. Write to me and I’ll get back to you soon.',
   'contact.cta': 'Send an email',
+  'contact.cv': 'Download my CV',
   'contact.social': 'Profiles',
 
   'footer.rights': 'All rights reserved.',
@@ -384,6 +385,7 @@ const tr: Dict = {
   'contact.title.b': 'Birlikte bir şey <em>üretelim</em>.',
   'contact.text': 'Staj ve freelance işlere açığım. Bana yaz, en kısa sürede dönüş yaparım.',
   'contact.cta': 'E-posta gönder',
+  'contact.cv': 'CV’mi indir',
   'contact.social': 'Profiller',
 
   'footer.rights': 'Tüm hakları saklıdır.',
