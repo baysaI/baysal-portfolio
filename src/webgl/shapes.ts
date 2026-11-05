@@ -33,12 +33,6 @@ const rotateX = (p: number[], a: number) => {
   return [p[0], p[1] * c - p[2] * s, p[1] * s + p[2] * c];
 };
 
-const rotateY = (p: number[], a: number) => {
-  const c = Math.cos(a);
-  const s = Math.sin(a);
-  return [p[0] * c + p[2] * s, p[1], -p[0] * s + p[2] * c];
-};
-
 const rotateZ = (p: number[], a: number) => {
   const c = Math.cos(a);
   const s = Math.sin(a);
@@ -132,8 +126,6 @@ const monolith: Generator = (count, rng) => {
   });
 };
 
-export const BOOK_FACING_SPIN = 3.6;
-
 const book: Generator = (count, rng) => {
   const width = 1.3;
   const height = 2.1;
@@ -163,8 +155,7 @@ const book: Generator = (count, rng) => {
       p = [gaussian(rng) * 0.015, (v - 0.5) * height, -0.04 + gaussian(rng) * 0.015];
     }
     p = rotateX(p, -0.38);
-    p = rotateZ(p, 0.06);
-    return rotateY(p, -BOOK_FACING_SPIN);
+    return rotateZ(p, 0.06);
   });
 };
 
@@ -190,6 +181,42 @@ const orbit: Generator = (count, rng) => {
     ];
     p = rotateX(p, ring.tiltX);
     return rotateZ(p, ring.tiltZ);
+  });
+};
+
+const clock: Generator = (count, rng) => {
+  const radius = 1.45;
+  const at = (angle: number, r: number) => [Math.sin(angle) * r, Math.cos(angle) * r];
+  const hour = TAU / 12;
+  return fill(count, () => {
+    const roll = rng();
+    let x: number;
+    let y: number;
+    let z = gaussian(rng) * 0.02;
+    if (roll < 0.32) {
+      [x, y] = at(rng() * TAU, radius - rng() * 0.07);
+    } else if (roll < 0.46) {
+      const tick = Math.floor(rng() * 12);
+      const length = tick % 3 === 0 ? 0.3 : 0.16;
+      [x, y] = at(tick * hour + gaussian(rng) * 0.006, radius - 0.12 - rng() * length);
+    } else if (roll < 0.58) {
+      const minute = rng() < 0.55;
+      const length = minute ? 1.08 : 0.72;
+      [x, y] = at(minute ? 0 : 4 * hour, rng() * length);
+      x += gaussian(rng) * 0.018;
+      y += gaussian(rng) * 0.018;
+      z += 0.04;
+    } else if (roll < 0.82) {
+      [x, y] = at(rng() * 4 * hour, Math.sqrt(rng()) * (radius - 0.5));
+      z -= 0.03;
+    } else if (roll < 0.87) {
+      [x, y] = at(rng() * TAU, Math.sqrt(rng()) * 0.09);
+      z += 0.05;
+    } else {
+      [x, y] = at(rng() * TAU, radius + 0.12 + Math.pow(rng(), 1.6) * 0.9);
+      z = gaussian(rng) * 0.25;
+    }
+    return rotateX([x, y, z], -0.14);
   });
 };
 
@@ -238,6 +265,6 @@ const halo: Generator = (count, rng) =>
     return rotateZ(p, 0.18);
   });
 
-export const SHAPES = { dust, shell, monolith, orbit, book, tidal, knot, halo } as const;
+export const SHAPES = { dust, shell, monolith, orbit, clock, book, tidal, knot, halo } as const;
 export const SHAPE_ORDER = Object.keys(SHAPES) as Array<keyof typeof SHAPES>;
 export type ShapeName = keyof typeof SHAPES;
