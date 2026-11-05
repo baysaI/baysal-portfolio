@@ -327,6 +327,11 @@ export class Director {
     u.uPointerStrength.value += (strength - u.uPointerStrength.value) * (1 - Math.exp(-delta * 4));
   }
 
+  settle() {
+    this.sample(scrollState.lenis?.animatedScroll ?? window.scrollY);
+    Object.assign(this.current, this.target);
+  }
+
   update({ time, delta }: Frame) {
     const y = scrollState.lenis?.animatedScroll ?? window.scrollY;
     this.sample(y);
