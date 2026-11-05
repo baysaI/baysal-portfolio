@@ -14,9 +14,9 @@ export function initProcess() {
     start: 'top top',
     end: () => `+=${distance() + window.innerHeight * 0.35}`,
     pin: true,
+    refreshPriority: 1,
     scrub: true,
     animation: tween,
-    anticipatePin: 1,
     invalidateOnRefresh: true,
     onUpdate: (self) => {
       const active = Math.round(self.progress * (steps.length - 1));

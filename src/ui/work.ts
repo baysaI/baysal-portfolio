@@ -80,7 +80,7 @@ export function initWork({ reduced }: { reduced: boolean }): WorkStage | null {
     start: 'top top',
     end: () => `+=${window.innerHeight * count}`,
     pin: true,
-    anticipatePin: 1,
+    refreshPriority: 2,
     onUpdate: (self) => {
       const p = self.progress * count;
       bars.forEach((bar, i) => {
