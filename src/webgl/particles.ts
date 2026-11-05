@@ -9,7 +9,7 @@ export const PARTICLE_COUNT: Record<Tier, number> = { high: 26000, medium: 16000
 const positionAttribute = (i: number) => (i === 0 ? 'position' : `aShape${i}`);
 const colorSlot = (i: number) => `aCol${Math.floor(i / 4)}.${'xyzw'[i % 4]}`;
 
-const vertexShader = (shapes: number, imageFrom: number, imageTo: number) => {
+const vertexShader = (shapes: number, imageFrom: number, imageTo: number, journey: number) => {
   const last = shapes - 1;
   const colorGroups = Math.ceil(shapes / 4);
   return `
@@ -24,6 +24,7 @@ const vertexShader = (shapes: number, imageFrom: number, imageTo: number) => {
   uniform float uTurbulence;
   uniform float uScatter;
   uniform float uImageFade;
+  uniform float uReveal;
   uniform vec3 uColorA;
   uniform vec3 uColorB;
 
@@ -68,6 +69,12 @@ const vertexShader = (shapes: number, imageFrom: number, imageTo: number) => {
     );
     p += burst * transit * 0.55 * uScatter;
 
+    float onJourney = 1.0 - smoothstep(0.0, 0.6, abs(m - ${journey}.0));
+    float unseen = smoothstep(uReveal - 0.02, uReveal + 0.2, ${positionAttribute(journey)}.x) * onJourney;
+    float pen = step(aRand.x, 0.018);
+    vec3 penTip = vec3(uReveal + 0.05, 0.0, 0.0) + (aRand.yzw - 0.5) * vec3(0.16, 0.16, 0.12);
+    p = mix(p, penTip, unseen * pen);
+
     int nearest = int(floor(m + 0.5));
     float settled = 1.0 - smoothstep(0.0, 0.25, abs(m - float(nearest)));
 
@@ -97,6 +104,9 @@ const vertexShader = (shapes: number, imageFrom: number, imageTo: number) => {
     float nearestColor = colorAt(nearest);
     float isPixel = (nearest >= ${imageFrom} && nearest <= ${imageTo} && nearestColor >= 0.0) ? 1.0 : 0.0;
     vAlpha *= 1.0 - isPixel * uImageFade * 0.88;
+
+    vColor = mix(vColor, uColorB, unseen * pen);
+    vAlpha *= mix(1.0, pen * 0.6, unseen);
   }
 `;
 };
@@ -128,6 +138,7 @@ export class Particles {
     uTurbulence: { value: 0 },
     uScatter: { value: 1 },
     uImageFade: { value: 0 },
+    uReveal: { value: 99 },
     uOpacity: { value: 1 },
     uColorA: { value: new THREE.Color(0xede9e3) },
     uColorB: { value: new THREE.Color(0xff5a1f) },
@@ -137,6 +148,7 @@ export class Particles {
     readonly count: number,
     formations: Formation[],
     imageRange: [number, number],
+    journey: number,
     seed = 42,
   ) {
     const geometry = new THREE.BufferGeometry();
@@ -169,7 +181,7 @@ export class Particles {
 
     const material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
-      vertexShader: vertexShader(formations.length, imageRange[0], imageRange[1]),
+      vertexShader: vertexShader(formations.length, imageRange[0], imageRange[1], journey),
       fragmentShader,
       transparent: true,
       depthWrite: false,

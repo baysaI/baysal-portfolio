@@ -52,10 +52,12 @@ export async function createWorld(canvas: HTMLCanvasElement) {
     signature: 3 + screens.length,
   };
 
-  const particles = new Particles(count, formations, [
-    layout.firstProject,
-    layout.firstProject + layout.projects - 1,
-  ]);
+  const particles = new Particles(
+    count,
+    formations,
+    [layout.firstProject, layout.firstProject + layout.projects - 1],
+    layout.journey,
+  );
   particles.setPixelRatio(stage.size.dpr);
   stage.scene.add(particles.points);
   stage.onUpdate((frame) => particles.update(frame));

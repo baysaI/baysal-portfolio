@@ -332,15 +332,38 @@ export function projectScreen(count: number, rng: Rng, source: ScreenSource): Fo
   return b.done(() => onRoundedRect(rng, 0, 0, w, h, 0.05, BONE), { x: 0, y: 0, w, h });
 }
 
+const JOURNEY_SPAN = 7.4;
+const JOURNEY_LANE = 0.24;
+const JOURNEY_BEND = 0.28;
+const journeyWeeks = repoActivity[0]?.weekly.length ?? 49;
+const journeyWeekOf = (date: string) =>
+  Math.floor((Date.parse(date) - Date.parse('2025-12-01')) / (7 * 864e5));
+const journeyXOf = (week: number) => (week / Math.max(1, journeyWeeks - 1) - 0.5) * JOURNEY_SPAN;
+const journeyLanes = repoActivity.map(
+  (_, i) => (i % 2 === 0 ? 1 : -1) * (Math.floor(i / 2) + 1) * JOURNEY_LANE,
+);
+
+export const journeyX = (date: string) =>
+  journeyXOf(Math.min(Math.max(journeyWeekOf(date), 0), journeyWeeks - 1));
+
+export const journeyBounds = () => {
+  const top = Math.max(0, ...journeyLanes) + 0.18;
+  const bottom = Math.min(0, ...journeyLanes) - 0.18;
+  return {
+    width: JOURNEY_SPAN + JOURNEY_BEND + 0.3,
+    height: top - bottom,
+    centerX: JOURNEY_BEND / 2,
+    centerY: (top + bottom) / 2,
+  };
+};
+
 export function journeyGraph(count: number, rng: Rng): Formation {
   const b = new Builder(count);
-  const weeks = repoActivity[0]?.weekly.length ?? 49;
-  const span = 7.4;
-  const xOf = (week: number) => (week / Math.max(1, weeks - 1) - 0.5) * span;
-  const weekOf = (date: string) =>
-    Math.floor((Date.parse(date) - Date.parse('2025-12-01')) / (7 * 864e5));
+  const span = JOURNEY_SPAN;
+  const xOf = journeyXOf;
+  const weekOf = journeyWeekOf;
   const repos = [...repoActivity].sort((a, b) => a.first.localeCompare(b.first));
-  const lanes = repos.map((_, i) => (i % 2 === 0 ? 1 : -1) * (Math.floor(i / 2) + 1) * 0.36);
+  const lanes = journeyLanes;
   const maxCommits = Math.max(...repos.flatMap((r) => r.weekly));
   const ease = (t: number) => t * t * (3 - 2 * t);
 
@@ -352,7 +375,7 @@ export function journeyGraph(count: number, rng: Rng): Formation {
     const lane = lanes[i];
     const x0 = xOf(s);
     const x1 = xOf(e);
-    const bend = 0.28;
+    const bend = JOURNEY_BEND;
     const at = (t: number): [number, number] => {
       const x = x0 + (x1 + bend - x0) * t;
       let y = lane;
