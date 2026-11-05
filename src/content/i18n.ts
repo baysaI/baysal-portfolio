@@ -2,12 +2,12 @@ export const languages = ['en', 'tr'] as const;
 export type Lang = (typeof languages)[number];
 
 const en = {
-  'meta.title': 'Mehmet Baysal — Web Developer & Game Development',
+  'meta.title': 'Mehmet Baysal — Web Developer · Game Development',
   'meta.description':
-    'Portfolio of Mehmet Baysal, web developer and Web Design & Coding student: a hotel website in production, a horror game on itch.io, a five-language listings platform and business software.',
+    'Portfolio of Mehmet Baysal, a web developer studying Web Design & Coding: a live hotel website, a horror game on itch.io, a five-language listings platform and business software.',
 
   'meta.imageAlt':
-    'Mehmet Baysal, Web Developer and Game Development, with a portrait and a commit graph',
+    'Share card for Mehmet Baysal, web developer, with a portrait and a commit graph',
   'skip': 'Skip to content',
   'loader.label': 'Loading portfolio',
 
@@ -30,13 +30,13 @@ const en = {
 
   'about.label': '(01) About',
   'about.text':
-    'I believe the fastest way to learn code is to build something people can actually use. That’s why every project here was made to <em>work</em>: a game you can finish, a marketplace you can post on, a forum you can argue in.',
+    'I believe the fastest way to learn to code is to build something people can actually use. That’s why every project here was made to <em>work</em>: a game you can finish, a marketplace you can post on, a forum you can argue in.',
   'about.side':
-    'I’m a second-year Web Design & Coding student at Burdur Mehmet Akif Ersoy University. Years of hotel work taught me teamwork and communication; now I’m looking for an internship where I can grow on work that real users touch.',
+    'I’m a second-year Web Design & Coding student at Burdur Mehmet Akif Ersoy University. Years of hotel work taught me teamwork and communication; now I’m looking for an internship where I can grow on projects that reach real users.',
   'about.cta': 'Get in touch',
   'about.photo': 'Portrait of Mehmet Baysal',
   'about.map':
-    'The map beside this text is real: every day’s commits since December 2025, 49 weeks and 848 commits across nine projects.',
+    'The 3D map is real: every day’s commits since December 2025, 848 commits over 49 weeks across nine projects.',
 
   'work.label': '(02) Selected work',
   'work.title': 'Selected <em>work</em>',
@@ -47,35 +47,35 @@ const en = {
   'work.p1.h1': 'Live on itch.io for the browser and Windows; about 100 players so far',
   'work.p1.h2': 'Hand-written PS1 shader: vertex snapping, 360p render, dithering',
   'work.p1.h3':
-    'About 40 minutes, code-drawn textures and procedural Web Audio sound, all in one HTML file',
+    'About 40 minutes long; code-drawn textures and procedural Web Audio sound, all in a single HTML file',
   'work.p1.period': 'Oct 19 – Nov 1, 2026',
   'work.p1.cta': 'Play on itch.io',
   'work.p1.alt': 'Almost There title screen',
   'work.p2.title': 'Cypilan',
   'work.p2.type': 'Listings platform · Full-stack',
   'work.p2.desc':
-    'A digital listings and marketplace platform for Cyprus, with an architecture designed and built from scratch.',
-  'work.p2.h1': 'Turkish, English, Greek, Russian and Farsi, right-to-left included',
+    'A listings and marketplace platform for Cyprus, architected and built from scratch.',
+  'work.p2.h1': 'Turkish, English, Greek, Russian and Farsi, with a right-to-left layout',
   'work.p2.h2': 'npm scripts that sync translations and scan for missing text',
-  'work.p2.h3': 'Real estate, vehicles, jobs, services and second-hand',
+  'work.p2.h3': 'Categories for real estate, vehicles, second-hand goods, jobs and services',
   'work.p2.period': 'Aug 8 – Oct 26, 2026',
   'work.p2.cta': 'View on GitHub',
   'work.p2.alt': 'Cypilan home page with listing categories',
   'work.p3.title': 'Distribution Tracking System',
   'work.p3.type': 'Business software · Full-stack',
   'work.p3.desc':
-    'A distribution and stock tracking system for hotels and businesses: quick entry at the counter, with the rules enforced by the system.',
+    'A distribution and stock tracking system for hotels and businesses: quick entry at the counter, while the system enforces the rules.',
   'work.p3.h1': 'Role-based accounts: admin, staff and a root account',
   'work.p3.h2': 'A 4-hour pickup rule enforced on the server, with a live countdown',
   'work.p3.h3':
-    'Stock management, a special approval flow, end-of-day period close and Excel export',
+    'Stock management, a special approval flow, end-of-day reports that close the period, and Excel export',
   'work.p3.period': 'Aug 25 – Oct 26, 2026',
   'work.p3.cta': 'Request a demo',
   'work.p3.alt': 'Quick entry screen of the distribution tracking system on a phone',
   'work.p4.title': 'Okuryazmaz',
   'work.p4.type': 'Community · Full-stack',
   'work.p4.desc':
-    'A new-generation literature forum: topics, quotes, book ratings and badges for a community of readers.',
+    'A literature and book forum: topics, quotes, book ratings and badges for a community of readers.',
   'work.p4.h1': 'JWT authentication, rate limiting and Helmet security headers',
   'work.p4.h2': 'Categories, quotes, book ratings, followers and badges',
   'work.p4.h3': 'Optional AI features powered by the Gemini API',
@@ -85,8 +85,8 @@ const en = {
   'work.p5.title': 'Boru Hattı Analiz Paneli',
   'work.p5.type': 'TÜBİTAK application · Dashboard',
   'work.p5.desc':
-    'An analytics dashboard that monitors pipeline sensors, built as the interface of a TÜBİTAK project application.',
-  'work.p5.h1': 'TÜBİTAK project application that passed the preliminary rounds',
+    'A dashboard for monitoring pipeline sensors, built as the interface for a TÜBİTAK project application.',
+  'work.p5.h1': 'A TÜBİTAK project application that passed the preliminary rounds',
   'work.p5.h2': 'Sensor simulation, live Chart.js charts and threshold alerts',
   'work.p5.h3': 'Serverless: runs entirely in the browser with a mobile-friendly Bootstrap UI',
   'work.p5.period': 'Mar – Jun 2026',
@@ -122,7 +122,7 @@ const en = {
   'experience.group.web': 'Web work',
   'experience.group.hotel': 'Tourism & hospitality',
   'experience.group.hotel.note':
-    'Where I picked up teamwork and the habit of talking to people, long before my first commit.',
+    'Where I learned teamwork and how to talk to people, long before my first commit.',
   'experience.e1.date': 'Mar 2026',
   'experience.e1.role': 'Freelance Web Developer',
   'experience.e1.place': 'Altuncu Premium Thermal Hotel',
@@ -137,7 +137,7 @@ const en = {
   'experience.e3.role': 'Minibar Attendant',
   'experience.e3.place': 'Liberty Lara, Antalya · full-time',
   'experience.e4.date': 'Aug 2021 – Sep 2023',
-  'experience.e4.role': 'Waiter, Bellhop & Commis',
+  'experience.e4.role': 'Waiter, Bellhop & Commis Waiter',
   'experience.e4.place': 'İskele Park Termal, Armutlu/Yalova',
   'experience.edu.label': 'Education',
   'experience.edu.school': 'Burdur Mehmet Akif Ersoy University',
@@ -164,10 +164,10 @@ const en = {
   'process.s2.date': 'Mar 2026',
   'process.s2.title': 'First real work',
   'process.s2.desc':
-    'The corporate site of Altuncu Premium Thermal Hotel and a live monitoring dashboard for a TÜBİTAK application.',
+    'A corporate website for Altuncu Premium Thermal Hotel and a live monitoring dashboard for a TÜBİTAK application.',
   'process.s3.date': 'May 2026',
   'process.s3.title': 'Into the back-end',
-  'process.s3.desc': 'Okuryazmaz: the first full-stack project, with Node.js, JWT and SQLite.',
+  'process.s3.desc': 'Okuryazmaz: my first full-stack project, with Node.js, JWT and SQLite.',
   'process.s4.date': 'Aug 2026',
   'process.s4.title': 'Built for real users',
   'process.s4.desc':
@@ -195,7 +195,7 @@ const en = {
   'footer.time': 'Local time',
   'footer.top': 'Back to top',
   'footer.credit': 'Designed & built by Mehmet Baysal',
-  'fallback': 'Your browser does not support WebGL — enjoying the lightweight version.',
+  'fallback': 'Your browser doesn’t support WebGL, so you’re seeing the lightweight version.',
   'cursor.view': 'View',
   'cursor.mail': 'Say hi',
 } as const;
@@ -208,8 +208,7 @@ const tr: Dict = {
   'meta.description':
     'Web geliştirici ve Web Tasarımı ve Kodlama öğrencisi Mehmet Baysal’ın portfolyosu: yayındaki bir otel sitesi, itch.io’da bir korku oyunu, beş dilli bir ilan platformu ve işletme yazılımları.',
 
-  'meta.imageAlt':
-    'Mehmet Baysal, Web Geliştirici ve Oyun Geliştirme; portresi ve bir commit grafiğiyle',
+  'meta.imageAlt': 'Mehmet Baysal’ın paylaşım kartı: portresi ve bir commit grafiği',
   'skip': 'İçeriğe geç',
   'loader.label': 'Portfolyo yükleniyor',
 
