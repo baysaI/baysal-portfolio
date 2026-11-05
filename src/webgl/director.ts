@@ -35,8 +35,8 @@ export interface SceneState {
   camY: number;
 }
 
-type Keyframe = { at: () => number; state: Partial<SceneState> };
-type ResolvedKeyframe = { at: () => number; state: SceneState };
+type Keyframe = { at: () => number; state: Partial<SceneState>; linear?: boolean };
+type ResolvedKeyframe = { at: () => number; state: SceneState; linear?: boolean };
 
 export interface DirectorAnchors {
   work: { trigger: ScrollTrigger; count: number } | null;
@@ -265,16 +265,31 @@ export class Director {
       pImage: 0,
       camZ: endCamZ,
     };
+    const fadeOut = mark('.contact', 'top 85%');
+    const endScroll = () => ScrollTrigger.maxScroll(window);
+    const travel = window.innerHeight - centerPx + 60;
+    const enterAt = () => Math.max(fadeOut() + 1, endScroll() - travel);
+    const solidAt = () => {
+      const a = enterAt();
+      return a + (endScroll() - a) * 0.45;
+    };
+    keys.push({ at: fadeOut, state: { pOpacity: 0 } });
     keys.push({
-      at: mark('.contact', 'top 70%'),
-      state: { ...finale, pOpacity: 0.3, camZ: 9 },
+      at: enterAt,
+      linear: true,
+      state: { ...finale, py: finaleY - travel / pxPerUnit, pOpacity: 0 },
     });
-    keys.push({ at: () => ScrollTrigger.maxScroll(window), state: finale });
+    keys.push({
+      at: solidAt,
+      linear: true,
+      state: { ...finale, py: finaleY - (travel * 0.55) / pxPerUnit },
+    });
+    keys.push({ at: endScroll, state: finale });
 
     let carry: SceneState = { ...BASE };
     this.keys = keys.map((k) => {
       carry = { ...carry, ...k.state };
-      return { at: k.at, state: carry };
+      return { at: k.at, state: carry, linear: k.linear };
     });
   }
 
@@ -286,7 +301,8 @@ export class Director {
     const b = keys[Math.min(i + 1, keys.length - 1)];
     const start = a.at();
     const span = b.at() - start;
-    const t = a === b || span <= 0 ? 0 : easeInOut(Math.min(1, Math.max(0, (y - start) / span)));
+    const raw = Math.min(1, Math.max(0, (y - start) / span));
+    const t = a === b || span <= 0 ? 0 : a.linear ? raw : easeInOut(raw);
     for (const k of KEYS) target[k] = a.state[k] + (b.state[k] - a.state[k]) * t;
   }
 
