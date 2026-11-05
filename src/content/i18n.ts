@@ -47,7 +47,7 @@ const en = {
   'work.p1.h3':
     'About 40 minutes, code-drawn textures and procedural Web Audio sound, all in one HTML file',
   'work.p1.period': 'Oct 19 – Nov 1, 2026',
-  'work.p1.cta': 'Play in the browser',
+  'work.p1.cta': 'Play on itch.io',
   'work.p1.alt': 'Almost There title screen',
   'work.p2.title': 'Cypilan',
   'work.p2.type': 'Listings platform · Full-stack',
@@ -247,7 +247,7 @@ const tr: Dict = {
   'work.p1.h3':
     'Yaklaşık 40 dakika; kodla çizilen dokular ve Web Audio ile prosedürel ses, hepsi tek HTML dosyasında',
   'work.p1.period': '19 Eki – 1 Kas 2026',
-  'work.p1.cta': 'Tarayıcıda oyna',
+  'work.p1.cta': 'itch.io’da oyna',
   'work.p1.alt': 'Almost There başlık ekranı',
   'work.p2.title': 'Cypilan',
   'work.p2.type': 'İlan platformu · Full-stack',

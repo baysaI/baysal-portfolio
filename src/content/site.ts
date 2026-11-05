@@ -32,7 +32,7 @@ export const projects: ProjectMeta[] = [
     year: '2026',
     commits: 429,
     tags: ['Three.js', 'GLSL', 'Web Audio', 'Electron'],
-    href: 'https://baysaI.github.io/almost-there/',
+    href: 'https://mehmetbaysal.itch.io/almost-there',
     repo: 'https://github.com/baysaI/almost-there',
     image: 'projects/almost-there.webp',
     device: 'tv',
