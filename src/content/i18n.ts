@@ -6,6 +6,8 @@ const en = {
   'meta.description':
     'Portfolio of Mehmet Baysal, web developer and Web Design & Coding student: a hotel website in production, a horror game on itch.io, a five-language listings platform and business software.',
 
+  'meta.imageAlt':
+    'Mehmet Baysal, Web Developer and Game Development, with a portrait and a commit graph',
   'skip': 'Skip to content',
   'loader.label': 'Loading portfolio',
 
@@ -206,6 +208,8 @@ const tr: Dict = {
   'meta.description':
     'Web geliştirici ve Web Tasarımı ve Kodlama öğrencisi Mehmet Baysal’ın portfolyosu: yayındaki bir otel sitesi, itch.io’da bir korku oyunu, beş dilli bir ilan platformu ve işletme yazılımları.',
 
+  'meta.imageAlt':
+    'Mehmet Baysal, Web Geliştirici ve Oyun Geliştirme; portresi ve bir commit grafiğiyle',
   'skip': 'İçeriğe geç',
   'loader.label': 'Portfolyo yükleniyor',
 
