@@ -21,7 +21,9 @@ export function initWork({ reduced }: { reduced: boolean }): WorkStage | null {
   let timeline: gsap.core.Timeline | null = null;
 
   const rest = (item: Element) =>
-    item.querySelectorAll('.project__meta, .project__desc, .project__tags, .project__link');
+    item.querySelectorAll(
+      '.project__meta, .project__desc, .project__highlights, .project__facts, .project__links',
+    );
   const title = (item: Element) => words(item.querySelector('.project__title')!);
 
   items.forEach((item, i) => {

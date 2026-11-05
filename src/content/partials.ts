@@ -14,14 +14,24 @@ const projectsMarkup = () =>
   <div class="project__meta">
     <span class="label project__num">${pad(i + 1)}</span>
     ${t(`${p.key}.type`, 'span', 'class="label project__type"')}
-    <span class="label project__year">${p.year}</span>
   </div>
   ${t(`${p.key}.title`, 'h3', 'class="project__title" data-split data-split-manual')}
   ${t(`${p.key}.desc`, 'p', 'class="project__desc"')}
-  <ul class="project__tags">${p.tags.map((tag) => `<li>${tag}</li>`).join('')}</ul>
-  <a class="project__link" href="${p.href}"${external(p.href)} data-cursor="view">
-    ${t(`${p.key}.cta`)}<span class="project__arrow" aria-hidden="true"></span>
-  </a>
+  <ul class="project__highlights">
+    ${[1, 2, 3].map((n) => t(`${p.key}.h${n}`, 'li')).join('')}
+  </ul>
+  <dl class="project__facts">
+    <div><dt data-i18n="work.commits"></dt><dd>${p.commits}</dd></div>
+    <div><dt data-i18n="work.period"></dt>${t(`${p.key}.period`, 'dd')}</div>
+    <div class="project__stack"><dt>Stack</dt><dd>${p.tags.join(' · ')}</dd></div>
+  </dl>
+  <div class="project__links">
+    <a class="project__link" href="${p.href}"${external(p.href)} data-cursor="view">
+      ${t(`${p.key}.cta`)}<span class="project__arrow" aria-hidden="true"></span>
+    </a>
+    ${p.repo ? `<a class="project__code" href="${p.repo}"${external(p.repo)} data-underline>${t('work.code')}</a>` : ''}
+  </div>
+  <img class="project__shot" src="${p.image}" alt="" data-i18n-attr="alt:${p.key}.alt" loading="lazy" width="640" height="400" />
 </li>`,
     )
     .join('');
@@ -53,9 +63,9 @@ const servicesMarkup = () =>
 const processMarkup = () =>
   processSteps
     .map(
-      (key, i) => `
+      (key) => `
 <article class="step" data-step>
-  <span class="step__num">${pad(i + 1)}</span>
+  ${t(`${key}.date`, 'span', 'class="step__num"')}
   <div class="step__body">
     ${t(`${key}.title`, 'h3', 'class="step__title"')}
     ${t(`${key}.desc`, 'p', 'class="step__desc"')}
