@@ -44,7 +44,7 @@ export const repoActivity: RepoActivity[] = [
     ],
   },
   {
-    name: 'Sigara Takip Sistemi',
+    name: 'Dağıtım Takip Sistemi',
     first: '2026-08-25',
     last: '2026-10-26',
     commits: 62,
