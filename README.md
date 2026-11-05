@@ -9,20 +9,22 @@ Personal portfolio of Mehmet Baysal, a web design and coding student, built arou
 
 Commit sayısına göre sıralı:
 
-| Proje                                                                          | Ne                                       | Commit | Teknolojiler                     |
-| ------------------------------------------------------------------------------ | ---------------------------------------- | -----: | -------------------------------- |
-| [Almost There](https://github.com/baysaI/almost-there)                         | Tarayıcıda oynanan PS1 tarzı korku oyunu |    429 | Three.js, GLSL, Electron         |
-| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri     |    299 | Node.js, Express, EJS, SQLite    |
-| [Sigara Takip Sistemi](https://github.com/baysaI/sigara-takip-sistemi)         | Rol yapma sunucusu için takip sistemi    |     62 | Node.js, Express, SQLite         |
-| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                 |     36 | Node.js, Express, SQLite, Gemini |
-| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | Sensör izleme paneli                     |     12 | Bootstrap, jQuery, Chart.js      |
+| Proje                                                                          | Ne                                                             | Commit | Teknolojiler                     |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------------- | -----: | -------------------------------- |
+| [Almost There](https://github.com/baysaI/almost-there)                         | Tarayıcıda oynanan PS1 tarzı korku oyunu                       |    429 | Three.js, GLSL, Electron         |
+| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri                           |    299 | Node.js, Express, EJS, SQLite    |
+| Dağıtım Takip Sistemi                                                          | Oteller ve işletmeler için dağıtım ve stok takibi              |     62 | Node.js, Express, SQLite         |
+| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                                       |     36 | Node.js, Express, SQLite, Gemini |
+| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | TÜBİTAK başvurusu için sensör izleme paneli (ön elemeyi geçti) |     12 | Bootstrap, jQuery, Chart.js      |
+
+Ekran görüntüleri projeler çalıştırılarak alındı ve `public/projects/` altında duruyor.
 
 ![Preview](public/og.jpg)
 
 ## Öne çıkanlar · Highlights
 
 - **Sıvı chrome heykel:** GPU'da simplex noise ile deforme edilen icosphere. Normaller her vertex'te yeniden hesaplanır, prosedürel stüdyo ışıklarını (PMREM) yansıtır. Fare yüzeye değdiğinde halka dalgalar oluşur.
-- **Parçacık morph sistemi:** 26.000'e kadar parçacık 9 formasyon arasında (toz, kabuk, monolit, yörünge, saat, açık kitap, dalga alanı, düğüm, halka) kaydırmayla birebir senkron dönüşür. Her öne çıkan projenin kendi formu var.
+- **Parçacık morph sistemi:** 26.000'e kadar parçacık kaydırmayla anlamlı formlar arasında dönüşür: tarayıcı penceresi, gerçek commit verisinden 3D aktivite haritası, her projenin kendi cihaz çerçevesindeki ekranı (renkler ekran görüntüsünden), projelerin git dal grafiği ve imza. Proje ekranlarında parçacıklar net ekran görüntüsüne dönüşür.
 - **Scroll director:** Her bölüm canlı ScrollTrigger konumlarına bağlı keyframe'lerle 3D sahne durumuna eşlenir; easing ve sönümleme ile sinematik bir his verir.
 - **Post-processing:** Bloom, kaydırma hızına duyarlı kromatik sapma, vinyet, film greni.
 - **Etkileşim:** Lenis smooth scroll, pinlenmiş proje sahnesi, yatay süreç akışı, hıza duyarlı marquee, manyetik butonlar, özel imleç, kelime kelime metin animasyonları.
@@ -51,15 +53,16 @@ Node.js 20+ önerilir.
 
 Tüm içerik tek yerde toplanmıştır — HTML'e dokunmanız gerekmez:
 
-| Dosya                   | Ne içerir                                                                     |
-| ----------------------- | ----------------------------------------------------------------------------- |
-| `src/content/site.ts`   | İsim, e-posta, konum, sosyal linkler, projeler, diğer projeler, istatistikler |
-| `src/content/i18n.ts`   | Tüm metinler (EN + TR). `<em>` ile vurgulu italik kelimeler eklenebilir       |
-| `src/styles/tokens.css` | Renkler, tipografi ölçeği, boşluklar, animasyon eğrileri                      |
-| `src/webgl/shapes.ts`   | Parçacık formasyonları (her proje bir formasyonla eşleşir)                    |
-| `src/webgl/director.ts` | Hangi bölümde 3D sahnenin nasıl görüneceği                                    |
+| Dosya                     | Ne içerir                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `src/content/site.ts`     | İsim, e-posta, projeler (görsel, cihaz, commit), istatistikler                 |
+| `src/content/activity.ts` | Repolardan çıkarılan günlük ve haftalık commit verisi                          |
+| `src/content/i18n.ts`     | Tüm metinler (EN + TR). `<em>` ile vurgulu italik kelimeler eklenebilir        |
+| `src/styles/tokens.css`   | Renkler, tipografi ölçeği, boşluklar, animasyon eğrileri                       |
+| `src/webgl/shapes.ts`     | Parçacık formları (tarayıcı, aktivite haritası, cihaz ekranları, grafik, imza) |
+| `src/webgl/director.ts`   | Hangi bölümde 3D sahnenin nasıl görüneceği                                     |
 
-Yeni bir proje eklemek için `site.ts` içindeki `projects` listesine bir satır, `i18n.ts` içine TR ve EN metinlerini, `shapes.ts` içine de bir parçacık formu eklemek yeterli.
+Yeni bir proje eklemek için `public/projects/` içine ekran görüntüsünü koymak, `site.ts` içindeki `projects` listesine bir satır (görsel, cihaz türü, commit sayısı) ve `i18n.ts` içine TR ve EN metinlerini eklemek yeterli; 3D ekran ve çerçeve otomatik oluşur.
 
 Dil seçimi sırasıyla `?lang=tr` parametresi → kayıtlı tercih → tarayıcı dili ile belirlenir.
 
