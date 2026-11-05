@@ -1,0 +1,72 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-curtain);
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.curtain.is-active {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.curtain__veil,
+.curtain__panel {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.curtain__veil {
+  background: var(--bone);
+}
+
+.curtain__panel {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: var(--gutter);
+  background: var(--ink-2);
+  color: var(--bone);
+}
+
+.curtain__top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gutter);
+  padding-top: calc(var(--header-h) * 0.25);
+}
+
+.curtain__top span:first-child {
+  color: var(--ember);
+}
+
+.curtain__title {
+  align-self: center;
+  overflow: hidden;
+  padding-block: 0.06em 0.12em;
+  font-size: var(--fs-h1);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.curtain__title span {
+  display: inline-block;
+}
+
+.curtain__bar {
+  height: 1px;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.curtain__bar span {
+  display: block;
+  height: 100%;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: left;
+}

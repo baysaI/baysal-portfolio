@@ -66,6 +66,18 @@
 
     <div class="progress" aria-hidden="true"><span data-progress></span></div>
 
+    <div class="curtain" data-curtain aria-hidden="true">
+      <div class="curtain__veil"></div>
+      <div class="curtain__panel">
+        <div class="curtain__top label">
+          <span data-curtain-index>(00)</span>
+          <span>{{site.name}}</span>
+        </div>
+        <p class="curtain__title"><span data-curtain-title></span></p>
+        <div class="curtain__bar"><span data-curtain-bar></span></div>
+      </div>
+    </div>
+
     <header class="header" data-header>
       <a class="header__logo" href="#top" aria-label="{{site.name}}">{{site.name}}</a>
       <nav class="header__nav" aria-label="Primary">
