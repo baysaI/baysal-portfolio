@@ -38,20 +38,6 @@ export function initScroll({ smooth }: { smooth: boolean }) {
   });
   gsap.ticker.lagSmoothing(0);
 
-  document.addEventListener('click', (event) => {
-    const link = (event.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
-    if (!link) return;
-    const id = link.getAttribute('href') ?? '';
-    const target = id === '#top' || id === '#' ? 0 : document.querySelector<HTMLElement>(id);
-    if (target === null) return;
-    event.preventDefault();
-    lenis.scrollTo(target, { duration: 1.6, easing: (t) => 1 - Math.pow(1 - t, 4) });
-    if (target instanceof HTMLElement) {
-      target.setAttribute('tabindex', '-1');
-      target.focus({ preventScroll: true });
-    }
-  });
-
   return lenis;
 }
 

@@ -10,6 +10,7 @@ import { applyLang, detectLang, initLangSwitch, onLangChange } from './ui/i18n';
 import { runLoader } from './ui/loader';
 import { initMagnetic } from './ui/magnetic';
 import { initMarquee } from './ui/marquee';
+import { initNavigation } from './ui/navigate';
 import { initParallax } from './ui/parallax';
 import { initProcess } from './ui/process';
 import { initReveals, playIntro } from './ui/reveal';
@@ -70,6 +71,7 @@ export async function boot() {
 
   let director: InstanceType<WebglModules['Director']> | null = null;
   let world: World | null = null;
+  initNavigation({ reduced, settle: () => director?.settle() });
 
   const sceneReady = webglPending.then(async (webgl) => {
     if (!webgl) {
