@@ -14,14 +14,29 @@ export function initCursor() {
   const dot = root.querySelector<HTMLElement>('.cursor__dot')!;
   const ring = root.querySelector<HTMLElement>('.cursor__ring')!;
   const label = root.querySelector<HTMLElement>('[data-cursor-label]')!;
-  document.documentElement.classList.add('has-cursor');
+  const html = document.documentElement;
+  let hidden = false;
+  const setHidden = (value: boolean) => {
+    if (hidden === value) return;
+    hidden = value;
+    root.classList.toggle('is-hidden', value);
+    html.classList.toggle('has-cursor', !value);
+  };
+  hidden = true;
+  root.classList.add('is-hidden');
 
-  if (!pointer.active) {
-    root.classList.add('is-hidden');
-    window.addEventListener('pointermove', () => root.classList.remove('is-hidden'), {
-      once: true,
-    });
-  }
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      if (e.pointerType === 'mouse' || e.pointerType === 'pen') setHidden(false);
+    },
+    { passive: true },
+  );
+  html.addEventListener('pointerleave', () => setHidden(true));
+  window.addEventListener('blur', () => setHidden(true));
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) setHidden(true);
+  });
 
   const ringPos = { x: pointer.x, y: pointer.y };
   const dotPos = { x: pointer.x, y: pointer.y };
@@ -49,10 +64,6 @@ export function initCursor() {
   document.addEventListener('pointerup', () =>
     gsap.to(ring, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.4)' }),
   );
-  document.documentElement.addEventListener('pointerleave', () => root.classList.add('is-hidden'));
-  document.documentElement.addEventListener('pointerenter', () => {
-    if (pointer.active) root.classList.remove('is-hidden');
-  });
 
   return root;
 }
