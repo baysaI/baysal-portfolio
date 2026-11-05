@@ -41,7 +41,7 @@ const projectsMarkup = () =>
     </a>
     ${p.repo ? `<a class="project__code" href="${p.repo}"${external(p.repo)} data-underline>${t('work.code')}</a>` : ''}
   </div>
-  <img class="project__shot" src="${p.image}" alt="" data-i18n-attr="alt:${p.key}.alt" loading="lazy" width="640" height="400" />
+  <img class="project__shot project__shot--${p.device}" src="${p.image}" alt="" data-i18n-attr="alt:${p.key}.alt" loading="lazy" width="${p.size[0]}" height="${p.size[1]}" />
 </li>`,
     )
     .join('');

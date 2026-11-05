@@ -155,6 +155,10 @@
   display: block;
 }
 
+.project__shot--phone {
+  max-width: 15rem;
+}
+
 .project__tags {
   display: none;
   flex-wrap: wrap;

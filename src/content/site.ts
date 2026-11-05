@@ -23,6 +23,7 @@ export interface ProjectMeta {
   href: string;
   repo?: string;
   image: string;
+  size: [number, number];
   device: Device;
 }
 
@@ -35,6 +36,7 @@ export const projects: ProjectMeta[] = [
     href: 'https://mehmetbaysal.itch.io/almost-there',
     repo: 'https://github.com/baysaI/almost-there',
     image: 'projects/almost-there.webp',
+    size: [1280, 800],
     device: 'tv',
   },
   {
@@ -44,6 +46,7 @@ export const projects: ProjectMeta[] = [
     tags: ['Node.js', 'Express', 'EJS', 'SQLite'],
     href: 'https://github.com/baysaI/cypilan',
     image: 'projects/cypilan.webp',
+    size: [1280, 800],
     device: 'browser',
   },
   {
@@ -53,6 +56,7 @@ export const projects: ProjectMeta[] = [
     tags: ['Node.js', 'Express', 'SQLite'],
     href: '#contact',
     image: 'projects/dagitim-takip.webp',
+    size: [585, 1266],
     device: 'phone',
   },
   {
@@ -62,6 +66,7 @@ export const projects: ProjectMeta[] = [
     tags: ['Node.js', 'Express', 'SQLite', 'Gemini API'],
     href: 'https://github.com/baysaI/okuryazmaz',
     image: 'projects/okuryazmaz.webp',
+    size: [1280, 800],
     device: 'browser',
   },
   {
@@ -71,6 +76,7 @@ export const projects: ProjectMeta[] = [
     tags: ['Bootstrap', 'jQuery', 'Chart.js'],
     href: 'https://github.com/baysaI/BoruHattiAnalizKodlamasi',
     image: 'projects/boru-hatti.webp',
+    size: [1280, 800],
     device: 'monitor',
   },
 ];
