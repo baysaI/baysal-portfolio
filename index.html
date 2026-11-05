@@ -147,6 +147,22 @@
         <div class="container about__grid">
           <p class="label about__label" data-i18n="about.label"></p>
           <p class="about__text" data-words data-i18n="about.text"></p>
+          <figure class="about__portrait" data-portrait>
+            <div class="about__photo">
+              <img
+                src="mehmet-baysal-480.webp"
+                srcset="mehmet-baysal-480.webp 480w, mehmet-baysal-800.webp 800w"
+                sizes="(max-width: 900px) 14rem, 18vw"
+                width="800"
+                height="993"
+                alt=""
+                data-i18n-attr="alt:about.photo"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption class="label">{{site.name}} — {{site.location}}</figcaption>
+          </figure>
           <div class="about__side">
             <p data-i18n="about.side"></p>
             <p class="about__map label" data-i18n="about.map"></p>

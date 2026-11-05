@@ -32,6 +32,7 @@ const en = {
   'about.side':
     'I’m a second-year Web Design & Coding student at Burdur Mehmet Akif Ersoy University. Years of hotel work taught me teamwork and communication; now I’m looking for an internship where I can grow on work that real users touch.',
   'about.cta': 'Get in touch',
+  'about.photo': 'Portrait of Mehmet Baysal',
   'about.map':
     'The map beside this text is real: every day’s commits since December 2025, 49 weeks and 848 commits across nine projects.',
 
@@ -230,6 +231,7 @@ const tr: Dict = {
   'about.side':
     'Burdur Mehmet Akif Ersoy Üniversitesi Web Tasarımı ve Kodlama 2. sınıf öğrencisiyim. Otelcilikte geçen yıllar bana ekip çalışmasını ve iletişimi kazandırdı; şimdi gerçek kullanıcıya dokunan işlerde gelişebileceğim bir staj arıyorum.',
   'about.cta': 'Bana ulaş',
+  'about.photo': 'Mehmet Baysal’ın portresi',
   'about.map':
     'Bu yazının yanındaki harita gerçek: Aralık 2025’ten bu yana her günün commit sayısı; 49 hafta, dokuz projede 848 commit.',
 

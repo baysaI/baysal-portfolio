@@ -1,8 +1,10 @@
-import { ScrollTrigger } from '../core/scroll';
+import { gsap, ScrollTrigger } from '../core/scroll';
 import { onLangChange } from './i18n';
 import { words } from './split';
 
 export function initAbout({ reduced }: { reduced: boolean }) {
+  revealPortrait(reduced);
+
   const el = document.querySelector<HTMLElement>('.about__text');
   if (!el) return;
 
@@ -35,5 +37,26 @@ export function initAbout({ reduced }: { reduced: boolean }) {
   onLangChange(() => {
     list = words(el);
     paint();
+  });
+}
+
+function revealPortrait(reduced: boolean) {
+  const portrait = document.querySelector<HTMLElement>('[data-portrait]');
+  const photo = portrait?.querySelector<HTMLElement>('.about__photo');
+  const caption = portrait?.querySelector<HTMLElement>('figcaption');
+  if (!portrait || !photo || reduced) return;
+
+  gsap.set(photo, { clipPath: 'inset(100% 0% 0% 0%)' });
+  if (caption) gsap.set(caption, { opacity: 0, y: 12 });
+
+  ScrollTrigger.create({
+    trigger: portrait,
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      gsap.to(photo, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'expo.inOut' });
+      if (caption)
+        gsap.to(caption, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', delay: 0.7 });
+    },
   });
 }
