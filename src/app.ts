@@ -82,6 +82,7 @@ export async function boot() {
     const stage = world.stage;
 
     director = new webgl.Director(world, { work, process });
+    ScrollTrigger.sort();
     ScrollTrigger.refresh();
 
     const gate = createRenderGate();
@@ -102,6 +103,7 @@ export async function boot() {
   await runLoader(Promise.all([document.fonts?.ready, sceneReady]), { fast: reduced });
 
   root.classList.add('is-ready');
+  lenis.scrollTo(0, { immediate: true, force: true });
   lenis.start();
   playIntro({ reduced });
   if (director) {
