@@ -17,17 +17,15 @@ export function initParallax({ reduced }: { reduced: boolean }) {
     });
   }
 
-  gsap.utils
-    .toArray<HTMLElement>('.services__title, .process__title, .contact__title')
-    .forEach((title) => {
-      gsap.fromTo(
-        title,
-        { y: 60 },
-        {
-          y: -30,
-          ease: 'none',
-          scrollTrigger: { trigger: title, start: 'top bottom', end: 'bottom top', scrub: true },
-        },
-      );
-    });
+  gsap.utils.toArray<HTMLElement>('.services__title, .contact__title').forEach((title) => {
+    gsap.fromTo(
+      title,
+      { y: 60 },
+      {
+        y: -30,
+        ease: 'none',
+        scrollTrigger: { trigger: title, start: 'top bottom', end: 'bottom top', scrub: true },
+      },
+    );
+  });
 }
