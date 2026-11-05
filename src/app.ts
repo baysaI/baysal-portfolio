@@ -61,7 +61,7 @@ export async function boot() {
   initStats({ reduced });
   initParallax({ reduced });
   const work = initWork({ reduced });
-  const process = initProcess();
+  const process = initProcess(work);
 
   ScrollTrigger.sort();
   ScrollTrigger.refresh();
