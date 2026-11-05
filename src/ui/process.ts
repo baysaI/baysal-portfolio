@@ -16,7 +16,7 @@ export function initProcess(work: WorkStage | null) {
       ? workEl.parentElement
       : workEl;
     const gap = section.getBoundingClientRect().top - holder.getBoundingClientRect().bottom;
-    return work.trigger.end + workEl.offsetHeight + Math.max(0, gap);
+    return work.trigger.end + workEl.getBoundingClientRect().height + Math.max(0, gap);
   };
 
   const tween = gsap.to(track, { x: () => -distance(), ease: 'none' });
