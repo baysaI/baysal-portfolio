@@ -3,6 +3,7 @@ import { device } from '../core/device';
 import { pointer } from '../core/pointer';
 import { ScrollTrigger, scrollState } from '../core/scroll';
 import { WORK_HOLD } from '../ui/work';
+import { SHAPE_ORDER, type ShapeName } from './shapes';
 import type { Frame } from './stage';
 import type { World } from './world';
 
@@ -28,6 +29,7 @@ export interface SceneState {
   pTilt: number;
   pOpacity: number;
   pSize: number;
+  pFree: number;
 
   camZ: number;
   camY: number;
@@ -62,6 +64,7 @@ const BASE: SceneState = {
   pTilt: 0,
   pOpacity: 0.55,
   pSize: 2.2,
+  pFree: 1,
   camZ: 9,
   camY: 0,
 };
@@ -88,6 +91,7 @@ export class Director {
   private readonly sphere = new THREE.Sphere();
   private readonly hit = new THREE.Vector3();
   private readonly touchDir = new THREE.Vector3(0, 0, 1);
+  private drift = 0;
 
   private readonly calm: number;
 
@@ -153,40 +157,53 @@ export class Director {
       { at: mark('.about', 'bottom 70%'), state: { ...about, pSpin: 0.9, sSpin: 1.2 } },
     ];
 
+    const morphOf = (name: ShapeName) => SHAPE_ORDER.indexOf(name);
+    const facing = new Set<ShapeName>(['clock', 'book']);
+    const TAU = Math.PI * 2;
+    let lastSpin = 2;
+    let lastMorph = morphOf('shell');
+
     const work = this.anchors.work;
     if (work) {
       const { trigger, count } = work;
       const seg = (i: number) => () => trigger.start + ((trigger.end - trigger.start) * i) / count;
-      const projectState = (i: number): Partial<SceneState> => ({
-        sx: right,
-        sy: lift,
-        sScale: 0,
-        sTwist: 2,
-        pMorph: 2 + i,
-        px: right,
-        py: lift + (i === 3 ? 0.35 : 0),
-        pScale: (i === 3 ? 1.05 : 1.05) * m,
-        pSpin: 1.6 + i * 0.9,
-        pTilt: i === 3 ? 0.3 : 0,
-        pOpacity: 1,
-        pSize: 2.9,
-      });
+      const shapeOf = (i: number) => SHAPE_ORDER[2 + i];
+      const spinOf = (i: number): [number, number] => {
+        if (facing.has(shapeOf(i))) return [TAU - 0.18, TAU + 0.18];
+        const base = i < 2 ? 1.6 + i * 0.9 : TAU + 0.6 + (i - 2) * 0.45;
+        return [base, base + 0.45];
+      };
+      const projectState = (i: number): Partial<SceneState> => {
+        const tidal = shapeOf(i) === 'tidal';
+        return {
+          sx: right,
+          sy: lift,
+          sScale: 0,
+          sTwist: 2,
+          pMorph: 2 + i,
+          px: right,
+          py: lift + (tidal ? 0.35 : 0),
+          pz: 0,
+          pScale: 1.05 * m,
+          pSpin: spinOf(i)[0],
+          pTilt: tidal ? 0.3 : 0,
+          pOpacity: 1,
+          pSize: 2.9,
+          pFree: 0,
+        };
+      };
       for (let i = 0; i < count; i++) {
         keys.push({ at: seg(i), state: projectState(i) });
-        keys.push({
-          at: seg(i + WORK_HOLD),
-          state: { ...projectState(i), pSpin: 1.6 + i * 0.9 + 0.45 },
-        });
+        keys.push({ at: seg(i + WORK_HOLD), state: { ...projectState(i), pSpin: spinOf(i)[1] } });
       }
-      keys.push({
-        at: seg(count),
-        state: { ...projectState(count - 1), pSpin: 1.6 + count * 0.9 },
-      });
+      lastSpin = spinOf(count - 1)[1] + 0.45;
+      lastMorph = 2 + count - 1;
+      keys.push({ at: seg(count), state: { ...projectState(count - 1), pSpin: lastSpin } });
     }
 
     const knot: Partial<SceneState> = {
       sScale: 0,
-      pMorph: 6,
+      pMorph: morphOf('knot'),
       px: 0,
       py: mobile ? 0.6 : 0,
       pz: -1,
@@ -194,22 +211,27 @@ export class Director {
       pTilt: 0.35,
       pOpacity: 0.5,
       pSize: 2.2,
+      pFree: 1,
     };
 
-    keys.push({ at: mark('.archive', 'top 85%'), state: { pMorph: 5 } });
-    keys.push({ at: mark('.archive', 'top 30%'), state: { pMorph: 5, pOpacity: 0.28, pz: -1.2 } });
-    keys.push({ at: mark('.services', 'top 35%'), state: { pMorph: 5, pOpacity: 0.28 } });
-    keys.push({ at: mark('.services', 'bottom 65%'), state: { ...knot, pSpin: 5.5 } });
+    keys.push({
+      at: mark('.services', 'top 35%'),
+      state: { pMorph: lastMorph, pOpacity: 0.28, pz: -1.2, pFree: 1 },
+    });
+    keys.push({ at: mark('.services', 'bottom 65%'), state: { ...knot, pSpin: lastSpin + 1 } });
 
     const process = this.anchors.process;
     if (process) {
-      keys.push({ at: () => process.trigger.start, state: { ...knot, pSpin: 5.8 } });
-      keys.push({ at: () => process.trigger.end, state: { ...knot, pSpin: 8.6, pOpacity: 0.65 } });
+      keys.push({ at: () => process.trigger.start, state: { ...knot, pSpin: lastSpin + 1.3 } });
+      keys.push({
+        at: () => process.trigger.end,
+        state: { ...knot, pSpin: lastSpin + 4.1, pOpacity: 0.65 },
+      });
     }
 
     keys.push({
       at: mark('.stats', 'bottom bottom'),
-      state: { ...knot, py: 1.2, pSpin: 9.4, pOpacity: 0.3 },
+      state: { ...knot, py: 1.2, pSpin: lastSpin + 4.9, pOpacity: 0.3 },
     });
 
     const endCamZ = 8.6;
@@ -225,6 +247,9 @@ export class Director {
     const finaleY = (window.innerHeight / 2 - centerPx) / pxPerUnit;
     const finaleR = radiusPx / pxPerUnit;
 
+    const align = (from: number, phase: number) => from + ((((phase - from) % TAU) + TAU) % TAU);
+    const finaleSpin = align(lastSpin + 5, 5.1);
+
     const finale: Partial<SceneState> = {
       sx: 0,
       sy: finaleY,
@@ -236,14 +261,15 @@ export class Director {
       sRidge: 0,
       sFlow: 0.9,
       sRim: 0.12,
-      pMorph: 7,
+      pMorph: morphOf('halo'),
       px: 0,
       py: finaleY,
       pz: 0,
       pScale: (finaleR * 1.55) / 1.75,
       pTilt: 0,
-      pSpin: 10.5,
+      pSpin: finaleSpin - 0.6,
       pOpacity: 0.8,
+      pFree: 0,
       pSize: 2.2,
       camZ: endCamZ,
     };
@@ -251,7 +277,10 @@ export class Director {
       at: mark('.contact', 'top 70%'),
       state: { ...finale, sScale: 0, pOpacity: 0.35, camZ: 9 },
     });
-    keys.push({ at: () => ScrollTrigger.maxScroll(window), state: { ...finale, pSpin: 11.4 } });
+    keys.push({
+      at: () => ScrollTrigger.maxScroll(window),
+      state: { ...finale, pSpin: finaleSpin },
+    });
 
     let carry: SceneState = { ...BASE };
     this.keys = keys.map((k) => {
@@ -321,7 +350,11 @@ export class Director {
 
     particles.points.position.set(c.px + pointer.sx * 0.06, c.py + pointer.sy * 0.04, c.pz);
     particles.points.scale.setScalar(c.pScale);
-    particles.points.rotation.y = time * 0.04 + c.pSpin + pointer.sx * 0.18;
+    const turn = Math.PI * 2;
+    const settle = 1 - Math.exp(-delta * 2);
+    this.drift += delta * 0.04 * c.pFree;
+    this.drift += (Math.round(this.drift / turn) * turn - this.drift) * (1 - c.pFree) * settle;
+    particles.points.rotation.y = this.drift + c.pSpin + pointer.sx * 0.18;
     particles.points.rotation.x = c.pTilt - pointer.sy * 0.1;
     const pu = particles.uniforms;
     pu.uMorph.value = c.pMorph;
