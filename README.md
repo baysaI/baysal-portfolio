@@ -3,19 +3,19 @@
 Web geliştirici ve Burdur Mehmet Akif Ersoy Üniversitesi Web Tasarımı ve Kodlama öğrencisi Mehmet Baysal'ın kişisel portfolyosu. Kaydırdıkça şekil değiştiren gerçek zamanlı bir 3D sahne üzerine kurulu, iki dilli (TR / EN).
 Personal portfolio of Mehmet Baysal, web developer and Web Design & Coding student, built around a real-time 3D scene that transforms as you scroll.
 
-**Canlı site:** https://baysai.github.io/baysal-portfolio/ · [LinkedIn](https://www.linkedin.com/in/mehmet-baysal-44b946376) · mehmetbaysalweb@gmail.com
+**Canlı site:** https://baysai.github.io/baysal-portfolio/ · [LinkedIn](https://www.linkedin.com/in/mehmet-baysal-44b946376) · mehmetbaysalweb@gmail.com · [CV (PDF)](public/Mehmet_Baysal_CV.pdf)
 
 ## Sitedeki projeler
 
 Commit sayısına göre sıralı:
 
-| Proje                                                                          | Ne                                                             | Commit | Teknolojiler                     |
-| ------------------------------------------------------------------------------ | -------------------------------------------------------------- | -----: | -------------------------------- |
-| [Almost There](https://github.com/baysaI/almost-there)                         | itch.io'da yayında, PS1 tarzı korku oyunu (~100 oyuncu)        |    429 | Three.js, GLSL, Web Audio        |
-| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri                           |    299 | Node.js, Express, EJS, SQLite    |
-| Dağıtım Takip Sistemi                                                          | Oteller ve işletmeler için dağıtım ve stok takibi              |     62 | Node.js, Express, SQLite         |
-| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                                       |     36 | Node.js, Express, SQLite, Gemini |
-| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | TÜBİTAK başvurusu için sensör izleme paneli (ön elemeyi geçti) |     12 | Bootstrap, jQuery, Chart.js      |
+| Proje                                                                          | Ne                                                                                                   | Commit | Teknolojiler                     |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | -----: | -------------------------------- |
+| [Almost There](https://github.com/baysaI/almost-there)                         | [itch.io](https://mehmetbaysal.itch.io/almost-there)'da yayında, PS1 tarzı korku oyunu (~100 oyuncu) |    429 | Three.js, GLSL, Web Audio        |
+| [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri                                                                 |    299 | Node.js, Express, EJS, SQLite    |
+| Dağıtım Takip Sistemi                                                          | Oteller ve işletmeler için dağıtım ve stok takibi                                                    |     62 | Node.js, Express, SQLite         |
+| [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                                                                             |     36 | Node.js, Express, SQLite, Gemini |
+| [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | TÜBİTAK başvurusu için sensör izleme paneli (ön elemeyi geçti)                                       |     12 | Bootstrap, jQuery, Chart.js      |
 
 Ekran görüntüleri projeler çalıştırılarak alındı ve `public/projects/` altında duruyor.
 
