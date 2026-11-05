@@ -3,7 +3,6 @@ import { device } from '../core/device';
 import { pointer } from '../core/pointer';
 import { ScrollTrigger, scrollState } from '../core/scroll';
 import { WORK_HOLD } from '../ui/work';
-import { SHAPE_ORDER, type ShapeName } from './shapes';
 import type { Frame } from './stage';
 import type { World } from './world';
 
@@ -30,6 +29,7 @@ export interface SceneState {
   pOpacity: number;
   pSize: number;
   pFree: number;
+  pImage: number;
 
   camZ: number;
   camY: number;
@@ -65,6 +65,7 @@ const BASE: SceneState = {
   pOpacity: 0.55,
   pSize: 2.2,
   pFree: 1,
+  pImage: 0,
   camZ: 9,
   camY: 0,
 };
@@ -114,6 +115,8 @@ export class Director {
     const right = mobile ? 0 : Math.min(halfWidth * 0.5, 3.4);
     const lift = mobile ? 0.95 : 0;
     const m = mobile ? 0.72 : 1;
+    const TAU = Math.PI * 2;
+    const L = this.world.layout;
 
     const hero: Partial<SceneState> = {
       sx: 0,
@@ -124,114 +127,103 @@ export class Director {
       sTwist: 0,
       sRidge: 0,
       sFlow: 1,
-      pMorph: 0,
+      pMorph: L.browser,
       px: 0,
-      py: 0,
-      pScale: 1,
-      pSpin: 0,
-      pOpacity: 0.55,
+      py: mobile ? 0.4 : 0.05,
+      pz: -1.6,
+      pScale: mobile ? Math.min(0.42, (halfWidth * 1.9) / 7) : Math.min(1, (halfWidth * 1.82) / 7),
+      pSpin: TAU,
+      pTilt: 0,
+      pOpacity: 0.62,
+      pSize: 2.3,
+      pFree: 0,
+      pImage: 0,
       camZ: 9,
     };
 
-    const aboutX = mobile ? 0.45 : right;
-    const aboutY = mobile ? -1.55 : lift;
+    const mapX = mobile ? 0 : right * 0.95;
+    const mapY = mobile ? -1.75 : -0.55;
     const about: Partial<SceneState> = {
-      sx: aboutX,
-      sy: aboutY,
-      sScale: (mobile ? 0.55 : 0.95) * m,
-      sAmp: 0.2,
-      sFreq: 1.25,
+      sx: mobile ? 0.6 : right + 1.2,
+      sy: mobile ? -1.2 : 0.4,
+      sScale: 0,
       sTwist: 1.1,
-      sRidge: 0.35,
-      sFlow: 1.3,
-      pMorph: 1,
-      px: aboutX,
-      py: aboutY,
-      pScale: (mobile ? 0.6 : 0.98) * m,
-      pOpacity: 0.85,
+      pMorph: L.activity,
+      px: mapX,
+      py: mapY,
+      pz: 0,
+      pScale: mobile ? 0.5 : Math.min(0.78, (halfWidth * 0.95) / 4.9),
+      pSpin: TAU - 0.42,
+      pTilt: 0.16,
+      pOpacity: 0.95,
+      pSize: 2.4,
+      pFree: 0,
     };
 
     const keys: Keyframe[] = [
       { at: () => 0, state: hero },
-      { at: mark('.about', 'top 25%'), state: about },
-      { at: mark('.about', 'bottom 70%'), state: { ...about, pSpin: 0.9, sSpin: 1.2 } },
+      { at: mark('.about', 'top 30%'), state: about },
+      { at: mark('.about', 'bottom 60%'), state: { ...about, pSpin: TAU - 0.18 } },
     ];
 
-    const morphOf = (name: ShapeName) => SHAPE_ORDER.indexOf(name);
-    const facing = new Set<ShapeName>(['clock', 'book']);
-    const TAU = Math.PI * 2;
-    let lastSpin = 2;
-    let lastMorph = morphOf('shell');
-
+    let lastMorph = L.activity;
     const work = this.anchors.work;
     if (work) {
       const { trigger, count } = work;
       const seg = (i: number) => () => trigger.start + ((trigger.end - trigger.start) * i) / count;
-      const shapeOf = (i: number) => SHAPE_ORDER[2 + i];
-      const spinOf = (i: number): [number, number] => {
-        if (facing.has(shapeOf(i))) return [TAU - 0.18, TAU + 0.18];
-        const base = i < 2 ? 1.6 + i * 0.9 : TAU + 0.6 + (i - 2) * 0.45;
-        return [base, base + 0.45];
-      };
-      const projectState = (i: number): Partial<SceneState> => {
-        const tidal = shapeOf(i) === 'tidal';
-        return {
-          sx: right,
-          sy: lift,
-          sScale: 0,
-          sTwist: 2,
-          pMorph: 2 + i,
-          px: right,
-          py: lift + (tidal ? 0.35 : 0),
-          pz: 0,
-          pScale: 1.05 * m,
-          pSpin: spinOf(i)[0],
-          pTilt: tidal ? 0.3 : 0,
-          pOpacity: 1,
-          pSize: 2.9,
-          pFree: 0,
-        };
-      };
+      const projectState = (i: number, spin: number): Partial<SceneState> => ({
+        sx: right,
+        sy: lift,
+        sScale: 0,
+        pMorph: L.firstProject + i,
+        px: right,
+        py: lift,
+        pz: 0,
+        pScale: mobile ? 0.6 : Math.min(1, (halfWidth - 0.2) / 2.1),
+        pSpin: spin,
+        pTilt: 0,
+        pOpacity: 1,
+        pSize: 2.6,
+        pFree: 0,
+        pImage: 1,
+      });
       for (let i = 0; i < count; i++) {
-        keys.push({ at: seg(i), state: projectState(i) });
-        keys.push({ at: seg(i + WORK_HOLD), state: { ...projectState(i), pSpin: spinOf(i)[1] } });
+        keys.push({ at: seg(i), state: projectState(i, TAU - 0.24) });
+        keys.push({ at: seg(i + WORK_HOLD), state: projectState(i, TAU - 0.08) });
       }
-      lastSpin = spinOf(count - 1)[1] + 0.45;
-      lastMorph = 2 + count - 1;
-      keys.push({ at: seg(count), state: { ...projectState(count - 1), pSpin: lastSpin } });
+      keys.push({ at: seg(count), state: { ...projectState(count - 1, TAU), pImage: 0.6 } });
+      lastMorph = L.firstProject + count - 1;
     }
 
-    const knot: Partial<SceneState> = {
+    const journey: Partial<SceneState> = {
       sScale: 0,
-      pMorph: morphOf('knot'),
-      px: 0,
-      py: mobile ? 0.6 : 0,
-      pz: -1,
-      pScale: 1.25 * m,
-      pTilt: 0.35,
-      pOpacity: 0.5,
-      pSize: 2.2,
-      pFree: 1,
+      pMorph: L.journey,
+      py: mobile ? 0.9 : -0.15,
+      pz: -0.8,
+      pScale: mobile ? 0.48 : 1,
+      pSpin: TAU,
+      pTilt: 0.12,
+      pOpacity: 0.95,
+      pSize: 2.5,
+      pFree: 0,
+      pImage: 0,
     };
 
     keys.push({
       at: mark('.services', 'top 35%'),
-      state: { pMorph: lastMorph, pOpacity: 0.28, pz: -1.2, pFree: 1 },
+      state: { pMorph: lastMorph, pImage: 0, pOpacity: 0.2, pz: -1.2 },
     });
-    keys.push({ at: mark('.services', 'bottom 65%'), state: { ...knot, pSpin: lastSpin + 1 } });
+    keys.push({ at: mark('.services', 'bottom 65%'), state: { ...journey, px: mobile ? 0 : 2.2 } });
 
     const process = this.anchors.process;
     if (process) {
-      keys.push({ at: () => process.trigger.start, state: { ...knot, pSpin: lastSpin + 1.3 } });
-      keys.push({
-        at: () => process.trigger.end,
-        state: { ...knot, pSpin: lastSpin + 4.1, pOpacity: 0.65 },
-      });
+      keys.push({ at: () => process.trigger.start, state: { ...journey, px: mobile ? 1.2 : 2.2 } });
+      keys.push({ at: () => process.trigger.end, state: { ...journey, px: mobile ? -1.2 : -2.2 } });
     }
 
     keys.push({
       at: mark('.stats', 'bottom bottom'),
-      state: { ...knot, py: 1.2, pSpin: lastSpin + 4.9, pOpacity: 0.3 },
+      state: { ...journey, px: mobile ? -1.2 : -2.2, py: 1.5, pOpacity: 0.22 },
     });
 
     const endCamZ = 8.6;
@@ -242,45 +234,34 @@ export class Director {
       ? contactInner.getBoundingClientRect().top + window.scrollY - maxScroll
       : window.innerHeight * 0.4;
     const free = Math.min(Math.max(innerTopAtEnd, 0), window.innerHeight);
-    const radiusPx = Math.min(Math.max(free * 0.34, 46), 150);
-    const centerPx = Math.max(free / 2, radiusPx + 16);
+    const centerPx = Math.max(free / 2, 40);
     const finaleY = (window.innerHeight / 2 - centerPx) / pxPerUnit;
-    const finaleR = radiusPx / pxPerUnit;
-
-    const align = (from: number, phase: number) => from + ((((phase - from) % TAU) + TAU) % TAU);
-    const finaleSpin = align(lastSpin + 5, 5.1);
+    const freeWorld = Math.max(free, 80) / pxPerUnit;
+    const viewWorldW = (window.innerWidth / pxPerUnit) * 0.86;
+    const signatureScale = Math.min((freeWorld * 0.82) / 1.25, viewWorldW / 4.6, 1.15);
 
     const finale: Partial<SceneState> = {
       sx: 0,
       sy: finaleY,
-      sScale: finaleR / 1.12,
-      sSpin: 3,
-      sAmp: 0.14,
-      sFreq: 0.9,
-      sTwist: 0,
-      sRidge: 0,
-      sFlow: 0.9,
-      sRim: 0.12,
-      pMorph: morphOf('halo'),
+      sScale: 0,
+      pMorph: L.signature,
       px: 0,
       py: finaleY,
       pz: 0,
-      pScale: (finaleR * 1.55) / 1.75,
+      pScale: signatureScale,
       pTilt: 0,
-      pSpin: finaleSpin - 0.6,
-      pOpacity: 0.8,
-      pFree: 0,
+      pSpin: TAU,
+      pOpacity: 0.95,
       pSize: 2.2,
+      pFree: 0,
+      pImage: 0,
       camZ: endCamZ,
     };
     keys.push({
       at: mark('.contact', 'top 70%'),
-      state: { ...finale, sScale: 0, pOpacity: 0.35, camZ: 9 },
+      state: { ...finale, pOpacity: 0.3, camZ: 9 },
     });
-    keys.push({
-      at: () => ScrollTrigger.maxScroll(window),
-      state: { ...finale, pSpin: finaleSpin },
-    });
+    keys.push({ at: () => ScrollTrigger.maxScroll(window), state: finale });
 
     let carry: SceneState = { ...BASE };
     this.keys = keys.map((k) => {
@@ -361,6 +342,7 @@ export class Director {
     pu.uOpacity.value = c.pOpacity * this.intro;
     pu.uSize.value = c.pSize;
     pu.uTurbulence.value = energy * 0.3;
+    pu.uImageFade.value = this.world.screens.update(c.pMorph, c.pImage * this.intro);
 
     stage.camera.position.z = c.camZ;
     stage.camera.position.y = c.camY;
