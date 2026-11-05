@@ -1,9 +1,9 @@
 # Mehmet Baysal — Portfolyo
 
-Web tasarımı ve kodlama öğrencisi Mehmet Baysal'ın kişisel portfolyosu. Kaydırdıkça şekil değiştiren gerçek zamanlı bir 3D sahne üzerine kurulu, iki dilli (TR / EN).
-Personal portfolio of Mehmet Baysal, a web design and coding student, built around a real-time 3D scene that transforms as you scroll.
+Web geliştirici ve Burdur Mehmet Akif Ersoy Üniversitesi Web Tasarımı ve Kodlama öğrencisi Mehmet Baysal'ın kişisel portfolyosu. Kaydırdıkça şekil değiştiren gerçek zamanlı bir 3D sahne üzerine kurulu, iki dilli (TR / EN).
+Personal portfolio of Mehmet Baysal, web developer and Web Design & Coding student, built around a real-time 3D scene that transforms as you scroll.
 
-**Canlı site:** https://baysai.github.io/baysal-portfolio/
+**Canlı site:** https://baysai.github.io/baysal-portfolio/ · [LinkedIn](https://www.linkedin.com/in/mehmet-baysal-44b946376) · mehmetbaysalweb@gmail.com
 
 ## Sitedeki projeler
 
@@ -11,13 +11,21 @@ Commit sayısına göre sıralı:
 
 | Proje                                                                          | Ne                                                             | Commit | Teknolojiler                     |
 | ------------------------------------------------------------------------------ | -------------------------------------------------------------- | -----: | -------------------------------- |
-| [Almost There](https://github.com/baysaI/almost-there)                         | Tarayıcıda oynanan PS1 tarzı korku oyunu                       |    429 | Three.js, GLSL, Electron         |
+| [Almost There](https://github.com/baysaI/almost-there)                         | itch.io'da yayında, PS1 tarzı korku oyunu (~100 oyuncu)        |    429 | Three.js, GLSL, Web Audio        |
 | [Cypilan](https://github.com/baysaI/cypilan)                                   | Kıbrıs için beş dilli ilan pazaryeri                           |    299 | Node.js, Express, EJS, SQLite    |
 | Dağıtım Takip Sistemi                                                          | Oteller ve işletmeler için dağıtım ve stok takibi              |     62 | Node.js, Express, SQLite         |
 | [Okuryazmaz](https://github.com/baysaI/okuryazmaz)                             | Edebiyat ve kitap forumu                                       |     36 | Node.js, Express, SQLite, Gemini |
 | [Boru Hattı Analiz Paneli](https://github.com/baysaI/BoruHattiAnalizKodlamasi) | TÜBİTAK başvurusu için sensör izleme paneli (ön elemeyi geçti) |     12 | Bootstrap, jQuery, Chart.js      |
 
 Ekran görüntüleri projeler çalıştırılarak alındı ve `public/projects/` altında duruyor.
+
+## Deneyim · Experience
+
+- **Serbest Web Geliştirici — Altuncu Premium Termal Otel (Mar 2026):** [altuncupremium.com.tr](https://altuncupremium.com.tr) framework'süz HTML, CSS ve JavaScript ile sıfırdan geliştirilip yayına alındı.
+- **Google İşletme Profili & QR menü:** Altuncu Premium Termal Otel, Altuncu Cafe ve Dark Blue Cafe (Manisa).
+- **Turizm ve otelcilik (2021 – 2024):** Liberty Lara (Antalya), İskele Park Termal (Armutlu/Yalova).
+- **Eğitim:** Burdur Mehmet Akif Ersoy Üniversitesi, Web Tasarımı ve Kodlama (önlisans, 2025 – 2027).
+- **Sertifikalar:** BTK Akademi — 7 sertifika (2025 – 2026).
 
 ![Preview](public/og.jpg)
 
@@ -27,7 +35,7 @@ Ekran görüntüleri projeler çalıştırılarak alındı ve `public/projects/`
 - **Parçacık morph sistemi:** 26.000'e kadar parçacık kaydırmayla anlamlı formlar arasında dönüşür: tarayıcı penceresi, gerçek commit verisinden 3D aktivite haritası, her projenin kendi cihaz çerçevesindeki ekranı (renkler ekran görüntüsünden), projelerin git dal grafiği ve imza. Proje ekranlarında parçacıklar net ekran görüntüsüne dönüşür.
 - **Scroll director:** Her bölüm canlı ScrollTrigger konumlarına bağlı keyframe'lerle 3D sahne durumuna eşlenir; easing ve sönümleme ile sinematik bir his verir.
 - **Post-processing:** Bloom, kaydırma hızına duyarlı kromatik sapma, vinyet, film greni.
-- **Etkileşim:** Lenis smooth scroll, pinlenmiş proje sahnesi, yatay süreç akışı, hıza duyarlı marquee, manyetik butonlar, özel imleç, kelime kelime metin animasyonları.
+- **Etkileşim:** Lenis smooth scroll, menü linklerinde bölüm perdesiyle geçiş, pinlenmiş proje sahnesi, yatay süreç akışı, hıza duyarlı marquee, manyetik butonlar, özel imleç, kelime kelime metin animasyonları.
 - **Performans:** three.js ayrı chunk olarak preloader sırasında yüklenir, cihaz seviyesine göre kalite (high / medium / low), FPS düşerse otomatik çözünürlük azaltma, ekran kapalıyken render durdurma.
 - **Erişilebilirlik:** `prefers-reduced-motion` desteği, klavye odak stilleri, skip link, WebGL yoksa CSS chrome küre yedeği, JavaScript olmadan da okunabilen HTML.
 - **SEO:** İçerik build sırasında HTML'e gömülür, Open Graph görseli, JSON-LD.
