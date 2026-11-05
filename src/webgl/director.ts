@@ -2,7 +2,9 @@ import * as THREE from 'three';
 import { device } from '../core/device';
 import { pointer } from '../core/pointer';
 import { ScrollTrigger, scrollState } from '../core/scroll';
+import { processSteps } from '../content/site';
 import { WORK_HOLD } from '../ui/work';
+import { journeyBounds, journeyX } from './shapes';
 import type { Frame } from './stage';
 import type { World } from './world';
 
@@ -30,13 +32,20 @@ export interface SceneState {
   pSize: number;
   pFree: number;
   pImage: number;
+  pReveal: number;
+  pStretch: number;
 
   camZ: number;
   camY: number;
 }
 
-type Keyframe = { at: () => number; state: Partial<SceneState>; linear?: boolean };
-type ResolvedKeyframe = { at: () => number; state: SceneState; linear?: boolean };
+type Keyframe = {
+  at: () => number;
+  state: Partial<SceneState>;
+  linear?: boolean;
+  track?: boolean;
+};
+type ResolvedKeyframe = Omit<Keyframe, 'state'> & { state: SceneState };
 
 export interface DirectorAnchors {
   work: { trigger: ScrollTrigger; count: number } | null;
@@ -66,6 +75,8 @@ const BASE: SceneState = {
   pSize: 2.2,
   pFree: 1,
   pImage: 0,
+  pReveal: 99,
+  pStretch: 1,
   camZ: 9,
   camY: 0,
 };
@@ -101,6 +112,8 @@ export class Director {
   private readonly hit = new THREE.Vector3();
   private readonly touchDir = new THREE.Vector3(0, 0, 1);
   private drift = 0;
+  private tracking = 0;
+  private trackBlend = 0;
 
   private readonly calm: number;
 
@@ -203,37 +216,62 @@ export class Director {
       lastMorph = L.firstProject + count - 1;
     }
 
-    const journey: Partial<SceneState> = {
-      sScale: 0,
-      pMorph: L.journey,
-      py: mobile ? 0.9 : -0.15,
-      pz: -0.8,
-      pScale: mobile ? 0.48 : 1,
-      pSpin: TAU,
-      pTilt: 0.12,
-      pOpacity: 0.95,
-      pSize: 2.5,
-      pFree: 0,
-      pImage: 0,
-    };
-
     keys.push({
       at: mark('.services', 'top 35%'),
       state: { pMorph: lastMorph, pImage: 0, pOpacity: 0.2, pz: -1.2 },
     });
-    const lastLight = document.querySelector('.experience') ? '.experience' : '.services';
-    keys.push({ at: mark(lastLight, 'bottom 65%'), state: { ...journey, px: mobile ? 0 : 2.2 } });
 
     const process = this.anchors.process;
-    if (process) {
-      keys.push({ at: () => process.trigger.start, state: { ...journey, px: mobile ? 1.2 : 2.2 } });
-      keys.push({ at: () => process.trigger.end, state: { ...journey, px: mobile ? -1.2 : -2.2 } });
-    }
+    const pin = document.querySelector<HTMLElement>('[data-process-pin]');
+    const band = document.querySelector<HTMLElement>('[data-process-graph]');
+    let exitY: number | null = null;
+    if (process && pin && band) {
+      const vh = window.innerHeight;
+      const unit = vh / (2 * Math.tan((35 / 2) * (Math.PI / 180)) * BASE.camZ);
+      const box = band.getBoundingClientRect();
+      const bandCenter = box.top - pin.getBoundingClientRect().top + box.height / 2;
+      const bounds = journeyBounds();
+      const fitW = box.width / unit / bounds.width;
+      const fitH = box.height / unit / bounds.height;
+      const scale = Math.min(fitW, fitH);
+      const stretch = Math.min(1.8, Math.max(1, (fitH / fitW) * 0.75));
+      const bandY = (vh / 2 - bandCenter) / unit - bounds.centerY * scale * stretch;
+      const journey: Partial<SceneState> = {
+        sScale: 0,
+        pMorph: L.journey,
+        px: (box.left + box.width / 2 - window.innerWidth / 2) / unit - bounds.centerX * scale,
+        py: bandY,
+        pz: 0,
+        pScale: scale,
+        pStretch: stretch,
+        pSpin: TAU,
+        pTilt: 0.06,
+        pOpacity: 0.95,
+        pSize: mobile ? 1.9 : 2.2,
+        pFree: 0,
+        pImage: 0,
+        camZ: BASE.camZ,
+      };
+      const startAt = () => process.trigger.start;
+      const endAt = () => process.trigger.end;
+      const last = processSteps.length - 1;
 
-    keys.push({
-      at: mark('.stats', 'bottom bottom'),
-      state: { ...journey, px: mobile ? -1.2 : -2.2, py: 1.5, pOpacity: 0.22 },
-    });
+      keys.push({
+        at: () => startAt() - vh,
+        linear: true,
+        track: true,
+        state: { ...journey, py: bandY - vh / unit, pReveal: -6 },
+      });
+      processSteps.forEach((step, i) => {
+        keys.push({
+          at: () => startAt() + ((endAt() - startAt()) * i) / Math.max(1, last),
+          linear: true,
+          track: i === last,
+          state: { ...journey, pReveal: journeyX(step.until) + (i === last ? 0.8 : 0.35) },
+        });
+      });
+      exitY = bandY + Math.max(0, mark('.contact', 'top 85%')() - process.trigger.end) / unit;
+    }
 
     const endCamZ = 8.6;
     const pxPerUnit = window.innerHeight / (2 * Math.tan((35 / 2) * (Math.PI / 180)) * endCamZ);
@@ -254,6 +292,7 @@ export class Director {
       sy: finaleY,
       sScale: 0,
       pMorph: L.signature,
+      pStretch: 1,
       px: 0,
       py: finaleY,
       pz: 0,
@@ -274,7 +313,10 @@ export class Director {
       const a = enterAt();
       return a + (endScroll() - a) * 0.45;
     };
-    keys.push({ at: fadeOut, state: { pOpacity: 0 } });
+    keys.push({
+      at: fadeOut,
+      state: exitY === null ? { pOpacity: 0 } : { pOpacity: 0, py: exitY },
+    });
     keys.push({
       at: enterAt,
       linear: true,
@@ -290,7 +332,7 @@ export class Director {
     let carry: SceneState = { ...BASE };
     this.keys = keys.map((k) => {
       carry = { ...carry, ...k.state };
-      return { at: k.at, state: carry, linear: k.linear };
+      return { ...k, state: carry };
     });
   }
 
@@ -305,6 +347,7 @@ export class Director {
     const raw = Math.min(1, Math.max(0, (y - start) / span));
     const t = a === b || span <= 0 ? 0 : a.linear ? raw : easeInOut(raw);
     for (const k of KEYS) target[k] = a.state[k] + (b.state[k] - a.state[k]) * t;
+    this.tracking = a.track && a !== b ? 1 : 0;
   }
 
   private updateTouch(scale: number, delta: number) {
@@ -331,6 +374,7 @@ export class Director {
   settle() {
     this.sample(scrollState.lenis?.animatedScroll ?? window.scrollY);
     Object.assign(this.current, this.target);
+    this.trackBlend = this.tracking;
   }
 
   update({ time, delta }: Frame) {
@@ -359,8 +403,10 @@ export class Director {
     su.uRim.value = c.sRim;
     this.updateTouch(scale, delta);
 
-    particles.points.position.set(c.px + pointer.sx * 0.06, c.py + pointer.sy * 0.04, c.pz);
-    particles.points.scale.setScalar(c.pScale);
+    this.trackBlend += (this.tracking - this.trackBlend) * (1 - Math.exp(-delta * 6));
+    const py = c.py + (this.target.py - c.py) * this.trackBlend;
+    particles.points.position.set(c.px + pointer.sx * 0.06, py + pointer.sy * 0.04, c.pz);
+    particles.points.scale.set(c.pScale, c.pScale * c.pStretch, c.pScale);
     const turn = Math.PI * 2;
     const settle = 1 - Math.exp(-delta * 2);
     this.drift += delta * 0.04 * c.pFree;
@@ -373,6 +419,7 @@ export class Director {
     pu.uSize.value = c.pSize;
     pu.uTurbulence.value = energy * 0.3;
     pu.uImageFade.value = this.world.screens.update(c.pMorph, c.pImage * this.intro);
+    pu.uReveal.value = c.pReveal;
 
     stage.camera.position.z = c.camZ;
     stage.camera.position.y = c.camY;

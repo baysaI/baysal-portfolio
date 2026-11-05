@@ -73,7 +73,7 @@ const servicesMarkup = () =>
 const processMarkup = () =>
   processSteps
     .map(
-      (key) => `
+      ({ key }) => `
 <article class="step" data-step>
   ${t(`${key}.date`, 'span', 'class="step__num"')}
   <div class="step__body">

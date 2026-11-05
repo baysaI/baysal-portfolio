@@ -83,11 +83,11 @@ export const services = [
 ] as const;
 
 export const processSteps = [
-  'process.s1',
-  'process.s2',
-  'process.s3',
-  'process.s4',
-  'process.s5',
+  { key: 'process.s1', until: '2025-12-31' },
+  { key: 'process.s2', until: '2026-03-31' },
+  { key: 'process.s3', until: '2026-05-31' },
+  { key: 'process.s4', until: '2026-08-31' },
+  { key: 'process.s5', until: '2026-11-05' },
 ] as const;
 
 export const marquee = ['marquee.a', 'marquee.b', 'marquee.c', 'marquee.d', 'marquee.e'] as const;
