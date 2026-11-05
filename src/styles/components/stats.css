@@ -29,6 +29,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+.stat__prefix {
+  margin-right: 0.06em;
+  font-size: 0.38em;
+  line-height: 1;
+  color: var(--ember);
+}
+
 .stat__suffix {
   margin-left: 0.08em;
   font-size: 0.38em;

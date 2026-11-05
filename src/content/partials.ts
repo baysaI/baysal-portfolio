@@ -1,4 +1,14 @@
-import { marquee, processSteps, projects, services, site, stats } from './site';
+import {
+  certificates,
+  experience,
+  marquee,
+  processSteps,
+  projects,
+  services,
+  site,
+  spokenLanguages,
+  stats,
+} from './site';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 const t = (key: string, tag = 'span', attrs = '') =>
@@ -79,11 +89,66 @@ const statsMarkup = () =>
     .map(
       (s) => `
 <li class="stat">
-  <p class="stat__value"><span data-count="${s.value}">${s.value}</span><span class="stat__suffix">${s.suffix}</span></p>
+  <p class="stat__value">${s.prefix ? `<span class="stat__prefix">${s.prefix}</span>` : ''}<span data-count="${s.value}">${s.value}</span><span class="stat__suffix">${s.suffix}</span></p>
   ${t(s.key, 'p', 'class="label stat__label"')}
 </li>`,
     )
     .join('');
+
+const experienceMarkup = () =>
+  experience
+    .map(
+      (group) => `
+<div class="xp-group">
+  <div class="xp-group__head">
+    ${t(group.group, 'h3', 'class="label xp-group__label"')}
+    ${group.note ? t(group.note, 'p', 'class="xp-group__note"') : ''}
+  </div>
+  <ol class="xp-list">
+    ${group.items
+      .map(
+        (item) => `
+    <li class="xp" data-xp>
+      ${t(`${item.key}.date`, 'span', 'class="label xp__date"')}
+      <div class="xp__body">
+        ${t(`${item.key}.role`, 'h4', 'class="xp__role"')}
+        ${t(`${item.key}.place`, 'p', 'class="xp__place"')}
+        ${item.desc ? t(`${item.key}.desc`, 'p', 'class="xp__desc"') : ''}
+        ${item.href ? `<a class="xp__link" href="${item.href}"${external(item.href)} data-underline>${item.link}<span aria-hidden="true"> ↗</span></a>` : ''}
+      </div>
+    </li>`,
+      )
+      .join('')}
+  </ol>
+</div>`,
+    )
+    .join('');
+
+const educationMarkup = () => `
+<div class="xp-side__block" data-xp>
+  ${t('experience.edu.label', 'h3', 'class="label"')}
+  ${t('experience.edu.school', 'p', 'class="xp-side__title"')}
+  ${t('experience.edu.program', 'p', 'class="xp-side__text"')}
+  ${t('experience.edu.date', 'p', 'class="label xp-side__date"')}
+</div>
+<div class="xp-side__block" data-xp>
+  ${t('experience.cert.label', 'h3', 'class="label"')}
+  <dl class="xp-certs">
+    ${certificates
+      .map(
+        (c) => `
+    <div class="xp-certs__year">
+      <dt class="label">${c.year}</dt>
+      <dd><ul>${c.keys.map((key) => t(key, 'li')).join('')}</ul></dd>
+    </div>`,
+      )
+      .join('')}
+  </dl>
+</div>
+<div class="xp-side__block" data-xp>
+  ${t('experience.lang.label', 'h3', 'class="label"')}
+  <ul class="xp-side__langs">${spokenLanguages.map((key) => t(key, 'li')).join('')}</ul>
+</div>`;
 
 const socialsMarkup = () =>
   site.socials
@@ -100,6 +165,8 @@ export const partials: Record<string, () => string> = {
   services: servicesMarkup,
   process: processMarkup,
   stats: statsMarkup,
+  experience: experienceMarkup,
+  education: educationMarkup,
   socials: socialsMarkup,
 };
 
@@ -110,6 +177,7 @@ export const tokens: Record<string, string> = {
   'site.url': site.url,
   'site.role': site.role,
   'site.github': site.github,
+  'site.linkedin': site.linkedin,
   'projects.count': pad(projects.length),
   'year': String(new Date().getFullYear()),
 };
