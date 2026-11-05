@@ -26,7 +26,7 @@ const createWorldSafely = async () => {
   if (!canvas || !device.webgl2) return null;
   try {
     const [{ createWorld }, { Director }] = await loadWebgl();
-    return { world: createWorld(canvas) as World, Director };
+    return { world: (await createWorld(canvas)) as World, Director };
   } catch (error) {
     console.warn('[baysal] WebGL unavailable, continuing without 3D.', error);
     return null;
