@@ -27,8 +27,12 @@
 }
 
 .about__text .w {
-  opacity: 0.16;
+  opacity: 0.4;
   transition: none;
+}
+
+.about__text em .w {
+  opacity: 0.65;
 }
 
 .about__side {

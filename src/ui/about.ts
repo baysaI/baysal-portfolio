@@ -15,7 +15,8 @@ export function initAbout({ reduced }: { reduced: boolean }) {
     const p = progress * (list.length + 4);
     list.forEach((w, i) => {
       const k = Math.min(1, Math.max(0, p - i) / 4);
-      w.style.opacity = String(0.16 + 0.84 * k);
+      const base = w.closest('em') ? 0.65 : 0.4;
+      w.style.opacity = String(base + (1 - base) * k);
     });
   };
 
