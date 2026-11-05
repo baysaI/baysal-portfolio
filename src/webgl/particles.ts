@@ -1,18 +1,20 @@
 import * as THREE from 'three';
 import type { Tier } from '../core/device';
 import noise from './glsl/noise.glsl?raw';
-import { createRng, SHAPES, SHAPE_ORDER } from './shapes';
+import type { Formation } from './shapes';
 import type { Frame } from './stage';
 
-const COUNT: Record<Tier, number> = { high: 26000, medium: 14000, low: 7000 };
-const LAST = SHAPE_ORDER.length - 1;
+export const PARTICLE_COUNT: Record<Tier, number> = { high: 26000, medium: 16000, low: 9000 };
 
-const shapeAttribute = (i: number) => (i === 0 ? 'position' : `aShape${i}`);
+const positionAttribute = (i: number) => (i === 0 ? 'position' : `aShape${i}`);
+const colorSlot = (i: number) => `aCol${Math.floor(i / 4)}.${'xyzw'[i % 4]}`;
 
-const vertexShader = `
-  ${SHAPE_ORDER.slice(1)
-    .map((_, i) => `attribute vec3 aShape${i + 1};`)
-    .join('\n')}
+const vertexShader = (shapes: number, imageFrom: number, imageTo: number) => {
+  const last = shapes - 1;
+  const colorGroups = Math.ceil(shapes / 4);
+  return `
+  ${Array.from({ length: shapes - 1 }, (_, i) => `attribute vec3 aShape${i + 1};`).join('\n')}
+  ${Array.from({ length: colorGroups }, (_, i) => `attribute vec4 aCol${i};`).join('\n')}
   attribute vec4 aRand;
 
   uniform float uTime;
@@ -21,20 +23,36 @@ const vertexShader = `
   uniform float uPixelRatio;
   uniform float uTurbulence;
   uniform float uScatter;
+  uniform float uImageFade;
+  uniform vec3 uColorA;
+  uniform vec3 uColorB;
 
   varying float vAlpha;
-  varying float vTint;
+  varying vec3 vColor;
 
   ${noise}
 
   vec3 shapeAt(int i) {
-    ${SHAPE_ORDER.map((_, i) => `if (i == ${i}) return ${shapeAttribute(i)};`).join('\n    ')}
+    ${Array.from({ length: shapes }, (_, i) => `if (i == ${i}) return ${positionAttribute(i)};`).join('\n    ')}
     return position;
   }
 
+  float colorAt(int i) {
+    ${Array.from({ length: shapes }, (_, i) => `if (i == ${i}) return ${colorSlot(i)};`).join('\n    ')}
+    return -1.0;
+  }
+
+  vec3 unpack(float v, vec3 fallback) {
+    if (v < 0.0) return fallback;
+    float r = floor(v / 65536.0);
+    float g = floor((v - r * 65536.0) / 256.0);
+    float b = v - r * 65536.0 - g * 256.0;
+    return pow(vec3(r, g, b) / 255.0, vec3(2.2));
+  }
+
   void main() {
-    float m = clamp(uMorph, 0.0, ${LAST}.0);
-    float base = min(floor(m), ${LAST - 1}.0);
+    float m = clamp(uMorph, 0.0, ${last}.0);
+    float base = min(floor(m), ${Math.max(0, last - 1)}.0);
     float f = m - base;
     int i0 = int(base);
 
@@ -50,40 +68,50 @@ const vertexShader = `
     );
     p += burst * transit * 0.55 * uScatter;
 
+    int nearest = int(floor(m + 0.5));
+    float settled = 1.0 - smoothstep(0.0, 0.25, abs(m - float(nearest)));
+
     float t = uTime * 0.22;
     vec3 drift = vec3(
       snoise(p * 0.55 + vec3(t, 0.0, aRand.w * 10.0)),
       snoise(p * 0.55 + vec3(0.0, t, 7.0)),
       snoise(p * 0.55 + vec3(3.0, 0.0, t))
     );
-    p += drift * (0.035 + uTurbulence);
+    p += drift * (0.035 * (1.0 - settled * 0.8) + uTurbulence);
 
     vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mvPosition;
 
-    float size = uSize * mix(0.45, 1.3, aRand.z);
+    float c0 = colorAt(i0);
+    float c1 = colorAt(i0 + 1);
+    vec3 fallback = mix(uColorA, uColorB, step(0.92, aRand.w));
+    vColor = mix(unpack(c0, fallback), unpack(c1, fallback), k);
+    float custom = mix(step(0.0, c0), step(0.0, c1), k);
+
+    float size = uSize * mix(mix(0.45, 1.3, aRand.z), 0.95, custom);
     gl_PointSize = size * uPixelRatio * (8.0 / -mvPosition.z);
 
     float twinkle = 0.75 + 0.25 * sin(uTime * 1.6 + aRand.x * 40.0);
-    vAlpha = mix(0.3, 1.0, aRand.y) * twinkle;
-    vTint = step(0.9, aRand.w);
+    vAlpha = mix(mix(0.3, 1.0, aRand.y) * twinkle, 0.95, custom);
+
+    float nearestColor = colorAt(nearest);
+    float isPixel = (nearest >= ${imageFrom} && nearest <= ${imageTo} && nearestColor >= 0.0) ? 1.0 : 0.0;
+    vAlpha *= 1.0 - isPixel * uImageFade * 0.88;
   }
 `;
+};
 
 const fragmentShader = `
-  uniform vec3 uColorA;
-  uniform vec3 uColorB;
   uniform float uOpacity;
 
   varying float vAlpha;
-  varying float vTint;
+  varying vec3 vColor;
 
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float a = smoothstep(0.5, 0.0, d);
     a *= a;
-    vec3 color = mix(uColorA, uColorB, vTint);
-    gl_FragColor = vec4(color, a * vAlpha * uOpacity);
+    gl_FragColor = vec4(vColor, a * vAlpha * uOpacity);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
   }
@@ -91,7 +119,6 @@ const fragmentShader = `
 
 export class Particles {
   readonly points: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial>;
-  readonly count: number;
 
   readonly uniforms = {
     uTime: { value: 0 },
@@ -100,30 +127,49 @@ export class Particles {
     uPixelRatio: { value: 1 },
     uTurbulence: { value: 0 },
     uScatter: { value: 1 },
+    uImageFade: { value: 0 },
     uOpacity: { value: 1 },
     uColorA: { value: new THREE.Color(0xede9e3) },
     uColorB: { value: new THREE.Color(0xff5a1f) },
   };
 
-  constructor(tier: Tier) {
-    this.count = COUNT[tier];
+  constructor(
+    readonly count: number,
+    formations: Formation[],
+    imageRange: [number, number],
+    seed = 42,
+  ) {
     const geometry = new THREE.BufferGeometry();
-
-    SHAPE_ORDER.forEach((name, i) => {
-      const data = SHAPES[name](this.count, createRng(1000 + i * 77));
-      geometry.setAttribute(shapeAttribute(i), new THREE.BufferAttribute(data, 3));
+    formations.forEach((formation, i) => {
+      geometry.setAttribute(
+        positionAttribute(i),
+        new THREE.BufferAttribute(formation.positions, 3),
+      );
     });
 
-    const rng = createRng(42);
-    const rand = new Float32Array(this.count * 4);
-    for (let i = 0; i < rand.length; i++) rand[i] = rng();
-    geometry.setAttribute('aRand', new THREE.BufferAttribute(rand, 4));
+    const groups = Math.ceil(formations.length / 4);
+    for (let g = 0; g < groups; g++) {
+      const packed = new Float32Array(count * 4).fill(-1);
+      for (let c = 0; c < 4; c++) {
+        const formation = formations[g * 4 + c];
+        if (!formation) continue;
+        for (let i = 0; i < count; i++) packed[i * 4 + c] = formation.colors[i];
+      }
+      geometry.setAttribute(`aCol${g}`, new THREE.BufferAttribute(packed, 4));
+    }
 
+    let s = seed >>> 0;
+    const rand = new Float32Array(count * 4);
+    for (let i = 0; i < rand.length; i++) {
+      s = (s * 1664525 + 1013904223) >>> 0;
+      rand[i] = s / 4294967296;
+    }
+    geometry.setAttribute('aRand', new THREE.BufferAttribute(rand, 4));
     geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 50);
 
     const material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
-      vertexShader,
+      vertexShader: vertexShader(formations.length, imageRange[0], imageRange[1]),
       fragmentShader,
       transparent: true,
       depthWrite: false,
